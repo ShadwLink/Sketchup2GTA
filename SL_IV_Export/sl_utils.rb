@@ -1,3 +1,17 @@
+class Float
+  def round_to(x)
+    (self * 10**x).round.to_f / 10**x
+  end
+
+  def ceil_to(x)
+    (self * 10**x).ceil.to_f / 10**x
+  end
+
+  def floor_to(x)
+    (self * 10**x).floor.to_f / 10**x
+  end
+end
+
 # Get the bounding box max
 def getBoundsMinMax( verts )
 	bounds = Array.new(6)
@@ -47,128 +61,42 @@ def getBoundsMinMax( verts )
 	bounds[maxY] *= GetScale()
 	bounds[maxZ] *= GetScale()
 	
+	bounds[minX] = bounds[minX].round_to(8)
+	bounds[minY] = bounds[minY].round_to(8)
+	bounds[minZ] = bounds[minZ].round_to(8)
+	bounds[maxX] = bounds[maxX].round_to(8)
+	bounds[maxY] = bounds[maxY].round_to(8)
+	bounds[maxZ] = bounds[maxZ].round_to(8)
 	return bounds
 end
 
 # Get the bounding box max
-def getBoundsMax( verts )
-	max = Array.new(3)
-	
-	max[0] = verts[0].x
-	max[1] = verts[0].y
-	max[2] = verts[0].z
-	
-	verts.each do |vert|
-		if vert.x > max[0] 
-			max[0] = vert.x
-		end
-		if vert.y > max[1]
-			max[1] = vert.y
-		end
-		if vert.z > max[2]
-			max[2] = vert.z
-		end
-	end
-	
-	max[0] *= 0.0254
-	max[1] *= 0.0254
-	max[2] *= 0.0254
-	
-	max[0] *= GetScale()
-	max[1] *= GetScale()
-	max[2] *= GetScale()
-	puts "Max: " + max[0].to_s + " " + max[1].to_s + " " + max[2].to_s
-	
-	return max
-end
-
-# Get the bounding box max
-def getBoundsMin( verts )
-	min = Array.new(3)
-	
-	min[0] = verts[0].x
-	min[1] = verts[0].y
-	min[2] = verts[0].z
-	
-	verts.each do |vert|
-		if vert.x < min[0] 
-			min[0] = vert.x
-		end
-		if vert.y < min[1]
-			min[1] = vert.y
-		end
-		if vert.z < min[2]
-			min[2] = vert.z
-		end
-	end
-	
-	min[0] *= 0.0254
-	min[1] *= 0.0254
-	min[2] *= 0.0254
-	min[0] *= GetScale()
-	min[1] *= GetScale()
-	min[2] *= GetScale()
-	puts "min: " + min[0].to_s + " " + min[1].to_s + " " + min[2].to_s
-	
-	return min
-end
-
-# Get the bounding box max
-def getBoundsCenter( min, max )
-	center = Array.new(3)
-	
-	center[0] = (min[0] + max[0]) / 2
-	center[1] = (min[1] + max[1]) / 2
-	center[2] = (min[2] + max[2]) / 2
-	
-	return center
-end
-
-# Get the bounding box max
 def getBoundsCenterMinMax( minmax )
-	center = Array.new(3)
+	center = Array.new(4)
 	
 	center[0] = (minmax[0] + minmax[3]) / 2
 	center[1] = (minmax[1] + minmax[4]) / 2
 	center[2] = (minmax[2] + minmax[5]) / 2
 	
+	center[0] = center[0].round_to(8)
+	center[1] = center[1].round_to(8)
+	center[2] = center[2].round_to(8)
+	
+	xd = minmax[3] - center[0]
+	yd = minmax[4] - center[1]
+	zd = minmax[5] - center[2]
+	center[3] = Math.sqrt(xd*xd + yd*yd + zd*zd)
+	
 	return center
-end
-
-# Get the vertex scale
-def getVertexScale( min, max )
-	scale = Array.new(3)
-	
-	num = max[0] / 32767;
-	num2 = min[0] / -32768;
-	if num > num2
-		scale[0] = num
-	else
-		scale[0] = num2
-	end
-	
-	num = max[1] / 32767;
-	num2 = min[1] / -32768;
-	if num > num2
-		scale[1] = num
-	else
-		scale[1] = num2
-	end
-	
-	num = max[2] / 32767;
-	num2 = min[2] / -32768;
-	if num > num2
-		scale[2] = num
-	else
-		scale[2] = num2
-	end
-	
-	return scale
 end
 
 # Returns vertex scale 
 def getVertexScaleMinMax( minmax )
 	scale = Array.new(3)
+	
+	#scale[0] = (minmax[3] - minmax[1]) / 65535
+	#scale[1] = (minmax[4] - minmax[2]) / 65535
+	#scale[2] = (minmax[5] - minmax[3]) / 65535
 	
 	num = minmax[3] / 32767;
 	num2 = minmax[0] / -32768;
@@ -193,6 +121,10 @@ def getVertexScaleMinMax( minmax )
 	else
 		scale[2] = num2
 	end
+	
+	scale[0] = scale[0].round_to(8)
+	scale[1] = scale[1].round_to(8)
+	scale[2] = scale[2].round_to(8)
 	
 	return scale
 end
@@ -237,7 +169,8 @@ def stripTexName( texName )
 		texName = texName[0, texName.length - 4]			# Remove the extension
 	end
 	
-	puts texName
+	texName.gsub!(' ','_')
+	texName.gsub!('-','_')
 	
 	return texName
 end
@@ -245,7 +178,6 @@ end
 # Checks if a string ends with a string
 def ends_with(fileName, str)
 	tail = fileName[fileName.length - str.length, fileName.length]
-	puts "Tail: " + tail + " " + str
     if tail == str
 		return true
 	else
@@ -291,8 +223,6 @@ end
 def resetAxis(ent)
 	model = Sketchup.active_model
 	puts "Trans: " + model.edit_transform.to_s
-	# Sketchup.send_action("selectAxisTool:")
-	# status = model.place_component modcomp, false
 end
 
 def centerAxis()
@@ -324,6 +254,99 @@ def getFileName(ent)
 		end
 	end
 	return name
+end
+
+def getJSONDictionaries(ent)
+    json = '{"dictionaries":[';
+    dicts = ent.definition.attribute_dictionaries
+    if(dicts != nil)
+        dicts.each do |dict|
+            json += '{"name":"' + dict.name + '","attributes":[';
+                
+            dict.each_key do |attribName|
+                json += '{';
+                json += '"name":"' + attribName + '",';
+                if(dict[attribName].class != Geom::Transformation)
+                    json += '"value":"' + escapeChars(dict[attribName].to_s) + '"},';
+                else
+					json += '"value":"' + escapeChars(dict[attribName].to_a.to_s) + '"},';
+                end
+            end
+            json += ']},'
+        end
+    end
+    json += "]}";
+    json.gsub!(/,/,"#COMMA#");
+	puts json;
+    return json;
+end
+
+def getJSONDictionarie(ent, dictName)
+	json = '{';
+    dicts = ent.definition.attribute_dictionaries
+    if(dicts != nil)
+        dicts.each do |dict|
+			if dict.name == dictName
+				first = 0
+				dict.each_key do |attribName|
+					if first == 0 
+						json += '"' + attribName + '":"' + escapeChars(dict[attribName].to_s) + '"';
+						first = 1;
+					else
+						json += ',"' + attribName + '":"' + escapeChars(dict[attribName].to_s) + '"';
+					end
+                end
+			end
+        end
+    end
+    json += '}';
+    json.gsub!(/,/,"#COMMA#");
+	puts json;
+    return json;
+end
+
+def getUniqueComponents()
+	comps = Sketchup.active_model.active_entities.find_all { |group| group.typename == "ComponentInstance"}	# Get all components enteties
+	uniqueComps = []
+	puts "Comps: " + comps.length.to_s
+	comps.each { |comp|
+		if getFileName(comp) != "sl_iv_car"
+			if (comp.definition.get_attribute 'sl_iv_ide', 'modelName') != nil 
+				found = false
+				uniqueComps.each { |uniq|
+					if getFileName(uniq) == getFileName(comp)
+						found = true
+					end
+				}
+				if found == false
+					uniqueComps.push(comp)
+				end
+			end
+		end
+	}
+	puts "Comps: " + comps.length.to_s + "/" + uniqueComps.length.to_s
+	return uniqueComps
+end
+
+def getCarHash(ent)
+	hash = 0
+	carName = ent.definition.get_attribute 'sl_iv_ide', 'carName'
+	if carName != nil && carName != "random"
+		hash = getStableHash(carName)
+	end
+	hash = getStableHash("ambulance")
+	return hash
+end
+
+def escapeChars(s)
+    s.gsub('"','\\\\\\"').gsub("'","\\\\'");
+end
+
+def createDir(name)
+	if File.exists?(name) && File.directory?(name)
+	else
+		Dir.mkdir(name)
+	end
 end
 
 def GetScale()

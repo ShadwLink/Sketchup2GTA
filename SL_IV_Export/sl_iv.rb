@@ -26,6 +26,14 @@ def selected_groups
 	return groups.length
 end
 
+if( not file_loaded?("sl_iv.rb") )    
+    submenu = UI.menu("Plugins").add_submenu("IV Export")
+	submenu.add_item("Place car") { place_car() }
+	submenu.add_item("Export scene") { export_scene() }
+	submenu.add_item("Export wpl") { export_wpl("D:/SL_IV/") }
+end
+
+
 UI.add_context_menu_handler do |menu|
 	if(selected_component == 0)
 		if(selected_groups == 1)
@@ -42,6 +50,12 @@ UI.add_context_menu_handler do |menu|
 		submenu.add_separator
         submenu.add_item("Export WPL") { export_wpl() }
 		submenu.add_item("Export IDE") { export_ide() }
+		submenu.add_separator
+		if(getFileName(Sketchup.active_model.selection[0]) == "sl_iv_car")
+			submenu.add_item("Setup Car") { dialogCar() }
+		else 
+			submenu.add_item("Setup IDE") { dialogIDE() }
+		end
 		submenu.add_separator
 		submenu.add_item("Calculate Hash") { show_hash() }
 		submenu.add_item("Help") { help() }
