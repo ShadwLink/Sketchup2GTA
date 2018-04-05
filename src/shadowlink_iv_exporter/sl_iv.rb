@@ -57,7 +57,7 @@ UI.add_context_menu_handler do |menu|
 			submenu.add_item("Setup IDE") { dialogIDE() }
 		end
 		submenu.add_separator
-		submenu.add_item("Calculate Hash") { show_hash() }
+		submenu.add_item("Calculate Hash") {show_hash}
 		submenu.add_item("Help") { help() }
 	elsif selected_component > 1
 		menu.add_separator

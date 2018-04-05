@@ -16,3 +16,21 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+# Ignore bundler config
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+/public/assets
+/.idea
+/.idea *
+/public/system/*
+.rvmrc
+
+# OSX
+.DS_Store
+
+# AutoSave sketchup files
+AutoSave_*.skp

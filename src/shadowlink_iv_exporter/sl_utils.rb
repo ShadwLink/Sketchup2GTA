@@ -192,32 +192,24 @@ def truncate( hash )
 end
 
 # Jenkins one-at-a-time hash fucntion
-def getStableHash( string )
-	string.downcase!
+def getStableHash(str)
+	str.downcase!
 
-	# Set hash to 0
-	hash = 0x00000000
-
-	i = 0
-	# Start hashing
-	while( i < string.length )
-		hash += string[i]
-		hash += ( hash << 10 )
-		hash = truncate( hash )
-		hash ^= ( hash >> 6 )
-		hash = truncate( hash )
-		i += 1
-	end
-
-	# Final cascade
-	hash += ( hash << 3 )
-	hash = truncate( hash )
-	hash ^= ( hash >> 11 )
-	hash = truncate( hash )
-	hash += ( hash << 15 )
-	hash = truncate( hash )
-
-	return ( hash )
+	max_32_bit = 4294967295
+	hash = 0
+	str.length.times { |n|
+		hash += str[n].ord
+		hash &= max_32_bit
+		hash += ((hash << 10) & max_32_bit)
+		hash &= max_32_bit
+		hash ^= hash >> 6
+	}
+	hash += (hash << 3 & max_32_bit)
+	hash &= max_32_bit
+	hash ^= hash >> 11
+	hash += (hash << 15 & max_32_bit)
+	hash &= max_32_bit
+	hash
 end
 
 def resetAxis(ent)
