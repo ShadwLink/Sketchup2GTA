@@ -1,3 +1,5 @@
+Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
+
 def show_hash
   model = Sketchup.active_model
   selection = model.selection
@@ -30,7 +32,7 @@ if (not file_loaded?("sl_iv.rb"))
   submenu = UI.menu("Plugins").add_submenu("IV Export")
   submenu.add_item("Place car") {place_car()}
   submenu.add_item("Export scene") {export_scene()}
-  submenu.add_item("Export wpl") {export_wpl("D:/SL_IV/")}
+  submenu.add_item("Export wpl") { save_wpl }
 end
 
 UI.add_context_menu_handler do |menu|
@@ -69,4 +71,9 @@ UI.add_context_menu_handler do |menu|
     submenu.add_item("Export WPL") {export_wpl()}
     submenu.add_item("Export Textures") {export_textures()}
   end
+end
+
+def save_wpl
+  outputdir = UI.select_directory(title: "Select Output Directory")
+  export_wpl(outputdir)
 end
