@@ -32,7 +32,7 @@ if (not file_loaded?("sl_iv.rb"))
   submenu = UI.menu("Plugins").add_submenu("IV Export")
   submenu.add_item("Place car") {place_car()}
   submenu.add_item("Export scene") {export_scene()}
-  submenu.add_item("Export wpl") { save_wpl }
+  submenu.add_item("Export wpl") {save_wpl}
 end
 
 UI.add_context_menu_handler do |menu|
@@ -51,7 +51,7 @@ UI.add_context_menu_handler do |menu|
     submenu.add_item("Export Textures") {export_textures()}
 
     submenu.add_separator
-    submenu.add_item("Export WPL") {export_wpl()}
+    submenu.add_item("Export WPL") {save_wpl}
     submenu.add_item("Export IDE") {export_ide()}
 
     submenu.add_separator
@@ -68,7 +68,7 @@ UI.add_context_menu_handler do |menu|
   elsif selected_component > 1
     menu.add_separator
     submenu = menu.add_submenu("IV Export")
-    submenu.add_item("Export WPL") {export_wpl()}
+    submenu.add_item("Export WPL") {save_wpl}
     submenu.add_item("Export Textures") {export_textures()}
   end
 end
