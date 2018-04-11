@@ -1,6 +1,7 @@
 Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
+Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
 
 def selected_component
   ss = Sketchup.active_model.selection
@@ -42,7 +43,7 @@ UI.add_context_menu_handler do |menu|
 
     submenu.add_separator
     submenu.add_item("Export WPL") {save_wpl}
-    submenu.add_item("Export IDE") {export_ide}
+    submenu.add_item("Export IDE") {save_ide}
 
     submenu.add_separator
     if (getFileName(Sketchup.active_model.selection[0]) == "sl_iv_car")
@@ -70,7 +71,7 @@ end
 
 def save_ide
   output_dir = UI.select_directory(title: "Select Output Directory")
-  export_ide(output_dir)
+  export_ide(get_selected_components, output_dir)
 end
 
 def save_textures
