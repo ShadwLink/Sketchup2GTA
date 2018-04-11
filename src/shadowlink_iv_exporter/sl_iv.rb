@@ -8,6 +8,10 @@ def selected_component
   return groups.length
 end
 
+def get_selected_components
+  Sketchup.active_model.selection.find_all {|group| group.typename == "ComponentInstance"}
+end
+
 def selected_groups
   ss = Sketchup.active_model.selection
   groups = ss.find_all {|group| group.typename == "Group"}
@@ -71,7 +75,7 @@ end
 
 def save_textures
   output_dir = UI.select_directory(title: "Select Output Directory")
-  export_textures(output_dir)
+  export_entities_textures(get_selected_components, output_dir)
 end
 
 def save_scene
