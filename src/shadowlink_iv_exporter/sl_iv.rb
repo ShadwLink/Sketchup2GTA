@@ -51,7 +51,7 @@ UI.add_context_menu_handler do |menu|
     if (getFileName(Sketchup.active_model.selection[0]) == "sl_iv_car")
       submenu.add_item("Setup Car") {dialogCar}
     else
-      submenu.add_item("Setup IDE") {dialogIDE}
+      submenu.add_item("Setup IDE") {showTestDialog}
     end
 
     submenu.add_separator

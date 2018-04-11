@@ -1,0 +1,40 @@
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>IDE Info</title>
+	
+	<!--<script src="json.js"></script>-->
+	<!--<script>-->
+	<!--function initIDEValues(jsonIDE) {-->
+		<!--jsonIDE = jsonIDE.replace(/#COMMA#/g,",");-->
+		<!--eval("var ide = " + jsonIDE);-->
+		<!--document.getElementById('ideName').value = ide.ideName;-->
+		<!--document.getElementById('modelName').value = ide.modelName;-->
+		<!--document.getElementById('wtdName').value = ide.wtdName;-->
+		<!--document.getElementById('drawDist').value = ide.drawDist;-->
+	<!--}-->
+	<!---->
+	<!--function applyIDEValues() {-->
+		<!--var o = new Object;-->
+		<!--o.ideName = document.getElementById('ideName').value;-->
+		<!--o.modelName = document.getElementById('modelName').value;-->
+		<!--o.wtdName = document.getElementById('wtdName').value;-->
+		<!--o.drawDist = document.getElementById('drawDist').value;-->
+		<!--query = 'skp:applyIDEValues@' + o.toJSONString().replace(/:/g,"=>");-->
+		<!--window.location.href = query;-->
+	<!--}-->
+	<!--</script>-->
+</head>
+
+<body>
+IDE Name: <input type="text" id="ideName" name="ideName"><br/>
+Model Name: <input type="text" id="modelName" name="modelName"><br/>
+WTD Name: <input type="text" id="wtdName" name="texturename"><br/>
+Draw distance: <input type="text" id="drawDist" name="draw_distance"><br/>
+<br/>
+<input type="button" onclick="cancel()" value="Cancel">
+<!--<input type="button" onclick="applyIDEValues()" value="Ok">-->
+</body>
+
+</html>

@@ -32,6 +32,20 @@ def dialogIDE
 	}
 end
 
+def showTestDialog
+	html_path = File.join(__dir__, 'ide.html')
+	puts "html path: " + html_path
+
+	dialog = UI::HtmlDialog.new(
+			{
+					:dialog_title => "IDE Settings",
+					:preferences_key => "com.sample.plugin",
+					:style => UI::HtmlDialog::STYLE_DIALOG
+			})
+	dialog.set_url(html_path)
+	dialog.show
+end
+
 def applyIDEValues(ent, jsonIDE)
 	comp_def = ent.definition
 	hash_ide = eval( jsonIDE )
