@@ -3,5 +3,4 @@ require 'sketchup.rb'
 
 Sketchup.load('shadowlink_iv_exporter/sl_utils.rb')
 Sketchup.load('shadowlink_iv_exporter/sl_iv.rb')
-Sketchup.load('shadowlink_iv_exporter/ide/sl_iv_ide.rb')
 Sketchup.load('shadowlink_iv_exporter/attributes/sl_iv_car.rb')
