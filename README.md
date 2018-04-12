@@ -1,9 +1,16 @@
-Sketchup2IV
-===========
+# Sketchup2IV
 
-Exports sketchup models to the OpenIV Format to import them into GTA IV
+Exports [Sketchup](https://www.sketchup.com/download) models to Grand Theft Auto IV.
 
-SETUP
-===========
+Supported formats:
+- ODR (OpenIV)
+- OBN (OpenIV)
+- WPL
+- IDE
 
-Copy sl.rb, the SL_IV_Export folder and the ProgressBar folder into the sketchup plugins folder. Restart Sketchup.
+## Setup
+
+_TODO: Setup instructions_
+
+## Tutorial
+A step by step guide that exports this scene to GTA can be found on my [website](https://shadow-link.nl/projects/sketchup-iv-exporter/).

@@ -24,6 +24,8 @@ if (not file_loaded?("sl_iv.rb"))
   submenu.add_item("Place car") {place_car}
   submenu.add_item("Export scene") {save_scene}
   submenu.add_item("Export wpl") {save_wpl}
+  submenu.add_separator
+  submenu.add_item("Help") {show_help}
 end
 
 UI.add_context_menu_handler do |menu|
@@ -54,7 +56,7 @@ UI.add_context_menu_handler do |menu|
 
     submenu.add_separator
     submenu.add_item("Calculate Hash") {show_hash}
-    submenu.add_item("Help") {help}
+    submenu.add_item("Help") {show_help}
 
   elsif selected_component > 1
     menu.add_separator
@@ -82,6 +84,20 @@ end
 def save_scene
   output_dir = UI.select_directory(title: "Select Output Directory")
   export_scene(output_dir)
+end
+
+def show_help
+  html_file = File.join(__dir__, 'help', 'help.html') # Use external HTML
+  options = {
+      :dialog_title => "Shadow-Link's Sketchup2IV",
+      :preferences_key => "example.htmldialog.materialinspector",
+      :style => UI::HtmlDialog::STYLE_DIALOG
+  }
+  dialog = UI::HtmlDialog.new(options)
+  dialog.set_file(html_file) # Can be set here.
+  dialog.center
+  dialog
+  dialog.show
 end
 
 def show_hash
