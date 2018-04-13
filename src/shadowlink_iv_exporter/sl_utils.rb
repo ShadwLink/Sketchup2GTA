@@ -91,31 +91,31 @@ def getBoundsCenterMinMax( minmax )
 end
 
 # Returns vertex scale 
-def getVertexScaleMinMax( minmax )
+def getVertexScaleMinMax( bounds )
 	scale = Array.new(3)
 	
 	#scale[0] = (minmax[3] - minmax[1]) / 65535
 	#scale[1] = (minmax[4] - minmax[2]) / 65535
 	#scale[2] = (minmax[5] - minmax[3]) / 65535
 	
-	num = minmax[3] / 32767;
-	num2 = minmax[0] / -32768;
+	num = bounds.maxX / 32767;
+	num2 = bounds.minX / -32768;
 	if num > num2
 		scale[0] = num
 	else
 		scale[0] = num2
 	end
 	
-	num = minmax[4] / 32767;
-	num2 = minmax[1] / -32768;
+	num = bounds.maxX / 32767;
+	num2 = bounds.minY / -32768;
 	if num > num2
 		scale[1] = num
 	else
 		scale[1] = num2
 	end
 	
-	num = minmax[5] / 32767;
-	num2 = minmax[2] / -32768;
+	num = bounds.maxZ / 32767;
+	num2 = bounds.minZ / -32768;
 	if num > num2
 		scale[2] = num
 	else

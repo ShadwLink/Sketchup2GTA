@@ -1,13 +1,9 @@
-def export_wbd(ent, verts, minmax, bounds, scale, exportPath)
-  fileName = getFileName(ent)
+def export_obn(ent, scale, export_path)
+  verts = get_verts(ent)
+  bounds = Bounds.new(ent)
 
-  ideName = ent.definition.get_attribute 'sl_iv_ide', 'ideName'
-  imgName = ideName[0, ideName.length - 4] + "_img"
-
-  exportPath = exportPath + imgName + "/"
-  createDir(exportPath)
-
-  filePath = exportPath + fileName + ".obd"
+  model_name = "model_name"
+  file_path = "#{export_path}/#{model_name}.obn"
 
   # Retrieve vertex and facecount
   vertexCount = 0 # Keeps track of vertex count
@@ -59,22 +55,22 @@ def export_wbd(ent, verts, minmax, bounds, scale, exportPath)
   vertexCount = verts.length
   triCount = polyArray.length
 
-  vertexScale = getVertexScaleMinMax(minmax)
+  vertexScale = getVertexScaleMinMax(bounds)
 
   # Create a new file and write to it
-  File.open(filePath, 'w') do |f|
+  File.open(file_path, 'w') do |f|
     # use "\n" for two lines of text
     f.puts "Version 32 11\n"
     f.puts "{"
-    f.puts "\tphBound " + fileName + "\n" # 0 should be id
+    f.puts "\tphBound #{model_name}\n" # 0 should be id
     f.puts "\t{\n"
     f.puts "\t\tType BoundBVH\n"
     f.puts "\t\tCentroidPresent 1\n"
     f.puts "\t\tCGPresent 1\n"
-    f.puts "\t\tRadius " + bounds[3].to_s + "\n"
-    f.puts "\t\tWorldRadius " + bounds[3].to_s + "\n"
-    f.puts "\t\tAABBMax " + minmax[3].to_s + " " + minmax[4].to_s + " " + minmax[5].to_s + "\n"
-    f.puts "\t\tAABBMin " + minmax[0].to_s + " " + minmax[1].to_s + " " + minmax[2].to_s + "\n"
+    f.puts "\t\tRadius " + bounds.radius.to_s + "\n"
+    f.puts "\t\tWorldRadius " + bounds.radius.to_s + "\n"
+    f.puts "\t\tAABBMax " + bounds.maxX.to_s + " " + bounds.maxY.to_s + " " + bounds.maxZ.to_s + "\n"
+    f.puts "\t\tAABBMin " + bounds.minX.to_s + " " + bounds.minY.to_s + " " + bounds.minZ.to_s + "\n"
     f.puts "\t\tCentroid 0.0 0.0 0.0\n"
     f.puts "\t\tCenterOfMass 0.0 0.0 0.0\n"
     f.puts "\t\tMargin 0.005 0.005 0.005\n"
@@ -124,4 +120,21 @@ def export_wbd(ent, verts, minmax, bounds, scale, exportPath)
     f.puts "\t}\n"
     f.puts "}"
   end
+end
+
+def get_verts(ent)
+  verts = []
+
+  faces = ent.definition.entities.find_all {|e| e.typename == "Face"} # Get all face enteties
+  faces.each do |face| # For each face
+    mesh = face.mesh 5 # Create a trimesh of the face
+    points = mesh.points # Get all vertices of this mesh
+    points.each do |p| # For each vertice in this mesh
+      unless verts.index p # If it's not in the mesh
+        verts.push(p) # Add it to the vertice array
+      end
+    end
+  end
+
+  verts
 end

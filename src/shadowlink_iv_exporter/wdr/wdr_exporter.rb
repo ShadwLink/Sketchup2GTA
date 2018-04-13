@@ -1,4 +1,4 @@
-def export_wdr(ent, materials, scale, export_path)
+def export_odr(ent, materials, scale, export_path)
   bounds = Bounds.new(ent)
 
   createDir(export_path)
