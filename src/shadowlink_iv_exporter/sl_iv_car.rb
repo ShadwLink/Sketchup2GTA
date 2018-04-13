@@ -10,8 +10,9 @@ end
 def place_car
 	model = Sketchup.active_model
 	show_summary = true
-	
-	car_model_path = Sketchup.find_support_file "sl_iv_car.skp" ,"Plugins/SL_IV_Export/resources/"
+
+	car_model_path = File.join(__dir__, 'resources', 'sl_iv_car.skp')
+	# car_model_path = Sketchup.find_support_file "sl_iv_car.skp" ,"Plugins/SL_IV_Export/resources/"
 	
 	status = model.import car_model_path, show_summary
 end
