@@ -1,4 +1,4 @@
-def export_scene(exportPath)
+def export_scene(export_path)
   entities = getUniqueComponents()
 
   entities.each do |ent|
@@ -30,22 +30,19 @@ def export_scene(exportPath)
     end
 
     if verts.length > 0
-      minmax = getBoundsMinMax(verts) # Get max bounds
-      bounds = getBoundsCenterMinMax(minmax) # Get center bounds
       scale = GetScale()
 
       puts "Exporting ide " + getFileName(ent)
-      export_ide(ent, minmax, bounds, exportPath)
+      export_ide(ent, export_path)
       puts "Exporting wdr " + getFileName(ent)
-      export_odr(ent, materials, scale, exportPath)
+      export_odr(ent, materials, scale, export_path)
       puts "Exporting wbd " + getFileName(ent)
-      export_obn(ent, verts, minmax, bounds, scale, exportPath)
+      export_obn(ent, scale, export_path)
       puts "Exporting tex " + getFileName(ent)
-      export_textures(ent, materials, exportPath)
+      export_entities_textures(ent, export_path)
     end
   end
 
   puts "Exporting wpl"
-  export_wpl("/test/")#exportPath)
-  # };
+  export_wpl(export_path)
 end
