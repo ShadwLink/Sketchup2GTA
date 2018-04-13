@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>IDE Info</title>
+
+    <script>
+        function updateIDEName() {
+            sketchup.setIDEName(document.getElementById('ideName').value);
+        }
+
+        function updateModelName() {
+            sketchup.setModelName(document.getElementById('modelName').value);
+        }
+
+        function updateTextureName() {
+            sketchup.setTextureName(document.getElementById('textureName').value);
+        }
+
+        function updateDrawDistanceSlider() {
+            let drawDist = document.getElementById('drawDist').value
+            document.getElementById('drawDistText').value = drawDist
+            sketchup.setDrawDistance(drawDist);
+        }
+
+        function updateDrawDistanceText() {
+            let drawDist = document.getElementById('drawDistText').value
+            document.getElementById('drawDist').value = drawDist
+            sketchup.setDrawDistance(drawDist);
+        }
+    </script>
+</head>
+
+<body>
+<table>
+    <tr>
+        <td>IDE Name:</td>
+        <td><input type="text" id="ideName" value="<%= @ide_name %>" oninput="updateIDEName()"></td>
+    </tr>
+    <tr>
+        <td>Model Name:</td>
+        <td><input type="text" id="modelName" value="<%= @model_name %>" oninput="updateModelName()"></td>
+    </tr>
+    <tr>
+        <td>Texture Name:</td>
+        <td><input type="text" id="textureName" value="<%= @texture_name %>" oninput="updateTextureName()"></td>
+    </tr>
+    <tr>
+        <td>Draw distance:</td>
+        <td><input type="range" min="0" max="900" step="1" id="drawDist" value="<%= @draw_distance %>"
+                   oninput="updateDrawDistanceSlider()">
+            <input type="number" step="1" id="drawDistText" value="<%= @draw_distance %>"
+                   oninput="updateDrawDistanceText()">
+        </td>
+    </tr>
+</table>
+</body>
+
+</html>

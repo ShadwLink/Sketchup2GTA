@@ -2,6 +2,7 @@ Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
+Sketchup.load('shadowlink_iv_exporter/ide/IDEDialog.rb')
 
 def selected_component
   ss = Sketchup.active_model.selection
@@ -51,7 +52,7 @@ UI.add_context_menu_handler do |menu|
     if (getFileName(Sketchup.active_model.selection[0]) == "sl_iv_car")
       submenu.add_item("Setup Car") {dialogCar}
     else
-      submenu.add_item("Setup IDE") {dialogIDE}
+      submenu.add_item("Setup IDE") {IDEDialog.new()}
     end
 
     submenu.add_separator
