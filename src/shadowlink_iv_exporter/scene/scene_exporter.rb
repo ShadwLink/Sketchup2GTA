@@ -1,10 +1,6 @@
 def export_scene(exportPath)
   entities = getUniqueComponents()
 
-  # pb = Squall::ProgressBar.new(entities.length * 4);
-  # pb.onCancel() {puts "cancel"};
-
-  # pb.process() {
   entities.each do |ent|
     puts "Starting export " + getFileName(ent)
     materials = []
@@ -38,16 +34,12 @@ def export_scene(exportPath)
       bounds = getBoundsCenterMinMax(minmax) # Get center bounds
       scale = GetScale()
 
-      # pb.progress();
       puts "Exporting ide " + getFileName(ent)
       export_ide(ent, minmax, bounds, exportPath)
-      # pb.progress();
       puts "Exporting wdr " + getFileName(ent)
       export_wdr(ent, materials, scale, exportPath)
-      # pb.progress();
       puts "Exporting wbd " + getFileName(ent)
       export_wbd(ent, verts, minmax, bounds, scale, exportPath)
-      # pb.progress();
       puts "Exporting tex " + getFileName(ent)
       export_textures(ent, materials, exportPath)
     end
