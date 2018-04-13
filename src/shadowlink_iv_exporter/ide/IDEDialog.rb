@@ -1,66 +1,59 @@
-class IDEDialog
+require 'erb'
+
+class IDEDialog < Sketchup::SelectionObserver
 
   def initialize
-    # @model = model
-    # Pass to the observer the instance of this tool,
-    # so that the observer can call methods of this tool.
-    # observer = MySelectionObserver.new(self)
-    # @model.selection.add_observer(observer)
+    Sketchup.active_model.selection.add_observer(self)
 
-    # Create the dialog.
-    html_file = File.join(__dir__, '', 'ide.html')
     options = {
         :dialog_title => "IDE Settings",
         :preferences_key => "example.htmldialog.materialinspector",
         :style => UI::HtmlDialog::STYLE_DIALOG
     }
     @dialog = UI::HtmlDialog.new(options)
-    @html = %Q{
-      <html>
-        <head>
-        </head>
-        <body>
-          <br/>
-          Thickness: #{Sketchup.active_model.selection[0].name}<br/>
-          <br/>
-        </body>
-      </html>
-    }
-
-    @dialog.set_html(@html)
+    @dialog.add_action_callback("setIDEName") do |action_context, value|
+      @selection.definition.set_attribute 'sl_iv_ide', 'ideName', value
+    end
+    @dialog.add_action_callback("setModelName") do |action_context, value|
+      @selection.definition.set_attribute 'sl_iv_ide', 'modelName', value
+    end
+    @dialog.add_action_callback("setTextureName") do |action_context, value|
+      @selection.definition.set_attribute 'sl_iv_ide', 'textureName', value
+    end
+    @dialog.add_action_callback("setDrawDistance") do |action_context, value|
+      @selection.definition.set_attribute 'sl_iv_ide', 'drawDist', value
+    end
     @dialog.center
-    @dialog
     @dialog.show
+
+    updateDialog(Sketchup.active_model.selection)
   end
 
-  def refresh(entities)
-    # Call a JavaScript method on the webdialog to accept the new data.
-    # just some example data (array of strings)
-    # entity_types = entities.map {|e| e.typename}.uniq
-    # @dialog.execute_script('MyTool.refresh(#{entity_types.inspect})')
+  def onSelectionBulkChange(selection)
+    updateDialog(selection)
   end
 
-  def initComponentIDE
-    entities = Sketchup.active_model.selection
-    comp = entities[0]
-    comp_def = comp.definition
-
-    comp_def.set_attribute 'sl_iv_ide', 'modelName', getFileName(comp)
-    comp_def.set_attribute 'sl_iv_ide', 'wtdName', getFileName(comp)
-    comp_def.set_attribute 'sl_iv_ide', 'drawDist', '300'
-    comp_def.set_attribute 'sl_iv_ide', 'ideName', (Sketchup.active_model.title + ".ide")
+  def onSelectionCleared(selection)
+    updateDialog(selection)
   end
 
-  def applyIDEValues(ent, jsonIDE)
-    comp_def = ent.definition
-    hash_ide = eval(jsonIDE)
-    comp_def.set_attribute 'sl_iv_ide', 'ideName', hash_ide['ideName']
-    comp_def.set_attribute 'sl_iv_ide', 'modelName', hash_ide['modelName']
-    comp_def.set_attribute 'sl_iv_ide', 'wtdName', hash_ide['wtdName']
-    comp_def.set_attribute 'sl_iv_ide', 'drawDist', hash_ide['drawDist']
+  def updateDialog(selection)
+    if selection.length == 0
+      html_output = "Nothing selected"
+    elsif selection.length > 1
+      html_output = "Multiple items selected"
+    else
+      @selection = selection[0]
+      @ide_name = @selection.definition.get_attribute 'sl_iv_ide', 'ideName'
+      @model_name = @selection.definition.get_attribute 'sl_iv_ide', 'modelName'
+      @texture_name = @selection.definition.get_attribute 'sl_iv_ide', 'textureName'
+      @draw_distance = @selection.definition.get_attribute 'sl_iv_ide', 'drawDist'
+
+      html_file = File.join(__dir__, '', 'ide.html')
+      html_output = ERB.new(File.read(html_file)).result(binding)
+    end
+
+    @dialog.set_html(html_output)
   end
 
-  def cancelIDEDialog
-    puts "Cancel IDE"
-  end
 end

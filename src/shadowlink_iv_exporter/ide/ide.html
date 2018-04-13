@@ -4,29 +4,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>IDE Info</title>
 
-    <script src="json.js"></script>
     <script>
-        function initIDEValues(jsonIDE) {
-            jsonIDE = jsonIDE.replace(/#COMMA#/g, ",");
-            eval("var ide = " + jsonIDE);
-            document.getElementById('ideName').value = ide.ideName;
-            document.getElementById('modelName').value = ide.modelName;
-            document.getElementById('wtdName').value = ide.wtdName;
-            document.getElementById('drawDist').value = ide.drawDist;
+        function updateIDEName() {
+            sketchup.setIDEName(document.getElementById('ideName').value);
         }
 
-        function applyIDEValues() {
-            let o = new Object;
-            o.ideName = document.getElementById('ideName').value;
-            o.modelName = document.getElementById('modelName').value;
-            o.wtdName = document.getElementById('wtdName').value;
-            o.drawDist = document.getElementById('drawDist').value;
-            query = 'skp:applyIDEValues@' + o.toJSONString().replace(/:/g, "=>");
-            window.location.href = query;
+        function updateModelName() {
+            sketchup.setModelName(document.getElementById('modelName').value);
         }
 
-        function setIdeName(ideName) {
-            document.getElementById('ideName').value = ideName;
+        function updateTextureName() {
+            sketchup.setTextureName(document.getElementById('textureName').value);
+        }
+
+        function updateDrawDistanceSlider() {
+            let drawDist = document.getElementById('drawDist').value
+            document.getElementById('drawDistText').value = drawDist
+            sketchup.setDrawDistance(drawDist);
+        }
+
+        function updateDrawDistanceText() {
+            let drawDist = document.getElementById('drawDistText').value
+            document.getElementById('drawDist').value = drawDist
+            sketchup.setDrawDistance(drawDist);
         }
     </script>
 </head>
@@ -35,23 +35,25 @@
 <table>
     <tr>
         <td>IDE Name:</td>
-        <td><input type="text" id="ideName" name="ideName"></td>
+        <td><input type="text" id="ideName" value="<%= @ide_name %>" oninput="updateIDEName()"></td>
     </tr>
     <tr>
         <td>Model Name:</td>
-        <td><input type="text" id="modelName" name="modelName"></td>
+        <td><input type="text" id="modelName" value="<%= @model_name %>" oninput="updateModelName()"></td>
     </tr>
     <tr>
-        <td>WTD Name:</td>
-        <td><input type="text" id="wtdName" name="texturename"></td>
+        <td>Texture Name:</td>
+        <td><input type="text" id="textureName" value="<%= @texture_name %>" oninput="updateTextureName()"></td>
     </tr>
     <tr>
         <td>Draw distance:</td>
-        <td><input type="text" id="drawDist" name="draw_distance"></td>
+        <td><input type="range" min="0" max="900" step="1" id="drawDist" value="<%= @draw_distance %>"
+                   oninput="updateDrawDistanceSlider()">
+            <input type="number" step="1" id="drawDistText" value="<%= @draw_distance %>"
+                   oninput="updateDrawDistanceText()">
+        </td>
     </tr>
 </table>
-<input type="button" onclick="setIdeName('test')" value="Cancel">
-<input type="button" onclick="applyIDEValues()" value="Ok">
 </body>
 
 </html>
