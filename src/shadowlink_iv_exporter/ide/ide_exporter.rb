@@ -18,15 +18,10 @@ def write_objects(entities, file)
 end
 
 def write_object(ent, file)
-  # TODO: Use attributes
-  #   modelName = ent_def.get_attribute 'sl_iv_ide', 'modelName'
-  #   wtdName = ent_def.get_attribute 'sl_iv_ide', 'wtdName'
-  #   drawDist = ent_def.get_attribute 'sl_iv_ide', 'drawDist'
-  #   ideName = ent_def.get_attribute 'sl_iv_ide', 'ideName'
-
   bounds = Bounds.new(ent)
-  model_name = "model"
-  wtd_name = "wtd"
-  draw_dist = 100.0
+  ent_def = ent.definition
+  model_name = ent_def.get_attribute 'sl_iv_ide', 'modelName'
+  wtd_name = ent_def.get_attribute 'sl_iv_ide', 'textureName'
+  draw_dist = ent_def.get_attribute 'sl_iv_ide', 'drawDist'
   file.puts "#{model_name}, #{wtd_name}, #{draw_dist}, 0, 0, #{bounds.minX.to_s}, #{bounds.minY.to_s}, #{bounds.minZ.to_s}, #{bounds.maxX.to_s}, #{bounds.maxY.to_s}, #{bounds.maxZ.to_s}, #{bounds.centerX.to_s}, #{bounds.centerY.to_s}, #{bounds.centerZ.to_s}, #{bounds.radius.to_s}, null\n"
 end
