@@ -2,6 +2,7 @@ Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
+Sketchup.load('shadowlink_iv_exporter/wdr/wdr_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/IDEDialog.rb')
 
 def selected_component
@@ -40,7 +41,7 @@ UI.add_context_menu_handler do |menu|
     menu.add_separator
     submenu = menu.add_submenu("IV Export")
 
-    submenu.add_item("Export Model") {export_wdr}
+    submenu.add_item("Export Model") {save_model}
     submenu.add_item("Export Collision") {export_wbn}
     submenu.add_item("Export Textures") {save_textures}
 
@@ -65,6 +66,13 @@ UI.add_context_menu_handler do |menu|
     submenu.add_item("Export WPL") {save_wpl}
     submenu.add_item("Export Textures") {save_textures}
   end
+end
+
+def save_model
+  output_dir = UI.select_directory(title: "Select Output Directory")
+  ent = get_selected_components[0]
+  materials = get_materials_for_entity(ent)
+  export_wdr(ent, materials, GetScale(), output_dir)
 end
 
 def save_wpl

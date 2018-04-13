@@ -43,7 +43,7 @@ def export_scene(exportPath)
       export_ide(ent, minmax, bounds, exportPath)
       # pb.progress();
       puts "Exporting wdr " + getFileName(ent)
-      export_wdr(ent, materials, verts, minmax, bounds, scale, exportPath)
+      export_wdr(ent, materials, scale, exportPath)
       # pb.progress();
       puts "Exporting wbd " + getFileName(ent)
       export_wbd(ent, verts, minmax, bounds, scale, exportPath)

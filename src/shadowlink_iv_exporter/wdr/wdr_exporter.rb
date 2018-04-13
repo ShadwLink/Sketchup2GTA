@@ -1,13 +1,9 @@
-def export_wdr(ent, materials, verts, minmax, bounds, scale, exportPath)
-  fileName = getFileName(ent)
+def export_wdr(ent, materials, scale, export_path)
+  bounds = Bounds.new(ent)
 
-  ideName = ent.definition.get_attribute 'sl_iv_ide', 'ideName'
-  imgName = ideName[0, ideName.length - 4] + "_img"
-
-  exportPath = exportPath + imgName + "/"
-  createDir(exportPath)
-
-  filePath = exportPath + fileName
+  createDir(export_path)
+  model_name = "model_name"
+  file_path = "#{export_path}/#{model_name}.odr"
 
   geoCount = [materials.length] # Geometry count
 
@@ -21,7 +17,7 @@ def export_wdr(ent, materials, verts, minmax, bounds, scale, exportPath)
 
 
   # Create a new file and write to it
-  File.open(filePath + ".odr", 'w') do |f|
+  File.open(file_path, 'w') do |f|
     f.puts "Version 110 12\n" # version
     f.puts "shadinggroup\n{" # shading group
     f.puts "\tShaders " + materials.length.to_s + "\n\t{\n"
@@ -31,27 +27,27 @@ def export_wdr(ent, materials, verts, minmax, bounds, scale, exportPath)
     f.puts "\t}\n"
     f.puts "}\n"
     f.puts "lodgroup\n{\n"
-    f.puts "\thigh 1 " + fileName + "_high.mesh 0 9999.00000000\n"
+    f.puts "\thigh 1 #{model_name}_high.mesh 0 9999.00000000\n"
     f.puts "\tmed none 9999.00000000\n"
     f.puts "\tlow none 9999.00000000\n"
     f.puts "\tvlow none 9999.00000000\n"
-    f.puts "\tcenter " + bounds[0].to_s + " " + bounds[1].to_s + " " + bounds[2].to_s + "\n"
-    f.puts "\tAABBMin " + minmax[0].to_s + " " + minmax[1].to_s + " " + minmax[2].to_s + "\n"
-    f.puts "\tAABBMax " + minmax[3].to_s + " " + minmax[4].to_s + " " + minmax[5].to_s + "\n"
-    f.puts "\tradius " + bounds[3].to_s + "\n"
+    f.puts "\tcenter " + bounds.centerX.to_s + " " + bounds.centerY.to_s + " " + bounds.centerZ.to_s + "\n"
+    f.puts "\tAABBMin " + bounds.minX.to_s + " " + bounds.minY.to_s + " " + bounds.minZ.to_s + "\n"
+    f.puts "\tAABBMax " + bounds.maxX.to_s + " " + bounds.maxY.to_s + " " + bounds.maxZ.to_s + "\n"
+    f.puts "\tradius " + bounds.radius.to_s + "\n"
     f.puts "}\n"
   end
 
-  File.open(filePath + '_high.mesh', 'w') do |f|
+  File.open(file_path + '_high.mesh', 'w') do |f|
     f.puts "Version 11 12\n" # version
     f.puts "{" # shading group
     f.puts "\tSkinned 0\n"
     f.puts "\tBounds " + (materials.length + 1).to_s + "\n\t{\n"
     materials.each do |mat| # Split the model up per material
       # TODO: Should be per material bounds
-      f.puts "\t\t" + bounds[0].to_s + " " + bounds[1].to_s + " " + bounds[2].to_s + " " + bounds[3].to_s + "\n"
+      f.puts "\t\t" + bounds.centerX.to_s + " " + bounds.centerY.to_s + " " + bounds.centerZ.to_s + " " + bounds.radius.to_s + "\n"
     end
-    f.puts "\t\t" + bounds[0].to_s + " " + bounds[1].to_s + " " + bounds[2].to_s + " " + bounds[3].to_s + "\n"
+    f.puts "\t\t" + bounds.centerX.to_s + " " + bounds.centerY.to_s + " " + bounds.centerZ.to_s + " " + bounds.radius.to_s + "\n"
     f.puts "\t}\n"
     count = 0
     materials.each do |mat| # Split the model up per material
