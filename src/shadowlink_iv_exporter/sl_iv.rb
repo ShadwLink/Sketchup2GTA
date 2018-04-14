@@ -47,10 +47,6 @@ UI.add_context_menu_handler do |menu|
     submenu.add_item("Export Textures") {save_textures}
 
     submenu.add_separator
-    submenu.add_item("Export WPL") {save_wpl}
-    submenu.add_item("Export IDE") {save_ide}
-
-    submenu.add_separator
     if (getFileName(Sketchup.active_model.selection[0]) == "sl_iv_car")
       submenu.add_item("Setup Car") {dialogCar}
     else
@@ -64,6 +60,7 @@ UI.add_context_menu_handler do |menu|
     menu.add_separator
     submenu = menu.add_submenu("IV Export")
     submenu.add_item("Export WPL") {save_wpl}
+    submenu.add_item("Export IDE") {save_ide}
     submenu.add_item("Export Textures") {save_textures}
   end
 end
