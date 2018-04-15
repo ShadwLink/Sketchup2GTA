@@ -1,16 +1,10 @@
-def export_obn(ent, scale, export_path)
+def export_obn(model_name, ent, scale, export_path)
   verts = get_verts(ent)
   bounds = Bounds.new(ent)
 
-  model_name = "model_name"
   file_path = "#{export_path}/#{model_name}.obn"
 
-  # Retrieve vertex and facecount
-  vertexCount = 0 # Keeps track of vertex count
-  triCount = 0 # Keeps track of triangle count
-
   polyArray = [] # Array that keeps track of the polys
-  polyMaterials = [] # Array that keeps track of the poly materials
 
   faces = ent.definition.entities.find_all {|e| e.typename == "Face"} # Get all face enteties
   faces.each do |face| # For each face

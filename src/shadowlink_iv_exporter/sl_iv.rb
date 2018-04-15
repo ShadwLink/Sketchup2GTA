@@ -80,9 +80,15 @@ def save_model
 end
 
 def save_collision
-  output_dir = UI.select_directory(title: "Select Output Directory")
-  ent = get_selected_components[0]
-  export_obn(ent, GetScale(), output_dir)
+  selection = get_selected_components[0]
+  model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
+  output_path = UI.savepanel("Export location", nil, "#{model_name}.obd")
+
+  if output_path
+    model_name = File.basename(output_path, ".*")
+    output_dir = File.dirname(output_path)
+    export_obn(model_name, selection, GetScale(), output_dir)
+  end
 end
 
 def save_wpl
