@@ -37,3 +37,6 @@ AutoSave_*.skp
 *~.skp
 export_test
 
+# Sketchup extension package
+*.rbz
+
