@@ -18,10 +18,6 @@ Installing the plugin is easy, just follow these simple steps:
 
 That's it!
 
-## Usage
-
-TODO: Write usage of available features
-
 ## Tutorial
 A step by step guide that exports a tutorial scene to GTA can be found on my [website](https://shadow-link.nl/projects/sketchup-iv-exporter/).
 
