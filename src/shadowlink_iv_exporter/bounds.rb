@@ -66,42 +66,42 @@ class Bounds
   end
 
   def minX
-    @min_x
+    @min_x * 0.0254 * GetScale()
   end
 
   def minY
-    @min_y
+    @min_y * 0.0254 * GetScale()
   end
 
   def minZ
-    @min_z
+    @min_z * 0.0254 * GetScale()
   end
 
   def maxX
-    @max_x
+    @max_x * 0.0254 * GetScale()
   end
 
   def maxY
-    @max_y
+    @max_y * 0.0254 * GetScale()
   end
 
   def maxZ
-    @max_z
+    @max_z * 0.0254 * GetScale()
   end
 
   def centerX
-    @center_x
+    @center_x * 0.0254 * GetScale()
   end
 
   def centerY
-    @center_y
+    @center_y * 0.0254 * GetScale()
   end
 
   def centerZ
-    @center_z
+    @center_z * 0.0254 * GetScale()
   end
 
   def radius
-    @radius
+    @radius * 0.0254 * GetScale()
   end
 end

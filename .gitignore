@@ -32,6 +32,8 @@ doc/
 # OSX
 .DS_Store
 
-# AutoSave sketchup files
+# Sketchup temp files
 AutoSave_*.skp
+*~.skp
 export_test
+
