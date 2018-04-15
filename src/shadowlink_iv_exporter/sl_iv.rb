@@ -6,6 +6,8 @@ Sketchup.load('shadowlink_iv_exporter/wdr/wdr_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/wbn/wbn_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/IDEDialog.rb')
 
+MAX_DECIMALS = 8
+
 def selected_component
   ss = Sketchup.active_model.selection
   groups = ss.find_all {|group| group.typename == "ComponentInstance"} # Get all group enteties
@@ -66,10 +68,15 @@ UI.add_context_menu_handler do |menu|
 end
 
 def save_model
-  output_dir = UI.select_directory(title: "Select Output Directory")
-  ent = get_selected_components[0]
-  materials = get_materials_for_entity(ent)
-  export_odr(ent, materials, GetScale(), output_dir)
+  selection = get_selected_components[0]
+  model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
+  output_path = UI.savepanel("Export location", nil, "#{model_name}.odr")
+
+  if output_path
+    model_name = File.basename(output_path, ".*")
+    output_dir = File.dirname(output_path)
+    export_odr(model_name, selection, GetScale(), output_dir)
+  end
 end
 
 def save_collision
