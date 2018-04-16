@@ -4,7 +4,7 @@ Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/wdr/wdr_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/wbn/wbn_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/ide/IDEDialog.rb')
+Sketchup.load('shadowlink_iv_exporter/selection/SelectionDialog.rb')
 
 MAX_DECIMALS = 8
 
@@ -52,7 +52,7 @@ UI.add_context_menu_handler do |menu|
     if (getFileName(Sketchup.active_model.selection[0]) == "sl_iv_car")
       submenu.add_item("Setup Car") {dialogCar}
     else
-      submenu.add_item("Setup IDE") {IDEDialog.new()}
+      submenu.add_item("Setup IDE") {SelectionDialog.new()}
     end
 
     submenu.add_separator

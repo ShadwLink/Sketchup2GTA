@@ -1,13 +1,13 @@
 require 'erb'
 
-class IDEDialog < Sketchup::SelectionObserver
+class SelectionDialog < Sketchup::SelectionObserver
 
   def initialize
     Sketchup.active_model.selection.add_observer(self)
 
     options = {
-        :dialog_title => "IDE Settings",
-        :preferences_key => "example.htmldialog.materialinspector",
+        :dialog_title => "Selection Settings",
+        :preferences_key => "nl.shadow-link.selection",
         :style => UI::HtmlDialog::STYLE_DIALOG
     }
     @dialog = UI::HtmlDialog.new(options)
