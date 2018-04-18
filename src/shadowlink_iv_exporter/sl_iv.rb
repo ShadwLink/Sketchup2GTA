@@ -2,9 +2,10 @@ Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/wdr/wdr_exporter.rb')
+Sketchup.load('shadowlink_iv_exporter/drawable/drawable_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/wbn/wbn_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/selection/SelectionDialog.rb')
+Sketchup.load('shadowlink_iv_exporter/drawable/drawable_dictionary_exporter.rb')
 
 MAX_DECIMALS = 8
 
@@ -63,6 +64,7 @@ UI.add_context_menu_handler do |menu|
     submenu = menu.add_submenu("IV Export")
     submenu.add_item("Export WPL") {save_wpl}
     submenu.add_item("Export IDE") {save_ide}
+    submenu.add_item("Export ODD") {save_odd}
     submenu.add_item("Export Textures") {save_textures}
   end
 end
@@ -76,6 +78,19 @@ def save_model
     model_name = File.basename(output_path, ".*")
     output_dir = File.dirname(output_path)
     export_odr(model_name, selection, GetScale(), output_dir)
+  end
+end
+
+def save_odd
+  selection = get_selected_components
+  # model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
+  output_path = UI.savepanel("Export location", nil, "")#{model_name}.odd"")
+
+  if output_path
+    odd_name = File.basename(output_path, ".*")
+    output_dir = File.dirname(output_path)
+    exporter = DrawableDictionaryExporter.new
+    exporter.export(odd_name, output_dir, selection)#(model_name, selection, GetScale(), output_dir)
   end
 end
 

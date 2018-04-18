@@ -7,6 +7,7 @@ def export_odr(model_name, ent, scale, export_path)
   high_mesh_path = "#{export_path}/#{model_name}_high.mesh"
 
   File.open(odr_file_path, 'w') do |file|
+    file.puts "Version 110 12\n"
     export_odr_header(file, materials, model_name, bounds)
   end
 
@@ -16,7 +17,6 @@ def export_odr(model_name, ent, scale, export_path)
 end
 
 def export_odr_header(file, materials, model_name, bounds)
-  file.puts "Version 110 12\n"
   export_shading_group(file, materials)
   export_lod_group(file, model_name, bounds)
 end
