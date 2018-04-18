@@ -3,7 +3,7 @@ Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/drawable/drawable_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/wbn/wbn_exporter.rb')
+Sketchup.load('shadowlink_iv_exporter/bounds/bounds_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/selection/SelectionDialog.rb')
 Sketchup.load('shadowlink_iv_exporter/drawable/drawable_dictionary_exporter.rb')
 
@@ -83,14 +83,13 @@ end
 
 def save_odd
   selection = get_selected_components
-  # model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
-  output_path = UI.savepanel("Export location", nil, "")#{model_name}.odd"")
+  output_path = UI.savepanel("Export location", nil, "")
 
   if output_path
     odd_name = File.basename(output_path, ".*")
     output_dir = File.dirname(output_path)
     exporter = DrawableDictionaryExporter.new
-    exporter.export(odd_name, output_dir, selection)#(model_name, selection, GetScale(), output_dir)
+    exporter.export(odd_name, output_dir, selection)
   end
 end
 
