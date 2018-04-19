@@ -3,9 +3,10 @@ Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/drawable/drawable_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/wbn/wbn_exporter.rb')
+Sketchup.load('shadowlink_iv_exporter/bounds/bounds_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/selection/SelectionDialog.rb')
 Sketchup.load('shadowlink_iv_exporter/drawable/drawable_dictionary_exporter.rb')
+Sketchup.load('shadowlink_iv_exporter/bounds/bounds_dictionary_exporter.rb')
 
 MAX_DECIMALS = 8
 
@@ -45,8 +46,8 @@ UI.add_context_menu_handler do |menu|
     menu.add_separator
     submenu = menu.add_submenu("IV Export")
 
-    submenu.add_item("Export Model") {save_model}
-    submenu.add_item("Export Collision") {save_collision}
+    submenu.add_item("Export ODR") {save_model}
+    submenu.add_item("Export OBN") {save_collision}
     submenu.add_item("Export Textures") {save_textures}
 
     submenu.add_separator
@@ -65,6 +66,7 @@ UI.add_context_menu_handler do |menu|
     submenu.add_item("Export WPL") {save_wpl}
     submenu.add_item("Export IDE") {save_ide}
     submenu.add_item("Export ODD") {save_odd}
+    submenu.add_item("Export OBD") {save_obd}
     submenu.add_item("Export Textures") {save_textures}
   end
 end
@@ -83,21 +85,32 @@ end
 
 def save_odd
   selection = get_selected_components
-  # model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
-  output_path = UI.savepanel("Export location", nil, "")#{model_name}.odd"")
+  output_path = UI.savepanel("Export location", nil, "")
 
   if output_path
     odd_name = File.basename(output_path, ".*")
     output_dir = File.dirname(output_path)
     exporter = DrawableDictionaryExporter.new
-    exporter.export(odd_name, output_dir, selection)#(model_name, selection, GetScale(), output_dir)
+    exporter.export(odd_name, output_dir, selection)
+  end
+end
+
+def save_obd
+  selection = get_selected_components
+  output_path = UI.savepanel("Export location", nil, "")
+
+  if output_path
+    obd_name = File.basename(output_path, ".*")
+    output_dir = File.dirname(output_path)
+    exporter = BoundsDictionaryExporter.new
+    exporter.export(obd_name, output_dir, selection)
   end
 end
 
 def save_collision
   selection = get_selected_components[0]
   model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
-  output_path = UI.savepanel("Export location", nil, "#{model_name}.obd")
+  output_path = UI.savepanel("Export location", nil, "#{model_name}.obn")
 
   if output_path
     model_name = File.basename(output_path, ".*")
@@ -153,5 +166,5 @@ def show_hash
 
   prompts = ["Hash output"]
   defaults = hash
-  input = UI.inputbox prompts, defaults, "Hash for \"" + groupName + "\""
+  UI.inputbox prompts, defaults, "Hash for \"" + groupName + "\""
 end

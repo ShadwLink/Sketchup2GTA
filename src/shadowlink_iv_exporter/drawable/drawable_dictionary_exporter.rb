@@ -1,7 +1,6 @@
 class DrawableDictionaryExporter
 
   def export(odd_name, file_path, entities)
-    createDir(file_path)
     odd_file_path = "#{file_path}/#{odd_name}.odd"
 
     File.open(odd_file_path, 'w') do |file|
