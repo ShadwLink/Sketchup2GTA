@@ -30,19 +30,8 @@ def export_entity_textures(ent, export_path)
   end
 
   createDir(dictionary_path)
-  tw = Sketchup.create_texture_writer
-  materials.each do |mat|
-    material_done = false
-    faces = ent.definition.entities.find_all {|e| e.typename == "Face"} # Get all face enteties
-    faces.each do |face|
-      if material_done == false
-        if face.material == mat
-          tw.load face, true
-          return_val = tw.write(face, true, "#{dictionary_path}/#{stripTexName(face.material.texture.filename)}.png")
-          material_done = true
-        end
-      end
-    end
+  materials.each do |material|
+    material.texture.write("#{dictionary_path}/#{stripTexName(material.texture.filename)}.png", true)
   end
 end
 
