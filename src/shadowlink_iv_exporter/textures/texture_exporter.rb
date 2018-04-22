@@ -1,3 +1,5 @@
+require 'shadowlink_iv_exporter/mip_map_level_calculator'
+
 def export_entities_textures(entities, export_path)
   entities.each do |ent|
     export_entity_textures(ent, export_path)
@@ -5,16 +7,23 @@ def export_entities_textures(entities, export_path)
 end
 
 def export_open_formats(file, dictionary_name, materials)
+  mipmapLevelCalculator = MipMapLevelCalculator.new
+
   file.puts "Version 8 10"
   file.puts "{"
   materials.each do |material|
-    file.puts "\tgrcTexture"
-    file.puts "\t{"
-    file.puts "\t\tType regular"
-    file.puts "\t\tName #{dictionary_name}\\#{material.texture.filename}"
-    file.puts "\t\tMipMaps 1" #TODO: Calculate mipmaps
-    file.puts "\t\tPixelFormat DXT1" #TODO: Define PixelFormat
-    file.puts "\t}"
+    begin
+      mipmap_level = mipmapLevelCalculator.calculate_mipmap_count(material.texture.image_width, material.texture.image_height)
+      file.puts "\tgrcTexture"
+      file.puts "\t{"
+      file.puts "\t\tType regular"
+      file.puts "\t\tName #{dictionary_name}\\#{material.texture.filename}"
+      file.puts "\t\tMipMaps #{mipmap_level}"
+      file.puts "\t\tPixelFormat DXT1" #TODO: Define PixelFormat
+      file.puts "\t}"
+    rescue ArgumentError => error
+      puts "Texture dimensions are invalid: #{error}"
+    end
   end
   file.puts "}"
 end
