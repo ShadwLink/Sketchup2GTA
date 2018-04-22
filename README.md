@@ -5,6 +5,7 @@ Exports [Sketchup](https://www.sketchup.com/download) models to Grand Theft Auto
 Supported formats:
 - ODR (OpenIV)
 - OBN (OpenIV)
+- OTD (OpenIV)
 - WPL
 - IDE
 
