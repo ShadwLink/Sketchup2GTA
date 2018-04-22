@@ -23,6 +23,12 @@ A step by step guide that exports a tutorial scene to GTA can be found on my [we
 
 ## Version history
 
+##### 0.4.0
+- Added OTD support
+
+##### 0.3.0
+- Added ODD and OBN support
+
 ##### 0.2.0
 - Sketchup 2017 support
 
