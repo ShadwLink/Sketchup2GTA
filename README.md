@@ -5,6 +5,7 @@ Exports [Sketchup](https://www.sketchup.com/download) models to Grand Theft Auto
 Supported formats:
 - ODR (OpenIV)
 - OBN (OpenIV)
+- OTD (OpenIV)
 - WPL
 - IDE
 
@@ -22,6 +23,12 @@ That's it!
 A step by step guide that exports a tutorial scene to GTA can be found on my [website](https://shadow-link.nl/projects/sketchup-iv-exporter/).
 
 ## Version history
+
+##### 0.4.0
+- Added OTD support
+
+##### 0.3.0
+- Added ODD and OBN support
 
 ##### 0.2.0
 - Sketchup 2017 support

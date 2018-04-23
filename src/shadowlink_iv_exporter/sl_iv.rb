@@ -48,7 +48,7 @@ UI.add_context_menu_handler do |menu|
 
     submenu.add_item("Export ODR") {save_model}
     submenu.add_item("Export OBN") {save_collision}
-    submenu.add_item("Export Textures") {save_textures}
+    submenu.add_item("Export OTD") {save_textures}
 
     submenu.add_separator
     if (getFileName(Sketchup.active_model.selection[0]) == "sl_iv_car")
@@ -67,7 +67,7 @@ UI.add_context_menu_handler do |menu|
     submenu.add_item("Export IDE") {save_ide}
     submenu.add_item("Export ODD") {save_odd}
     submenu.add_item("Export OBD") {save_obd}
-    submenu.add_item("Export Textures") {save_textures}
+    submenu.add_item("Export OTD") {save_textures}
   end
 end
 
