@@ -45,7 +45,7 @@ def export_lod_group(file, model_name, bounds)
 end
 
 def export_mesh(ent, file, materials, bounds, scale)
-  file.puts "Version 11 12\n"
+  file.puts "Version 11 13\n"
   file.puts "{"
   file.puts "\tSkinned 0\n"
   file.puts "\tBounds " + (materials.length + 1).to_s + "\n\t{\n"
