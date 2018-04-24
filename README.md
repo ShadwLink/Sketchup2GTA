@@ -24,6 +24,13 @@ A step by step guide that exports a tutorial scene to GTA can be found on my [we
 
 ## Version history
 
+##### 0.4.1
+- Fixed OpenFormats version in mesh files
+- Select export path for WPL files
+- Select export path for IDE files
+- Filter duplicates on IDE export
+- Fix UV coordinates
+
 ##### 0.4.0
 - Added OTD support
 
