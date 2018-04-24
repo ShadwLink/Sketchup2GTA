@@ -120,8 +120,14 @@ def save_collision
 end
 
 def save_wpl
-  output_dir = UI.select_directory(title: "Select Output Directory")
-  export_wpl(output_dir)
+  selection = get_selected_components
+  output_path = UI.savepanel("Export location", nil, "#{Sketchup.active_model.title}.wpl")
+
+  if output_path
+    wpl_name = File.basename(output_path, ".*")
+    output_dir = File.dirname(output_path)
+    export_wpl(selection, output_dir, wpl_name)
+  end
 end
 
 def save_ide

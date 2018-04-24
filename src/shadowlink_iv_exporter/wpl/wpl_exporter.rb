@@ -1,13 +1,12 @@
 require 'logger'
 
-def export_wpl(exportPath)
-  filePath = "#{exportPath}/#{Sketchup.active_model.title}.wpl"
+def export_wpl(components, export_path, file_name)
+  file_path = "#{export_path}/#{file_name}.wpl"
 
-  puts "Exporting WPL #{filePath}"
+  puts "Exporting WPL #{file_path}"
 
   instances = []
   cars = []
-  components = Sketchup.active_model.active_entities.find_all {|group| group.typename == "ComponentInstance"} # Get all components enteties
   components.each do |comp|
     if getFileName(comp) != "sl_iv_car"
       instances.push comp
@@ -36,7 +35,7 @@ def export_wpl(exportPath)
   unused8 = [0]
   blokCount = [0]
 
-  File.open(filePath, "wb") {|f|
+  File.open(file_path, "wb") {|f|
     f.write fileHeader.pack("I")
     f.write instCount.pack("I")
     f.write unused1.pack("I")
