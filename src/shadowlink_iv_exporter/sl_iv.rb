@@ -20,6 +20,21 @@ def get_selected_components
   Sketchup.active_model.selection.find_all {|group| group.typename == "ComponentInstance"}
 end
 
+def get_selected_unique_components
+  unique_components = []
+  unique_component_definitions = []
+  components = get_selected_components
+
+  components.each do |component|
+    unless unique_component_definitions.index component.definition
+      unique_component_definitions.push component.definition
+      unique_components.push component
+    end
+  end
+
+  unique_components
+end
+
 def selected_groups
   ss = Sketchup.active_model.selection
   groups = ss.find_all {|group| group.typename == "Group"}
@@ -131,8 +146,14 @@ def save_wpl
 end
 
 def save_ide
-  output_dir = UI.select_directory(title: "Select Output Directory")
-  export_ide(get_selected_components, output_dir)
+  selection = get_selected_unique_components
+  output_path = UI.savepanel("Export location", nil, "#{Sketchup.active_model.title}.ide")
+
+  if output_path
+    ide_name = File.basename(output_path, ".*")
+    output_dir = File.dirname(output_path)
+    export_ide(selection, output_dir, ide_name)
+  end
 end
 
 def save_textures

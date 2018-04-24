@@ -1,7 +1,7 @@
 Sketchup.load 'shadowlink_iv_exporter/bounds.rb'
 
-def export_ide(entities, export_path)
-  file_path = "#{export_path}/test.ide"
+def export_ide(entities, export_path, ide_name)
+  file_path = "#{export_path}/#{ide_name}.ide"
 
   File.open(file_path, 'w') do |file|
     write_objects(entities, file)
