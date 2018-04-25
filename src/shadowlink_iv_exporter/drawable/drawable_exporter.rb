@@ -141,7 +141,7 @@ def export_mesh(ent, file, materials, bounds, scale)
     file.puts "\t\t\t}\n"
 
     #verts
-    file.puts "\t\t\tVerts " + vertices.length.to_s + "\n\t\t\t{\n" # TODO: Add vert count
+    file.puts "\t\t\tVerts #{vertices.length.to_s}\n\t\t\t{\n"
     vertexIndex = 0
     vertices.each do |vert|
       vertexX = vert.x * 0.0254 * scale
@@ -150,9 +150,9 @@ def export_mesh(ent, file, materials, bounds, scale)
       normX = normals[vertexIndex].x
       normY = normals[vertexIndex].y
       normZ = normals[vertexIndex].z
-      uvU = uvs[vertexIndex].x * 1
-      uvV = uvs[vertexIndex].y * -1
-      file.puts "\t\t\t\t" + vertexX.round(MAX_DECIMALS).to_s + " " + vertexY.round(MAX_DECIMALS).to_s + " " + vertexZ.round(MAX_DECIMALS).to_s + " / " + normX.round(MAX_DECIMALS).to_s + " " + normY.round(MAX_DECIMALS).to_s + " " + normZ.round(MAX_DECIMALS).to_s + " / 255 255 255 255 / 0.0 0.0 0.0 / " + uvU.round(MAX_DECIMALS).to_s + " " + uvV.round(MAX_DECIMALS).to_s + " / 0.0 0.0 / 0.0 0.0 / 0.0 0.0 / 0.0 0.0 / 0.0 0.0\n"
+      uvU = uvs[vertexIndex].x
+      uvV = uvs[vertexIndex].y
+      file.puts "\t\t\t\t#{'%.8f' % vertexX} #{'%.8f' % vertexY} #{'%.8f' % vertexZ} / #{'%.8f' % normX} #{'%.8f' % normY} #{'%.8f' % normZ} / 255 255 255 255 / 0.0 0.0 0.0 0.0 / #{'%.8f' % uvU} #{'%.8f' % uvV} / 0.0 0.0 / 0.0 0.0 / 0.0 0.0 / 0.0 0.0 / 0.0 0.0\n"
       vertexIndex += 1
     end
     file.puts "\t\t\t}\n"
