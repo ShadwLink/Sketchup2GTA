@@ -1,3 +1,5 @@
+require 'shadowlink_iv_exporter/mesh.rb'
+
 class DrawableExporter
 
   def export(model_name, ent, scale, export_path)
@@ -39,10 +41,10 @@ class DrawableExporter
     file.puts "\tmed none 9999.00000000\n"
     file.puts "\tlow none 9999.00000000\n"
     file.puts "\tvlow none 9999.00000000\n"
-    file.puts "\tcenter " + bounds.centerX.to_s + " " + bounds.centerY.to_s + " " + bounds.centerZ.to_s + "\n"
-    file.puts "\tAABBMin " + bounds.minX.to_s + " " + bounds.minY.to_s + " " + bounds.minZ.to_s + "\n"
-    file.puts "\tAABBMax " + bounds.maxX.to_s + " " + bounds.maxY.to_s + " " + bounds.maxZ.to_s + "\n"
-    file.puts "\tradius " + bounds.radius.to_s + "\n"
+    file.puts "\tcenter #{bounds.centerX} #{bounds.centerY} #{bounds.centerZ}\n"
+    file.puts "\tAABBMin #{bounds.minX} #{bounds.minY} #{bounds.minZ}\n"
+    file.puts "\tAABBMax #{bounds.maxX} #{bounds.maxY} #{bounds.maxZ}\n"
+    file.puts "\tradius #{bounds.radius}\n"
     file.puts "}\n"
   end
 
@@ -50,119 +52,84 @@ class DrawableExporter
     file.puts "Version 11 13\n"
     file.puts "{"
     file.puts "\tSkinned 0\n"
-    file.puts "\tBounds " + (materials.length + 1).to_s + "\n\t{\n"
+    file.puts "\tBounds #{(materials.length + 1)}\n\t{\n"
     materials.each do |material|
-      file.puts "\t\t" + bounds.centerX.to_s + " " + bounds.centerY.to_s + " " + bounds.centerZ.to_s + " " + bounds.radius.to_s + "\n"
+      file.puts "\t\t#{bounds.centerX} #{bounds.centerY} #{bounds.centerZ} #{bounds.radius}\n"
     end
-    file.puts "\t\t" + bounds.centerX.to_s + " " + bounds.centerY.to_s + " " + bounds.centerZ.to_s + " " + bounds.radius.to_s + "\n"
+    file.puts "\t\t#{bounds.centerX} #{bounds.centerY} #{bounds.centerZ} #{bounds.radius}\n"
     file.puts "\t}\n"
-    count = 0
-    materials.each do |mat| # Split the model up per material
 
-      # This is where we collect the needed data
-      vertices = [] # Array that keeps track of the verts
-      uvs = [] # Array that keeps track of the verts uv coords
-      normals = [] # Array that keeps track of the verts normals
-      polyArray = [] # Array that keeps track of the polys
-
-      vertCount = [0] # The amount of vertices (This one is incorrect)
-      faceCount = [0] # The amount of faces (Correct)
-
-      curVertexCount = 0
-
-      faces = ent.definition.entities.find_all {|e| e.typename == "Face"} # Get all face enteties
-      faces.each do |face| # For each face
-        if face.material == mat # Check if the face uses this split material
-
-          mesh = face.mesh 5 # Create a trimesh of the face
-
-          polys = mesh.polygons # Get all the polygons of this face
-
-          points = mesh.points # Get all vertices of this mesh
-
-          pointIndex = 1
-          points.each do |p| # For each vertice in this mesh
-            vertIndex = vertices.index p # Check if this vertice is already in the mesh
-
-            uv = mesh.uv_at(pointIndex, true) # Get the UV map of the front face
-            normal = mesh.normal_at pointIndex # Get the normal
-            pointIndex += 1 # Increase the current point index
-
-
-            vertices.push(p) # Add it to the vertice array
-            uvs.push(uv) # Add it to the UV array
-            normals.push(normal)
-          end
-
-          polys.each do |poly| # For all polys
-            if poly[0] < 0
-              poly[0] *= -1
-            end
-            if poly[1] < 0
-              poly[1] *= -1
-            end
-            if poly[2] < 0
-              poly[2] *= -1
-            end
-            p1 = poly[0] - 1 + curVertexCount
-            p2 = poly[1] - 1 + curVertexCount
-            p3 = poly[2] - 1 + curVertexCount
-
-            polyArray.push(p1) #value1)
-            polyArray.push(p2) #value2)
-            polyArray.push(p3) #value3)
-          end
-          faceCount[0] += polys.length # Increase the facecount
-          curVertexCount += points.length
-        end
-      end
-
-      # Print face vert count
-      vertCount[0] = vertices.length
-
-      file.puts "\tMtl " + count.to_s + "\n\t{\n" # TODO: Add index
+    meshes = get_meshes(materials, ent)
+    meshes.each do |mesh|
+      file.puts "\tMtl #{meshes.index mesh}\n\t{\n"
       file.puts "\t\tPrim 0\n\t\t{\n"
-      file.puts "\t\t\tIdx " + (faceCount[0] * 3).to_s + "\n\t\t\t{\n" # TODO: Add index count
-      test = 0
-      curLength = 0
-      polyLine = ""
-      while test < polyArray.length
-        if curLength == 0
-          polyLine += "\t\t\t\t"
+      file.puts "\t\t\tIdx #{mesh.get_face_count}\n\t\t\t{\n"
+      polygon_index = 0
+      cur_length = 0
+      poly_line = ""
+      while polygon_index < mesh.polygons.length
+        if cur_length == 0
+          poly_line += "\t\t\t\t"
         end
-        polyLine += polyArray[test].to_s + " " + polyArray[test + 1].to_s + " " + polyArray[test + 2].to_s + " "
-        curLength += 1
-        if curLength >= 5
-          polyLine += "\n"
-          curLength = 0
+        poly_line += mesh.polygons[polygon_index].to_s + " " + mesh.polygons[polygon_index + 1].to_s + " " + mesh.polygons[polygon_index + 2].to_s + " "
+        cur_length += 1
+        if cur_length >= 5
+          poly_line += "\n"
+          cur_length = 0
         end
 
-        test += 3
+        polygon_index += 3
       end
-      file.puts polyLine
+      file.puts poly_line
       file.puts "\t\t\t}\n"
 
       #verts
-      file.puts "\t\t\tVerts #{vertices.length.to_s}\n\t\t\t{\n"
-      vertexIndex = 0
-      vertices.each do |vert|
-        vertexX = vert.x * 0.0254 * scale
-        vertexY = vert.y * 0.0254 * scale
-        vertexZ = vert.z * 0.0254 * scale
-        normX = normals[vertexIndex].x
-        normY = normals[vertexIndex].y
-        normZ = normals[vertexIndex].z
-        uvU = uvs[vertexIndex].x
-        uvV = uvs[vertexIndex].y
-        file.puts "\t\t\t\t#{'%.8f' % vertexX} #{'%.8f' % vertexY} #{'%.8f' % vertexZ} / #{'%.8f' % normX} #{'%.8f' % normY} #{'%.8f' % normZ} / 255 255 255 255 / 0.0 0.0 0.0 0.0 / #{'%.8f' % uvU} #{'%.8f' % uvV} / 0.0 0.0 / 0.0 0.0 / 0.0 0.0 / 0.0 0.0 / 0.0 0.0\n"
-        vertexIndex += 1
+      file.puts "\t\t\tVerts #{mesh.vertices.length.to_s}\n\t\t\t{\n"
+      vertex_index = 0
+      mesh.vertices.each do |vertex|
+        vertex_x = vertex.x * 0.0254 * scale
+        vertex_y = vertex.y * 0.0254 * scale
+        vertex_z = vertex.z * 0.0254 * scale
+        norm_x = mesh.normals[vertex_index].x
+        norm_y = mesh.normals[vertex_index].y
+        norm_z = mesh.normals[vertex_index].z
+        uv_u = mesh.uvs[vertex_index].x
+        uv_v = mesh.uvs[vertex_index].y
+        file.puts "\t\t\t\t#{'%.8f' % vertex_x} #{'%.8f' % vertex_y} #{'%.8f' % vertex_z} / #{'%.8f' % norm_x} #{'%.8f' % norm_y} #{'%.8f' % norm_z} / 255 255 255 255 / 0.0 0.0 0.0 0.0 / #{'%.8f' % uv_u} #{'%.8f' % uv_v} / 0.0 0.0 / 0.0 0.0 / 0.0 0.0 / 0.0 0.0 / 0.0 0.0\n"
+        vertex_index += 1
       end
       file.puts "\t\t\t}\n"
       file.puts "\t\t}\n"
       file.puts "\t}\n"
-      count += 1
     end
+
     file.puts "}\n"
+  end
+
+  def get_meshes(materials, entity)
+    meshes = []
+    faces = entity.definition.entities.find_all {|e| e.typename == "Face"} # Get all face enteties
+    materials.each do |material|
+      meshes.push(get_mesh(material, faces))
+    end
+    meshes
+  end
+
+  def get_mesh(material, faces)
+    faces_for_material = get_faces_for_material(faces, material)
+    Mesh.new(faces_for_material)
+  end
+
+  def get_faces_for_material(all_faces, material)
+    faces = []
+
+    all_faces.each do |face|
+      if face.material == material
+        faces.push(face)
+      end
+    end
+
+    faces
   end
 
 end
