@@ -87,6 +87,7 @@ UI.add_context_menu_handler do |menu|
 end
 
 def save_model
+  drawable_export = DrawableExporter.new()
   selection = get_selected_components[0]
   model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
   output_path = UI.savepanel("Export location", nil, "#{model_name}.odr")
@@ -94,7 +95,7 @@ def save_model
   if output_path
     model_name = File.basename(output_path, ".*")
     output_dir = File.dirname(output_path)
-    export_odr(model_name, selection, GetScale(), output_dir)
+    drawable_export.export(model_name, selection, GetScale(), output_dir)
   end
 end
 

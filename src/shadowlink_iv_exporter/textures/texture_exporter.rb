@@ -1,4 +1,4 @@
-require 'shadowlink_iv_exporter/mip_map_level_calculator'
+require 'shadowlink_iv_exporter/utils/mip_map_level_calculator'
 
 def export_entities_textures(entities, export_path)
   entities.each do |ent|
