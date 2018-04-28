@@ -40,3 +40,5 @@ export_test
 # Sketchup extension package
 *.rbz
 
+Gemfile.lock
+

@@ -17,7 +17,7 @@ def export_open_formats(file, dictionary_name, materials)
       file.puts "\tgrcTexture"
       file.puts "\t{"
       file.puts "\t\tType regular"
-      file.puts "\t\tName #{dictionary_name}\\#{material.texture.filename}"
+      file.puts "\t\tName #{dictionary_name}\\#{get_texture_name(material)}#{get_texture_extension(material)}"
       file.puts "\t\tMipMaps #{mipmap_level}"
       file.puts "\t\tPixelFormat DXT1" #TODO: Define PixelFormat
       file.puts "\t}"
@@ -26,6 +26,14 @@ def export_open_formats(file, dictionary_name, materials)
     end
   end
   file.puts "}"
+end
+
+def get_texture_name(material)
+  stripTexName(material.texture.filename)
+end
+
+def get_texture_extension(material)
+  File.extname(material.texture.filename)
 end
 
 def export_entity_textures(ent, export_path)
@@ -40,7 +48,7 @@ def export_entity_textures(ent, export_path)
 
   createDir(dictionary_path)
   materials.each do |material|
-    material.texture.write("#{dictionary_path}/#{stripTexName(material.texture.filename)}.png", true)
+    material.texture.write("#{dictionary_path}/#{get_texture_name(material)}#{get_texture_extension(material)}", true)
   end
 end
 
