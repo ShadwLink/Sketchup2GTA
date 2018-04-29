@@ -37,7 +37,7 @@ def export_scene(export_path)
       puts "Exporting wdr " + getFileName(ent)
       export(ent, materials, scale, export_path)
       puts "Exporting wbd " + getFileName(ent)
-      export_obn(ent, scale, export_path)
+      export(ent, scale, export_path)
       puts "Exporting tex " + getFileName(ent)
       export(ent, export_path)
     end

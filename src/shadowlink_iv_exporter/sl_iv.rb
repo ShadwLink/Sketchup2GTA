@@ -4,7 +4,6 @@ require 'shadowlink_iv_exporter/plugin_settings.rb'
 Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/bounds/bounds_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/selection/SelectionDialog.rb')
 Sketchup.load('shadowlink_iv_exporter/drawable/drawable_dictionary_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/bounds/bounds_dictionary_exporter.rb')
@@ -147,7 +146,8 @@ def save_collision
   if output_path
     model_name = File.basename(output_path, ".*")
     output_dir = File.dirname(output_path)
-    export_obn(model_name, selection, GetScale(), output_dir)
+    collision_exporter = @version_selection.get_collision_exporter
+    collision_exporter.export(model_name, selection, GetScale(), output_dir)
   end
 end
 
