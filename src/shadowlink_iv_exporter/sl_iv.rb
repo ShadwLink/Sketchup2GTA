@@ -2,7 +2,6 @@ require 'shadowlink_iv_exporter/version_selection.rb'
 require 'shadowlink_iv_exporter/plugin_settings.rb'
 
 Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/bounds/bounds_exporter.rb')
@@ -175,8 +174,9 @@ def save_ide
 end
 
 def save_textures
+  texture_exporter = @version_selection.get_texture_exporter
   output_dir = UI.select_directory(title: "Select Output Directory")
-  export_entities_textures(get_selected_components, output_dir)
+  texture_exporter.export(get_selected_components, output_dir)
 end
 
 def save_scene

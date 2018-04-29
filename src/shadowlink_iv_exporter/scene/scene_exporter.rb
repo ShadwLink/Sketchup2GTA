@@ -39,7 +39,7 @@ def export_scene(export_path)
       puts "Exporting wbd " + getFileName(ent)
       export_obn(ent, scale, export_path)
       puts "Exporting tex " + getFileName(ent)
-      export_entities_textures(ent, export_path)
+      export(ent, export_path)
     end
   end
 

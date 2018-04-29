@@ -1,5 +1,6 @@
 require "shadowlink_iv_exporter/drawable/iv_drawable_exporter"
 require "shadowlink_iv_exporter/drawable/v_drawable_exporter"
+require "shadowlink_iv_exporter/textures/iv_texture_exporter"
 require "shadowlink_iv_exporter/plugin_settings"
 
 class VersionSelection
@@ -24,6 +25,17 @@ class VersionSelection
       VDrawableExporter.new()
     else
       IVDrawableExporter.new()
+    end
+  end
+
+  def get_texture_exporter
+    case get_selected_version
+    when :GTA_IV
+      IVTextureExporter.new()
+    when :GTA_V
+      IVTextureExporter.new()
+    else
+      IVTextureExporter.new()
     end
   end
 
