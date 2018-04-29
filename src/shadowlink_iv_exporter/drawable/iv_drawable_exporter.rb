@@ -1,6 +1,6 @@
 require 'shadowlink_iv_exporter/mesh.rb'
 
-class DrawableExporter
+class IVDrawableExporter
 
   def export(model_name, ent, scale, export_path)
     materials = get_materials_for_entity(ent)

@@ -4,7 +4,6 @@ Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/drawable/drawable_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/bounds/bounds_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/selection/SelectionDialog.rb')
 Sketchup.load('shadowlink_iv_exporter/drawable/drawable_dictionary_exporter.rb')
@@ -55,7 +54,7 @@ if (not file_loaded?("sl_iv.rb"))
 
   version_submenu = UI.menu("Plugins").add_submenu("GTA Version")
   iv_item = version_submenu.add_item("IV") {@version_selection.set_selected_version(:GTA_IV)}
-  status = version_submenu.set_validation_proc(iv_item) {
+  version_submenu.set_validation_proc(iv_item) {
     if @version_selection.get_selected_version == :GTA_IV
       MF_CHECKED
     else
@@ -64,7 +63,7 @@ if (not file_loaded?("sl_iv.rb"))
   }
 
   v_item = version_submenu.add_item("V") {@version_selection.set_selected_version(:GTA_V)}
-  status = version_submenu.set_validation_proc(v_item) {
+  version_submenu.set_validation_proc(v_item) {
     if @version_selection.get_selected_version == :GTA_V
       MF_CHECKED
     else

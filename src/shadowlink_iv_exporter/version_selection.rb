@@ -1,3 +1,6 @@
+require "shadowlink_iv_exporter/drawable/iv_drawable_exporter"
+require "shadowlink_iv_exporter/drawable/v_drawable_exporter"
+
 class VersionSelection
 
   def initialize
@@ -13,7 +16,11 @@ class VersionSelection
   end
 
   def get_model_exporter
-    DrawableExporter.new()
+    if @selected_version == :GTA_IV
+      IVDrawableExporter.new()
+    elsif @selected_version == :GTA_V
+      VDrawableExporter.new()
+    end
   end
 
 end
