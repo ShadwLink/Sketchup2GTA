@@ -10,6 +10,11 @@ Sketchup.load('shadowlink_iv_exporter/bounds/bounds_dictionary_exporter.rb')
 
 MAX_DECIMALS = 8
 
+@selected_game = :GTA_IV
+
+:GTA_IV
+:GTA_V
+
 def selected_component
   ss = Sketchup.active_model.selection
   groups = ss.find_all {|group| group.typename == "ComponentInstance"} # Get all group enteties
@@ -42,12 +47,35 @@ def selected_groups
 end
 
 if (not file_loaded?("sl_iv.rb"))
-  submenu = UI.menu("Plugins").add_submenu("IV Export")
-  submenu.add_item("Place car") {place_car}
-  submenu.add_item("Export scene") {save_scene}
-  submenu.add_item("Export wpl") {save_wpl}
-  submenu.add_separator
-  submenu.add_item("Help") {show_help}
+  placement_submenu = UI.menu("Plugins").add_submenu("IV Export")
+  placement_submenu.add_item("Place car") {place_car}
+  placement_submenu.add_item("Export scene") {save_scene}
+  placement_submenu.add_item("Export wpl") {save_wpl}
+  placement_submenu.add_separator
+  placement_submenu.add_item("Help") {show_help}
+
+  version_submenu = UI.menu("Plugins").add_submenu("GTA Version")
+  iv_item = version_submenu.add_item("IV") {set_selected_game(:GTA_IV)}
+  status = version_submenu.set_validation_proc(iv_item) {
+    if @selected_game == :GTA_IV
+      MF_CHECKED
+    else
+      MF_UNCHECKED
+    end
+  }
+
+  v_item = version_submenu.add_item("V") {set_selected_game(:GTA_V)}
+  status = version_submenu.set_validation_proc(v_item) {
+    if @selected_game == :GTA_V
+      MF_CHECKED
+    else
+      MF_UNCHECKED
+    end
+  }
+end
+
+def set_selected_game(game)
+  @selected_game = game
 end
 
 UI.add_context_menu_handler do |menu|
