@@ -1,4 +1,5 @@
 require 'shadowlink_iv_exporter/version_selection.rb'
+require 'shadowlink_iv_exporter/plugin_settings.rb'
 
 Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
@@ -11,7 +12,7 @@ Sketchup.load('shadowlink_iv_exporter/bounds/bounds_dictionary_exporter.rb')
 
 MAX_DECIMALS = 8
 
-@version_selection = VersionSelection.new()
+@version_selection = VersionSelection.new(PluginSettings.new())
 
 def selected_component
   ss = Sketchup.active_model.selection
