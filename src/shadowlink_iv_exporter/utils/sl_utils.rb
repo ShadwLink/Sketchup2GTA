@@ -1,3 +1,5 @@
+require 'shadowlink_iv_exporter/mesh.rb'
+
 class Float
   def round_to(x)
     (self * 10 ** x).round.to_f / 10 ** x
@@ -158,4 +160,30 @@ def get_model_name(ent)
     model_name = ent.definition.name
   end
   model_name
+end
+
+def get_meshes(materials, entity)
+  meshes = []
+  faces = entity.definition.entities.find_all {|e| e.typename == "Face"} # Get all face enteties
+  materials.each do |material|
+    meshes.push(get_mesh(material, faces))
+  end
+  meshes
+end
+
+def get_mesh(material, faces)
+  faces_for_material = get_faces_for_material(faces, material)
+  Mesh.new(faces_for_material)
+end
+
+def get_faces_for_material(all_faces, material)
+  faces = []
+
+  all_faces.each do |face|
+    if face.material == material
+      faces.push(face)
+    end
+  end
+
+  faces
 end

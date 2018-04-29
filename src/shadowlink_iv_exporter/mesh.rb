@@ -38,7 +38,7 @@ class Mesh
     end
   end
 
-  def get_face_count
+  def get_indices_count
     @face_count[0] * 3
   end
 

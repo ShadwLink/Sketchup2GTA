@@ -1,4 +1,4 @@
-require 'shadowlink_iv_exporter/mesh.rb'
+require 'shadowlink_iv_exporter/utils/sl_utils.rb'
 
 class IVDrawableExporter
 
@@ -63,7 +63,7 @@ class IVDrawableExporter
     meshes.each do |mesh|
       file.puts "\tMtl #{meshes.index mesh}\n\t{\n"
       file.puts "\t\tPrim 0\n\t\t{\n"
-      file.puts "\t\t\tIdx #{mesh.get_face_count}\n\t\t\t{\n"
+      file.puts "\t\t\tIdx #{mesh.get_indices_count}\n\t\t\t{\n"
       polygon_index = 0
       cur_length = 0
       poly_line = ""
@@ -104,32 +104,6 @@ class IVDrawableExporter
     end
 
     file.puts "}\n"
-  end
-
-  def get_meshes(materials, entity)
-    meshes = []
-    faces = entity.definition.entities.find_all {|e| e.typename == "Face"} # Get all face enteties
-    materials.each do |material|
-      meshes.push(get_mesh(material, faces))
-    end
-    meshes
-  end
-
-  def get_mesh(material, faces)
-    faces_for_material = get_faces_for_material(faces, material)
-    Mesh.new(faces_for_material)
-  end
-
-  def get_faces_for_material(all_faces, material)
-    faces = []
-
-    all_faces.each do |face|
-      if face.material == material
-        faces.push(face)
-      end
-    end
-
-    faces
   end
 
 end
