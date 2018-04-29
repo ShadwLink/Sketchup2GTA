@@ -96,25 +96,6 @@ def getStableHash(str)
   hash
 end
 
-def centerAxis()
-  model = Sketchup.active_model
-  selection = model.selection
-
-  groups = selection.find_all {|group| group.typename == "Group"} # Get all group enteties
-
-  groups.each do |g|
-    bounds = g.local_bounds
-    point = Geom::Point3d.new bounds.center[0] * -1, bounds.center[1] * -1, 0
-
-    t = Geom::Transformation.new point
-
-    g = g.move! t
-
-    g.explode
-  end
-
-end
-
 def getFileName(ent)
   name = ent.name
   if name == ""

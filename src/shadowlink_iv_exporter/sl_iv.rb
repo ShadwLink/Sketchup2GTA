@@ -1,3 +1,5 @@
+require 'shadowlink_iv_exporter/version_selection.rb'
+
 Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/textures/texture_exporter.rb')
 Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
@@ -10,10 +12,7 @@ Sketchup.load('shadowlink_iv_exporter/bounds/bounds_dictionary_exporter.rb')
 
 MAX_DECIMALS = 8
 
-@selected_game = :GTA_IV
-
-:GTA_IV
-:GTA_V
+@version_selection = VersionSelection.new()
 
 def selected_component
   ss = Sketchup.active_model.selection
@@ -55,37 +54,27 @@ if (not file_loaded?("sl_iv.rb"))
   placement_submenu.add_item("Help") {show_help}
 
   version_submenu = UI.menu("Plugins").add_submenu("GTA Version")
-  iv_item = version_submenu.add_item("IV") {set_selected_game(:GTA_IV)}
+  iv_item = version_submenu.add_item("IV") {@version_selection.set_selected_version(:GTA_IV)}
   status = version_submenu.set_validation_proc(iv_item) {
-    if @selected_game == :GTA_IV
+    if @version_selection.get_selected_version == :GTA_IV
       MF_CHECKED
     else
       MF_UNCHECKED
     end
   }
 
-  v_item = version_submenu.add_item("V") {set_selected_game(:GTA_V)}
+  v_item = version_submenu.add_item("V") {@version_selection.set_selected_version(:GTA_V)}
   status = version_submenu.set_validation_proc(v_item) {
-    if @selected_game == :GTA_V
+    if @version_selection.get_selected_version == :GTA_V
       MF_CHECKED
     else
       MF_UNCHECKED
     end
   }
-end
-
-def set_selected_game(game)
-  @selected_game = game
 end
 
 UI.add_context_menu_handler do |menu|
-  if selected_component == 0
-    if selected_groups == 1
-      menu.add_separator
-      submenu = menu.add_submenu("AimSpit Utils")
-      submenu.add_item("Center group") {centerAxis}
-    end
-  elsif selected_component == 1
+  if selected_component == 1
     menu.add_separator
     submenu = menu.add_submenu("IV Export")
 
@@ -115,7 +104,7 @@ UI.add_context_menu_handler do |menu|
 end
 
 def save_model
-  drawable_export = DrawableExporter.new()
+  drawable_export = @version_selection.get_model_exporter
   selection = get_selected_components[0]
   model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
   output_path = UI.savepanel("Export location", nil, "#{model_name}.odr")
