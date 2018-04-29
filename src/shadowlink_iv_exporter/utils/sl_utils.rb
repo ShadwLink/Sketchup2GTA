@@ -187,3 +187,28 @@ def get_faces_for_material(all_faces, material)
 
   faces
 end
+
+def get_texture_name(material)
+  stripTexName(material.texture.filename)
+end
+
+def get_texture_extension(material)
+  File.extname(material.texture.filename)
+end
+
+def get_materials_for_entity(ent)
+  materials = []
+
+  faces = ent.definition.entities.find_all {|e| e.typename == "Face"}
+  faces.each do |face|
+    if face.material != nil
+      unless materials.index face.material
+        if face.material.texture != nil
+          materials.push(face.material)
+        end
+      end
+    end
+  end
+
+  materials
+end
