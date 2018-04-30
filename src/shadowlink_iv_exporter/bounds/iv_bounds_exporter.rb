@@ -92,11 +92,11 @@ class IVBoundsExporter
     verts
   end
 
-  def get_polys(ent, verts)
-    polyArray = [] # Array that keeps track of the polys
+  def get_polys(ent, vertices)
+    poly_array = []
 
-    faces = ent.definition.entities.find_all {|e| e.typename == "Face"} # Get all face enteties
-    faces.each do |face| # For each face
+    faces = ent.definition.entities.find_all {|e| e.typename == "Face"}
+    faces.each do |face|
       mesh = face.mesh 5 # Create a trimesh of the face
 
       polys = mesh.polygons # Get all the polygons of this face
@@ -104,37 +104,26 @@ class IVBoundsExporter
       points = mesh.points # Get all vertices of this mesh
 
       polys.each do |poly| # For all polys
+        poly_a = poly[0].abs - 1
+        poly_b = poly[1].abs - 1
+        poly_c = poly[2].abs - 1
 
-        if poly[0] < 0
-          poly[0] *= -1
-        end
-        if poly[1] < 0
-          poly[1] *= -1
-        end
-        if poly[2] < 0
-          poly[2] *= -1
-        end
+        pointTest1 = points[poly_a]
+        pointTest2 = points[poly_b]
+        pointTest3 = points[poly_c]
 
-        poly[0] -= 1
-        poly[1] -= 1
-        poly[2] -= 1
-
-        pointTest1 = points[poly[0]]
-        pointTest2 = points[poly[1]]
-        pointTest3 = points[poly[2]]
-
-        p1 = verts.index pointTest1
-        p2 = verts.index pointTest2
-        p3 = verts.index pointTest3
+        p1 = vertices.index pointTest1
+        p2 = vertices.index pointTest2
+        p3 = vertices.index pointTest3
 
         newPoly = Array.new(3)
         newPoly[0] = p1
         newPoly[1] = p2
         newPoly[2] = p3
-        polyArray.push(newPoly)
+        poly_array.push(newPoly)
       end
     end
-    polyArray
+    poly_array
   end
 
 end
