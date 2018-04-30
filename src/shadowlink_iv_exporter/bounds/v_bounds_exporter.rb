@@ -1,3 +1,5 @@
+require 'shadowlink_iv_exporter/bounds/collision_model'
+
 class VBoundsExporter
 
   def export(model_name, ent, scale, export_path)
@@ -13,6 +15,7 @@ class VBoundsExporter
 
   def export_bounds(file, ent, scale)
     bounds = Bounds.new(ent)
+    collision_model = CollisionModel.new(ent)
 
     file.puts "{"
     file.puts "\tType BoundComposite"
@@ -35,15 +38,15 @@ class VBoundsExporter
     file.puts "\t\t\tCG #{bounds.centerX} #{bounds.centerY} #{bounds.centerZ}"
 
     # Write polys
-    polys = []
-    file.puts "\t\t\tPolygons #{polys.length}"
+    polygons = collision_model.polygons
+    file.puts "\t\t\tPolygons #{polygons.length}"
     file.puts "\t\t\t{"
-    polys.each_with_index do |poly, index|
+    polygons.each_with_index do |poly, index|
       file.puts "\t\t\t\tTri #{index}"
       file.puts "\t\t\t\t{"
-      file.puts "\t\t\t\t\tVertices 94 96 52"
-      file.puts "\t\t\t\t\tSiblings -1 1 3"
-      file.puts "\t\t\t\t\tMaterialIndex 46"
+      file.puts "\t\t\t\t\tVertices #{poly.a} #{poly.b} #{poly.c}"
+      file.puts "\t\t\t\t\tSiblings #{poly.sibling(0)} #{poly.sibling(1)} #{poly.sibling(2)}"
+      file.puts "\t\t\t\t\tMaterialIndex #{poly.material_index}"
       file.puts "\t\t\t\t}"
     end
     file.puts "\t\t\t}"
@@ -51,7 +54,7 @@ class VBoundsExporter
     file.puts "\t\t\tGeometryCenter #{bounds.centerX} #{bounds.centerY} #{bounds.centerZ} #{bounds.radius}"
 
     # Write vertices
-    vertices = []
+    vertices = collision_model.vertices
     file.puts "\t\t\tVertices #{vertices.length}"
     file.puts "\t\t\t{"
     vertices.each do |vertex|
@@ -89,7 +92,7 @@ class VBoundsExporter
     file.puts "\t\t\tMaterialColors #{material_colors.length}"
     file.puts "\t\t\t{"
     material_colors.each do |material_color|
-      file.puts "\t\t\t\t#{material_color.r} #{material_color.g} #{material_color.b} #{material_color.a}"
+      file.puts "\t\t\t\t#{material_color.r} #{material_color.g} #{material_color.y} #{material_color.x}"
     end
     file.puts "\t\t\t}"
 
