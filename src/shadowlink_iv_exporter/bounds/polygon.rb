@@ -1,18 +1,28 @@
 class Polygon
 
-  attr_reader :a
-  attr_reader :b
-  attr_reader :c
   attr_reader :material_index
 
   def initialize(a, b, c)
-    @a = a
-    @b = b
-    @c = c
+    @vertices = [3]
+    @vertices[0] = a
+    @vertices[1] = b
+    @vertices[2] = c
 
     @siblings = []
 
     @material_index = 0
+  end
+
+  def a
+    @vertices[0]
+  end
+
+  def b
+    @vertices[1]
+  end
+
+  def c
+    @vertices[2]
   end
 
   def add_sibling(sibling_index)
@@ -25,6 +35,10 @@ class Polygon
       sibling = @siblings[index]
     end
     sibling
+  end
+
+  def is_sibling(a, b)
+    @vertices.include? a and @vertices.include? b
   end
 
 end

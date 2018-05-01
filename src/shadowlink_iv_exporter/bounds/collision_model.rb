@@ -31,11 +31,30 @@ class CollisionModel
         @polygons.push(Polygon.new(a, b, c))
       end
 
+      @polygons.each do |polygon|
+        polygon.add_sibling find_sibling(polygon, polygon.a, polygon.b)
+        polygon.add_sibling find_sibling(polygon, polygon.b, polygon.c)
+        polygon.add_sibling find_sibling(polygon, polygon.c, polygon.a)
+        puts "siblings #{polygon.sibling(0)} #{polygon.sibling(1)} #{polygon.sibling(2)}"
+      end
+
     end
   end
 
   def get_index_for_vertex(vertex)
     @vertices.index vertex
+  end
+
+  def find_sibling(polygon, polygon_a, polygon_b)
+    sibling_index = -1
+    @polygons.each_with_index do |other_polygon, index|
+      if other_polygon != polygon
+        if other_polygon.is_sibling(polygon_a, polygon_b)
+          sibling_index = index
+        end
+      end
+    end
+    sibling_index
   end
 
 end
