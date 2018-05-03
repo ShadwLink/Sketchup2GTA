@@ -44,7 +44,7 @@ def selected_groups
 end
 
 if (not file_loaded?("sl_iv.rb"))
-  placement_submenu = UI.menu("Plugins").add_submenu("IV Export")
+  placement_submenu = UI.menu("Plugins").add_submenu("GTA Export")
   placement_submenu.add_item("Place car") {place_car}
   placement_submenu.add_item("Export scene") {save_scene}
   placement_submenu.add_item("Export wpl") {save_wpl}
@@ -74,7 +74,7 @@ end
 UI.add_context_menu_handler do |menu|
   if selected_component == 1
     menu.add_separator
-    submenu = menu.add_submenu("IV Export")
+    submenu = menu.add_submenu("GTA Export")
 
     submenu.add_item("Export ODR") {save_model}
     submenu.add_item("Export OBN") {save_collision}
@@ -115,61 +115,81 @@ def save_model
 end
 
 def save_odd
-  selection = get_selected_components
-  output_path = UI.savepanel("Export location", nil, "")
+  if @version_selection.get_selected_version == :GTA_IV
+    selection = get_selected_components
+    output_path = UI.savepanel("Export location", nil, "")
 
-  if output_path
-    odd_name = File.basename(output_path, ".*")
-    output_dir = File.dirname(output_path)
-    exporter = DrawableDictionaryExporter.new
-    exporter.export(odd_name, output_dir, selection)
+    if output_path
+      odd_name = File.basename(output_path, ".*")
+      output_dir = File.dirname(output_path)
+      exporter = DrawableDictionaryExporter.new
+      exporter.export(odd_name, output_dir, selection)
+    end
+  else
+    UI::messagebox("ODD export not supported for GTA: V")
   end
 end
 
 def save_obd
-  selection = get_selected_components
-  output_path = UI.savepanel("Export location", nil, "")
+  if @version_selection.get_selected_version == :GTA_IV
+    selection = get_selected_components
+    output_path = UI.savepanel("Export location", nil, "")
 
-  if output_path
-    obd_name = File.basename(output_path, ".*")
-    output_dir = File.dirname(output_path)
-    exporter = BoundsDictionaryExporter.new
-    exporter.export(obd_name, output_dir, selection)
+    if output_path
+      obd_name = File.basename(output_path, ".*")
+      output_dir = File.dirname(output_path)
+      exporter = BoundsDictionaryExporter.new
+      exporter.export(obd_name, output_dir, selection)
+    end
+  else
+    UI::messagebox("OBD export not supported for GTA: V")
   end
 end
 
 def save_collision
-  selection = get_selected_components[0]
-  model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
-  output_path = UI.savepanel("Export location", nil, "#{model_name}.obn")
+  if @version_selection.get_selected_version == :GTA_IV
+    selection = get_selected_components[0]
+    model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
+    output_path = UI.savepanel("Export location", nil, "#{model_name}.obn")
 
-  if output_path
-    model_name = File.basename(output_path, ".*")
-    output_dir = File.dirname(output_path)
-    collision_exporter = @version_selection.get_collision_exporter
-    collision_exporter.export(model_name, selection, GetScale(), output_dir)
+    if output_path
+      model_name = File.basename(output_path, ".*")
+      output_dir = File.dirname(output_path)
+      collision_exporter = @version_selection.get_collision_exporter
+      collision_exporter.export(model_name, selection, GetScale(), output_dir)
+    end
+  else
+    UI::messagebox("OBN export not supported for GTA: V")
   end
 end
 
 def save_wpl
-  selection = get_selected_components
-  output_path = UI.savepanel("Export location", nil, "#{Sketchup.active_model.title}.wpl")
+  if @version_selection.get_selected_version == :GTA_IV
+    selection = get_selected_components
+    output_path = UI.savepanel("Export location", nil, "#{Sketchup.active_model.title}.wpl")
 
-  if output_path
-    wpl_name = File.basename(output_path, ".*")
-    output_dir = File.dirname(output_path)
-    export_wpl(selection, output_dir, wpl_name)
+    if output_path
+      wpl_name = File.basename(output_path, ".*")
+      output_dir = File.dirname(output_path)
+      export_wpl(selection, output_dir, wpl_name)
+    end
+  else
+    UI::messagebox("WPL export not supported for GTA: V")
   end
 end
 
 def save_ide
-  selection = get_selected_unique_components
-  output_path = UI.savepanel("Export location", nil, "#{Sketchup.active_model.title}.ide")
+  if @version_selection.get_selected_version == :GTA_IV
+    selection = get_selected_unique_components
+    output_path = UI.savepanel("Export location", nil, "#{Sketchup.active_model.title}.ide")
 
-  if output_path
-    ide_name = File.basename(output_path, ".*")
-    output_dir = File.dirname(output_path)
-    export_ide(selection, output_dir, ide_name)
+    if output_path
+      ide_name = File.basename(output_path, ".*")
+      output_dir = File.dirname(output_path)
+      export_ide(selection, output_dir, ide_name)
+    end
+  else
+    UI::messagebox("IDE export not supported for GTA: V")
   end
 end
 

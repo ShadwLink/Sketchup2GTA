@@ -71,7 +71,7 @@ class VBoundsExporter
     file.puts "\t\t\t}"
 
     # Write materials
-    materials = []
+    materials = collision_model.materials
     file.puts "\t\t\tMaterials #{materials.length}"
     file.puts "\t\t\t{"
     materials.each_with_index do |material, index|
@@ -82,17 +82,17 @@ class VBoundsExporter
       file.puts "\t\t\t\t\tRoomId 0"
       file.puts "\t\t\t\t\tPedDensity 0"
       file.puts "\t\t\t\t\tPolyFlags FORMATS_EMPTY_FLAGS"
-      file.puts "\t\t\t\t\tMaterialColorIndex 1"
+      file.puts "\t\t\t\t\tMaterialColorIndex 0"
       file.puts "\t\t\t\t}"
     end
     file.puts "\t\t\t}"
 
     # Write materials
-    material_colors = []
+    material_colors = collision_model.material_colors
     file.puts "\t\t\tMaterialColors #{material_colors.length}"
     file.puts "\t\t\t{"
     material_colors.each do |material_color|
-      file.puts "\t\t\t\t#{material_color.r} #{material_color.g} #{material_color.y} #{material_color.x}"
+      file.puts "\t\t\t\t#{material_color.r} #{material_color.g} #{material_color.b} #{material_color.a}"
     end
     file.puts "\t\t\t}"
 

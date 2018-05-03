@@ -1,14 +1,20 @@
 require 'shadowlink_iv_exporter/bounds/vertex'
 require 'shadowlink_iv_exporter/bounds/polygon'
+require 'shadowlink_iv_exporter/bounds/material_color'
 
 class CollisionModel
 
   attr_reader :vertices
   attr_reader :polygons
+  attr_reader :materials
+  attr_reader :material_colors
 
   def initialize(ent)
     @vertices = []
     @polygons = []
+    @materials = [1]
+    @material_colors = []
+    @material_colors.push(MaterialColor.new())
 
     faces = ent.definition.entities.find_all {|e| e.typename == "Face"}
     faces.each do |face|
@@ -37,6 +43,11 @@ class CollisionModel
         polygon.add_sibling find_sibling(polygon, polygon.c, polygon.a)
         puts "siblings #{polygon.sibling(0)} #{polygon.sibling(1)} #{polygon.sibling(2)}"
       end
+
+      @bounds = Bounds.new(ent)
+      scaleX = (@bounds.maxX - @bounds.minX) / 65536.0
+      scaleY = (@bounds.maxY - @bounds.minY) / 65536.0
+      scaleY = (@bounds.maxZ - @bounds.minZ) / 65536.0
 
     end
   end

@@ -1,9 +1,5 @@
 class Vertex
 
-  attr_reader :x
-  attr_reader :y
-  attr_reader :z
-
   attr_reader :r
   attr_reader :g
   attr_reader :b
@@ -14,10 +10,22 @@ class Vertex
     @y = point[1]
     @z = point[2]
 
-    @r = 0
-    @g = 0
-    @b = 0
-    @a = 0
+    @r = 255
+    @g = 255
+    @b = 255
+    @a = 255
+  end
+
+  def x
+    @x * 0.0254 * GetScale()
+  end
+
+  def y
+    @y * 0.0254 * GetScale()
+  end
+
+  def z
+    @z * 0.0254 * GetScale()
   end
 
   def ==(another_vertex)
