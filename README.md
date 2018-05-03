@@ -11,7 +11,6 @@ Supported formats:
   - IDE
 - GTA: V
   - ODR (OpenIV)
-  - OBN (OpenIV)
   - OTD (OpenIV)
 
 ## Setup
@@ -40,7 +39,6 @@ A step by step guide that exports a tutorial scene to GTA can be found on my [we
 - Initial support for V formats
   - ODR
   - OTD
-  - OBN
 
 ##### 0.4.2
 - Use relative file path for OTD export
