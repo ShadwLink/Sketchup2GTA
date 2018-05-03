@@ -1,13 +1,18 @@
-# Sketchup2IV
+# Sketchup 2 GTA
 
-Exports [Sketchup](https://www.sketchup.com/download) models to Grand Theft Auto IV.
+Exports [Sketchup](https://www.sketchup.com/download) models to Grand Theft Auto IV / V.
 
 Supported formats:
-- ODR/ODD (OpenIV)
-- OBN/OBD (OpenIV)
-- OTD (OpenIV)
-- WPL
-- IDE
+- GTA: IV
+  - ODR/ODD (OpenIV)
+  - OBN/OBD (OpenIV)
+  - OTD (OpenIV)
+  - WPL
+  - IDE
+- GTA: V
+  - ODR (OpenIV)
+  - OBN (OpenIV)
+  - OTD (OpenIV)
 
 ## Setup
 
@@ -19,10 +24,23 @@ Installing the plugin is easy, just follow these simple steps:
 
 That's it!
 
+## Usage
+##### Version export format
+To change the export format, you need to open the Extension menu, GTA Version and select one of the versions. By default GTA IV is selected.
+
+##### Export
+Models can be exported by converting them to components. Simply select the component, right click and select GTA Export.
+
 ## Tutorial
 A step by step guide that exports a tutorial scene to GTA can be found on my [website](https://shadow-link.nl/projects/sketchup-iv-exporter/).
 
 ## Version history
+
+##### 0.5.0
+- Initial support for V formats
+  - ODR
+  - OTD
+  - OBN
 
 ##### 0.4.2
 - Use relative file path for OTD export
