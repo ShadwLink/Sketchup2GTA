@@ -16,8 +16,17 @@ namespace Sketchup2GTA
 
             var sketchupPath = args[0];
             Console.WriteLine("Opening " + sketchupPath);
-            
-            var map = new SketchupMapParser().Parse(sketchupPath);
+
+            var startId = 0;
+            if (args.Length == 2)
+            {
+                if (!int.TryParse(args[1], out startId))
+                {
+                    Console.WriteLine("Invalid start ID supplied");
+                }
+            }
+
+            var map = new SketchupMapParser().Parse(sketchupPath, startId);
             foreach (var group in map.Groups)
             {
                 new VcDefinitionExporter().Export(group);

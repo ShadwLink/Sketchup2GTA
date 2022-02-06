@@ -9,8 +9,10 @@ namespace Sketchup2GTA.Parser
 {
     public class SketchupMapParser
     {
-        public GtaMap Parse(String path)
+        public GtaMap Parse(String path, int startId)
         {
+            DefinitionIdGenerator idGenerator = new DefinitionIdGenerator(startId);
+            
             SketchUp skp = new SketchUp();
             if (skp.LoadModel(path))
             {
@@ -21,11 +23,11 @@ namespace Sketchup2GTA.Parser
                     {
                         if (component.Instances.Count > 0)
                         {
-                            Console.WriteLine("Found instance with children " + GetName(placementInstance));
+                            Console.WriteLine("Parsing " + GetName(placementInstance) + " instances: " + component.Instances.Count);
                             Group group = new Group(GetName(placementInstance));
                             foreach (var instance in component.Instances)
                             {
-                                var definition = group.GetOrCreateDefinition(GetName(instance));
+                                var definition = group.GetOrCreateDefinition(idGenerator, GetName(instance));
                                 var gtaInstance = new ObjectInstance(
                                     definition,
                                     new Vector3(

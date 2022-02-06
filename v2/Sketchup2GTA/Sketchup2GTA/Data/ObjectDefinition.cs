@@ -7,8 +7,9 @@ namespace Sketchup2GTA.Data
         public int ID = 0;
         public String Name;
         
-        public ObjectDefinition(String name)
+        public ObjectDefinition(int id, String name)
         {
+            ID = id;
             Name = name;
         }
     }

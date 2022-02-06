@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sketchup2GTA.Parser;
 
 namespace Sketchup2GTA.Data
 {
@@ -14,7 +15,7 @@ namespace Sketchup2GTA.Data
             Name = name;
         }
         
-        public ObjectDefinition GetOrCreateDefinition(String name)
+        public ObjectDefinition GetOrCreateDefinition(DefinitionIdGenerator idGenerator, String name)
         {
             var defIndex = FindIndexOfDefinition(name);
             if (defIndex != -1)
@@ -23,7 +24,7 @@ namespace Sketchup2GTA.Data
             }
             else
             {
-                var def = new ObjectDefinition(name);
+                var def = new ObjectDefinition(idGenerator.GetNextId(), name);
                 Definitions.Add(def);
                 return def;
             }
