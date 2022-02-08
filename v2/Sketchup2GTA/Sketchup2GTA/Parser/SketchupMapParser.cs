@@ -14,7 +14,7 @@ namespace Sketchup2GTA.Parser
             DefinitionIdGenerator idGenerator = new DefinitionIdGenerator(startId);
             
             SketchUp skp = new SketchUp();
-            if (skp.LoadModel(path))
+            if (skp.LoadModel(path, false))
             {
                 GtaMap map = new GtaMap();
                 foreach (var placementInstance in skp.Instances)

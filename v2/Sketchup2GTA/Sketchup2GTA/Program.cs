@@ -1,5 +1,6 @@
 ﻿using System;
 using Sketchup2GTA.Exporters.VC;
+using Sketchup2GTA.ExportModes;
 using Sketchup2GTA.Parser;
 
 namespace Sketchup2GTA
@@ -14,23 +15,26 @@ namespace Sketchup2GTA
                 return;
             }
 
-            var sketchupPath = args[0];
-            Console.WriteLine("Opening " + sketchupPath);
+            var mode = ParseArgs(args);
+            mode?.Perform();
+        }
 
-            var startId = 0;
-            if (args.Length == 2)
+        private static ExportMode ParseArgs(string[] args)
+        {
+            if (args.Length == 0)
             {
-                if (!int.TryParse(args[1], out startId))
-                {
-                    Console.WriteLine("Invalid start ID supplied");
-                }
+                Console.WriteLine("Invalid arguments supplied");
+                return new InvalidExportMode();
             }
 
-            var map = new SketchupMapParser().Parse(sketchupPath, startId);
-            foreach (var group in map.Groups)
+            switch (args[0])
             {
-                new VcDefinitionExporter().Export(group);
-                new VcPlacementExporter().Export(group);
+                case "--data":
+                    return DataExportMode.CreateWithArguments(args);
+                case "--model":
+                    return ModelExportMode.CreateWithArguments(args);
+                default:
+                    return new InvalidExportMode();
             }
         }
     }
