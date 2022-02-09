@@ -1,4 +1,5 @@
 using System;
+using Sketchup2GTA.Parser;
 
 namespace Sketchup2GTA.ExportModes
 {
@@ -13,7 +14,7 @@ namespace Sketchup2GTA.ExportModes
         
         public void Perform()
         {
-            throw new System.NotImplementedException();
+            new SketchupModelParser().Parse(_sketchupPath);
         }
         
         public static ModelExportMode CreateWithArguments(string[] args)
