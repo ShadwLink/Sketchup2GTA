@@ -2,23 +2,21 @@ using System.IO;
 
 namespace Sketchup2GTA.Exporters.Model.RW
 {
-    public class RwClump : RwSection
+    public class RwGeometryList: RwSection
     {
-        public RwClump() : base(0x10)
+        public RwGeometryList() : base(0x1A)
         {
         }
 
         protected override void WriteSection(BinaryWriter bw)
         {
             WriteStruct(bw);
-            bw.Write((uint)1); // Object count
-            bw.Write((uint)0); // Unknown
-            bw.Write((uint)0); // Unknown
+            bw.Write(1);
         }
 
         protected override uint GetSectionSize()
         {
-            return 12;
+            return 4;
         }
     }
 }

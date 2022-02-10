@@ -1,0 +1,59 @@
+using System;
+using System.IO;
+using System.Threading;
+
+namespace Sketchup2GTA.Exporters.Model.RW
+{
+    public class RwGeometry : RwSection
+    {
+        private Data.Model.Model _model;
+
+        public RwGeometry(Data.Model.Model model) : base(0x0F)
+        {
+            _model = model;
+        }
+
+        protected override void WriteSection(BinaryWriter bw)
+        {
+            WriteStruct(bw);
+            bw.Write((ushort)0); // Flags
+            bw.Write((ushort)1); // Unknown
+            bw.Write(_model.GetTotalFaceCount());
+            bw.Write(_model.GetTotalVertexCount());
+            bw.Write(1);
+
+            // Write faces
+            var indices = _model.GetIndices();
+            for (int i = 0; i < indices.Count; i += 3)
+            {
+                bw.Write((ushort)indices[i]);
+                bw.Write((ushort)indices[i + 1]);
+                bw.Write((ushort)0); // TODO: Flags
+                bw.Write((ushort)indices[i + 2]);
+            }
+            
+            // TODO: Bounding sphere
+            bw.Write(0f);
+            bw.Write(0f);
+            bw.Write(0f);
+            bw.Write(0f);
+
+            bw.Write(0); // Unknown
+            bw.Write(0); // Unknown
+            
+            // Write vertices
+            var vertices = _model.GetVertices();
+            foreach (var vertex in vertices)
+            {
+                bw.Write(vertex.X);
+                bw.Write(vertex.Y);
+                bw.Write(vertex.Z);
+            }
+        }
+
+        protected override uint GetSectionSize()
+        {
+            return 16 + (_model.GetTotalFaceCount() / 3 * 8) + 16 + 8 + (_model.GetTotalVertexCount() * 12);
+        }
+    }
+}
