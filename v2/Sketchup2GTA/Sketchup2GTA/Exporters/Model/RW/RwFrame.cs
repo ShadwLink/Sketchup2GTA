@@ -19,10 +19,5 @@ namespace Sketchup2GTA.Exporters.Model.RW
                 bw.Write(_name[i]);
             }
         }
-
-        protected override uint GetSectionSize()
-        {
-            return (uint)_name.Length;
-        }
     }
 }

@@ -48,14 +48,5 @@ namespace Sketchup2GTA.Exporters.Model.RW
                 bw.Write(vertex.Z);
             }
         }
-
-        protected override uint GetSectionSize()
-        {
-            return 16 + // Flags and counters
-                   (_model.GetTotalFaceCount() / 3 * 8) + // Faces
-                   16 + // Bounding sphere
-                   8 + // Some flags?
-                   (_model.GetTotalVertexCount() * 12); // Vertices
-        }
     }
 }

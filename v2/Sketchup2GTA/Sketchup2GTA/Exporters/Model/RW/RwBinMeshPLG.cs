@@ -27,15 +27,5 @@ namespace Sketchup2GTA.Exporters.Model.RW
                 }
             }
         }
-
-        protected override uint GetSectionSize()
-        {
-            int facesSize = 0;
-            foreach (var modelMaterialSplit in _model.MaterialSplits)
-            {
-                facesSize += modelMaterialSplit.Indices.Count * 2;
-            }
-            return (uint)(12 + (_model.MaterialSplits.Count * 8) + facesSize);
-        }
     }
 }

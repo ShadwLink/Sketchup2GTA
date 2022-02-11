@@ -11,6 +11,8 @@ namespace Sketchup2GTA.Exporters.Model.RW
         
         private uint _sectionType;
 
+        private byte[] _sectionData;
+
         protected List<RwSection> _childSections = new List<RwSection>();
         
         public RwSection(uint sectionType)
@@ -18,10 +20,21 @@ namespace Sketchup2GTA.Exporters.Model.RW
             _sectionType = sectionType;
         }
 
+        public RwSection PrepareForWrite()
+        {
+            _sectionData = CreateSectionData();
+            foreach (var childSection in _childSections)
+            {
+                childSection.PrepareForWrite();
+            }
+
+            return this;
+        }
+
         public void Write(BinaryWriter bw)
         {
             WriteHeader(bw);
-            WriteSection(bw);
+            bw.Write(_sectionData);
             WriteChildSections(bw);
         }
 
@@ -45,9 +58,9 @@ namespace Sketchup2GTA.Exporters.Model.RW
             }
         }
 
-        protected virtual uint GetSectionSize()
+        private uint GetSectionSize()
         {
-            return 0;
+            return (uint)_sectionData.Length;
         }
 
         private uint GetTotalSectionSize()
@@ -77,6 +90,17 @@ namespace Sketchup2GTA.Exporters.Model.RW
             var memoryStream = new MemoryStream();
             var bw = new BinaryWriter(memoryStream);
             WriteStructSection(bw);
+            bw.Flush();
+            var data = memoryStream.ToArray();
+            bw.Dispose();
+            return data;
+        }
+
+        private byte[] CreateSectionData()
+        {
+            var memoryStream = new MemoryStream();
+            var bw = new BinaryWriter(memoryStream);
+            WriteSection(bw);
             bw.Flush();
             var data = memoryStream.ToArray();
             bw.Dispose();
