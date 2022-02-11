@@ -1,6 +1,4 @@
-using System;
 using System.IO;
-using System.Threading;
 
 namespace Sketchup2GTA.Exporters.Model.RW
 {
@@ -11,11 +9,11 @@ namespace Sketchup2GTA.Exporters.Model.RW
         public RwGeometry(Data.Model.Model model) : base(0x0F)
         {
             _model = model;
+            AddStructSection();
         }
 
-        protected override void WriteSection(BinaryWriter bw)
+        protected override void WriteStructSection(BinaryWriter bw)
         {
-            WriteStruct(bw);
             bw.Write((ushort)0); // Flags
             bw.Write((ushort)1); // Unknown
             bw.Write(_model.GetTotalFaceCount());
@@ -31,7 +29,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
                 bw.Write((ushort)0); // TODO: Flags
                 bw.Write((ushort)indices[i + 2]);
             }
-            
+
             // TODO: Bounding sphere
             bw.Write(0f);
             bw.Write(0f);
@@ -40,7 +38,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
 
             bw.Write(0); // Unknown
             bw.Write(0); // Unknown
-            
+
             // Write vertices
             var vertices = _model.GetVertices();
             foreach (var vertex in vertices)
@@ -53,7 +51,11 @@ namespace Sketchup2GTA.Exporters.Model.RW
 
         protected override uint GetSectionSize()
         {
-            return 16 + (_model.GetTotalFaceCount() / 3 * 8) + 16 + 8 + (_model.GetTotalVertexCount() * 12);
+            return 16 + // Flags and counters
+                   (_model.GetTotalFaceCount() / 3 * 8) + // Faces
+                   16 + // Bounding sphere
+                   8 + // Some flags?
+                   (_model.GetTotalVertexCount() * 12); // Vertices
         }
     }
 }

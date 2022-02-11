@@ -6,11 +6,11 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         public RwFrameList() : base(0xE)
         {
+            AddStructSection();
         }
-
-        protected override void WriteSection(BinaryWriter bw)
+        
+        protected override void WriteStructSection(BinaryWriter bw)
         {
-            WriteStruct(bw);
             bw.Write((uint)1); // Frame count
             // Frame matrix
             // Row 1
@@ -32,11 +32,6 @@ namespace Sketchup2GTA.Exporters.Model.RW
             // Parent frame
             bw.Write(0xFFFFFFFF);
             bw.Write(0);
-        }
-
-        protected override uint GetSectionSize()
-        {
-            return 60;
         }
     }
 }

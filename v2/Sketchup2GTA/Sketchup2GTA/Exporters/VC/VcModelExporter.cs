@@ -14,15 +14,20 @@ namespace Sketchup2GTA.Exporters.VC
                         .AddSection(
                             new RwExtension()
                                 .AddSection(new RwHAnimPlg())
-                                .AddSection(new RwFrame("Frame"))
+                                .AddSection(new RwFrame("man_build_int"))
                         )
                 )
                 .AddSection(new RwGeometryList()
                     .AddSection(new RwGeometry(model)
                         .AddSection(new RwMaterialList(model))
+                        .AddSection(new RwExtension()
+                            .AddSection(new RwBinMeshPLG(model))
+                        )
                     )
                 )
-                .AddSection(new RwAtomic())
+                .AddSection(new RwAtomic()
+                    .AddSection(new RwExtension())
+                )
                 .AddSection(new RwExtension())
                 .Write(bw);
         }

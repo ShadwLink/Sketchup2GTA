@@ -6,20 +6,15 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         public RwAtomic() : base(0x14)
         {
+            AddStructSection();
         }
 
-        protected override void WriteSection(BinaryWriter bw)
+        protected override void WriteStructSection(BinaryWriter bw)
         {
-            WriteStruct(bw);
             bw.Write(0);
             bw.Write(0);
             bw.Write(5);
             bw.Write(0);
-        }
-
-        protected override uint GetSectionSize()
-        {
-            return 16;
         }
     }
 }
