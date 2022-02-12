@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Sketchup2GTA.Data.Model;
 
@@ -8,7 +9,8 @@ namespace Sketchup2GTA.Exporters.Model.RW
         public RwTexture(MaterialSplit materialSplit) : base(0x06)
         {
             AddStructSection();
-            AddSection(new RwString(materialSplit.Material.TextureName));
+            AddSection(new RwString(
+                materialSplit.Material.TextureName.Substring(0, materialSplit.Material.TextureName.LastIndexOf(".", StringComparison.Ordinal))));
             AddSection(new RwString(""));
             AddSection(new RwExtension());
         }
