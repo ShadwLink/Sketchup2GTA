@@ -12,9 +12,14 @@ namespace Sketchup2GTA.Exporters.Model.RW
             AddStructSection();
         }
 
+        private ushort GetFlags()
+        {
+            return 0x0;
+        }
+
         protected override void WriteStructSection(BinaryWriter bw)
         {
-            bw.Write((ushort)0); // Flags
+            bw.Write(GetFlags()); // Flags
             bw.Write((ushort)1); // Unknown
             bw.Write(_model.GetTotalFaceCount());
             bw.Write(_model.GetTotalVertexCount());

@@ -5,8 +5,14 @@ namespace Sketchup2GTA.Data.Model
 {
     public class Model
     {
+        public string Name;
         public List<MaterialSplit> MaterialSplits = new List<MaterialSplit>();
 
+        public Model(string name)
+        {
+            Name = name;
+        }
+        
         public void AddMaterialSplit(MaterialSplit split)
         {
             MaterialSplits.Add(split);

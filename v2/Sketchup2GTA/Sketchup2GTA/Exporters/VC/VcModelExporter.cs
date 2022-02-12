@@ -14,7 +14,7 @@ namespace Sketchup2GTA.Exporters.VC
                         .AddSection(
                             new RwExtension()
                                 .AddSection(new RwHAnimPlg())
-                                .AddSection(new RwFrame("man_build_int"))
+                                .AddSection(new RwFrame(model.Name))
                         )
                 )
                 .AddSection(new RwGeometryList()

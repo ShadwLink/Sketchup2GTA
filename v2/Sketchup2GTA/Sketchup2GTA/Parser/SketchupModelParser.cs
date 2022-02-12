@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using Sketchup2GTA.Data.Model;
 using SketchUpNET;
@@ -12,6 +12,8 @@ namespace Sketchup2GTA.Parser
     {
         public Model Parse(string path)
         {
+            var modelName = Path.GetFileNameWithoutExtension(path);
+
             SketchUp skp = new SketchUp();
             if (skp.LoadModel(path, true))
             {
@@ -33,7 +35,7 @@ namespace Sketchup2GTA.Parser
                     }
                 }
 
-                Model model = new Model();
+                Model model = new Model(modelName);
 
                 Console.WriteLine("Material Count: " + meshesByMaterial.Count);
                 foreach (var meshByMaterial in meshesByMaterial)
