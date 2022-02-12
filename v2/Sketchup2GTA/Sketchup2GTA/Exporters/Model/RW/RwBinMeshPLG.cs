@@ -16,14 +16,15 @@ namespace Sketchup2GTA.Exporters.Model.RW
             bw.Write(0); // Is tri-strip
             bw.Write(_model.MaterialSplits.Count);
             bw.Write(_model.GetTotalFaceCount());
-            for (var index = 0; index < _model.MaterialSplits.Count; index++)
+            
+            for (int index = 0; index < _model.MaterialSplits.Count; index++)
             {
                 var split = _model.MaterialSplits[index];
                 bw.Write(split.Indices.Count);
                 bw.Write(index);
                 foreach (var faceIndex in split.Indices)
                 {
-                    bw.Write((ushort)faceIndex);
+                    bw.Write(faceIndex);
                 }
             }
         }
