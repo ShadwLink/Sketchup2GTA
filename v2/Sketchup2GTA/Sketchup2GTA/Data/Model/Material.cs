@@ -4,9 +4,12 @@ namespace Sketchup2GTA.Data.Model
     {
         public string TextureName;
 
-        public Material(string textureName)
+        public MaterialColor MaterialColor;
+
+        public Material(string textureName, MaterialColor materialColor)
         {
             TextureName = textureName;
+            MaterialColor = materialColor;
         }
     }
 }

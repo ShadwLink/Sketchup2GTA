@@ -38,7 +38,18 @@ namespace Sketchup2GTA.Parser
                 Console.WriteLine("Material Count: " + meshesByMaterial.Count);
                 foreach (var meshByMaterial in meshesByMaterial)
                 {
-                    MaterialSplit split = new MaterialSplit(new Data.Model.Material(meshByMaterial.Key.MaterialTexture.Name));
+                    var material = meshByMaterial.Key;
+                    MaterialSplit split = new MaterialSplit(
+                        new Data.Model.Material(
+                            material.MaterialTexture.Name,
+                            new MaterialColor(
+                                material.Colour.R,
+                                material.Colour.G,
+                                material.Colour.B,
+                                material.Colour.A
+                            )
+                        )
+                    );
 
                     foreach (var mesh in meshByMaterial.Value)
                     {
@@ -57,8 +68,8 @@ namespace Sketchup2GTA.Parser
                         foreach (var face in mesh.Faces)
                         {
                             split.AddFaceIndex(vertexIndexMapping[face.A]);
-                            split.AddFaceIndex(vertexIndexMapping[face.B]);
                             split.AddFaceIndex(vertexIndexMapping[face.C]);
+                            split.AddFaceIndex(vertexIndexMapping[face.B]);
                         }
                     }
 

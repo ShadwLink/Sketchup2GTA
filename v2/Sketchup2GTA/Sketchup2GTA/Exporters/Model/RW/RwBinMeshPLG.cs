@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace Sketchup2GTA.Exporters.Model.RW
@@ -15,8 +16,9 @@ namespace Sketchup2GTA.Exporters.Model.RW
         {
             bw.Write(0); // Is tri-strip
             bw.Write(_model.MaterialSplits.Count);
-            bw.Write(_model.GetTotalFaceCount());
-            
+            bw.Write(_model.GetTotalIndicesCount());
+
+            int faceOffset = 0;
             for (int index = 0; index < _model.MaterialSplits.Count; index++)
             {
                 var split = _model.MaterialSplits[index];
@@ -24,8 +26,11 @@ namespace Sketchup2GTA.Exporters.Model.RW
                 bw.Write(index);
                 foreach (var faceIndex in split.Indices)
                 {
-                    bw.Write(faceIndex);
+                    bw.Write(faceOffset + faceIndex);
                 }
+
+                faceOffset += split.Vertices.Count;
+                Console.WriteLine("Offset " + faceOffset);
             }
         }
     }

@@ -23,6 +23,17 @@ namespace Sketchup2GTA.Data.Model
             return faceCount;
         }
 
+        public uint GetTotalIndicesCount()
+        {
+            uint indexCount = 0;
+            foreach (var materialSplit in MaterialSplits)
+            {
+                indexCount += (uint)materialSplit.Indices.Count;
+            }
+
+            return indexCount;
+        }
+
         public uint GetTotalVertexCount()
         {
             uint vertexCount = 0;
