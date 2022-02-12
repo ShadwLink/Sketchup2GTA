@@ -30,7 +30,6 @@ namespace Sketchup2GTA.Exporters.Model.RW
                 }
 
                 faceOffset += split.Vertices.Count;
-                Console.WriteLine("Offset " + faceOffset);
             }
         }
     }

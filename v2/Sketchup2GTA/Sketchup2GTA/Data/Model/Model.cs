@@ -53,10 +53,16 @@ namespace Sketchup2GTA.Data.Model
 
         public List<int> GetIndices()
         {
+            int indexOffset = 0;
             List<int> indices = new List<int>();
             foreach (var materialSplit in MaterialSplits)
             {
-                indices.AddRange(materialSplit.Indices);
+                foreach (var index in materialSplit.Indices)
+                {
+                    indices.Add(index + indexOffset);
+                }
+
+                indexOffset += materialSplit.Vertices.Count;
             }
 
             return indices;
