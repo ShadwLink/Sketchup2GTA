@@ -78,5 +78,10 @@ namespace Sketchup2GTA.Data.Model
 
             return vertices;
         }
+
+        public Bounds GetBounds()
+        {
+            return new Bounds(GetVertices());
+        }
     }
 }

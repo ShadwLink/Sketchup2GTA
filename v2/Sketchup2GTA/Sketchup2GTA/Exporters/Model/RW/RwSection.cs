@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing.Design;
 using System.IO;
 
 namespace Sketchup2GTA.Exporters.Model.RW

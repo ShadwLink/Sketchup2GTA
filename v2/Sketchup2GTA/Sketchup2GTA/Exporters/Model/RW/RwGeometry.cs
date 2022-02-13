@@ -35,11 +35,11 @@ namespace Sketchup2GTA.Exporters.Model.RW
                 bw.Write((ushort)indices[i + 2]);
             }
 
-            // TODO: Bounding sphere
-            bw.Write(0f);
-            bw.Write(0f);
-            bw.Write(0f);
-            bw.Write(0f);
+            var bounds = _model.GetBounds();
+            bw.Write(bounds.Center.X);
+            bw.Write(bounds.Center.Y);
+            bw.Write(bounds.Center.Z);
+            bw.Write(bounds.Radius);
 
             bw.Write(0); // Unknown
             bw.Write(0); // Unknown
