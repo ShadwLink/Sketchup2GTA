@@ -12,7 +12,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
             AddStructSection();
         }
 
-        private ushort GetFlags()
+        private int GetFlags()
         {
             return 0x0;
         }
@@ -20,10 +20,9 @@ namespace Sketchup2GTA.Exporters.Model.RW
         protected override void WriteStructSection(BinaryWriter bw)
         {
             bw.Write(GetFlags()); // Flags
-            bw.Write((ushort)1); // Unknown
             bw.Write(_model.GetTotalFaceCount());
             bw.Write(_model.GetTotalVertexCount());
-            bw.Write(1);
+            bw.Write(1); // Always 1
 
             // Write faces
             var indices = _model.GetIndices();
@@ -41,7 +40,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
             bw.Write(bounds.Center.Z);
             bw.Write(bounds.Radius);
 
-            bw.Write(0); // Unknown
+            bw.Write(1); // Unknown
             bw.Write(0); // Unknown
 
             // Write vertices

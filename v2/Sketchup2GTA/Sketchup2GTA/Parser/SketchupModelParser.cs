@@ -82,8 +82,8 @@ namespace Sketchup2GTA.Parser
                     foreach (var face in mesh.Faces)
                     {
                         split.AddFaceIndex(vertexIndexMapping[face.A]);
-                        split.AddFaceIndex(vertexIndexMapping[face.C]);
                         split.AddFaceIndex(vertexIndexMapping[face.B]);
+                        split.AddFaceIndex(vertexIndexMapping[face.C]);
                     }
                 }
 
