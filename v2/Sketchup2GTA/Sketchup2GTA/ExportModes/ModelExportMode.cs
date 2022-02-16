@@ -25,11 +25,17 @@ namespace Sketchup2GTA.ExportModes
         {
             if (args.Length > 2)
             {
-                return new ModelExportMode(args[1], args[2]);
+                var input = args[1];
+                return new ModelExportMode(input, GetOutputPath(input, args));
             }
 
             Console.WriteLine("Missing sketchup path argument");
             return null;
+        }
+
+        private static string GetOutputPath(string input, string[] args)
+        {
+            return args.Length > 2 ? args[2] : input.Replace(".skp", ".dff");
         }
     }
 }
