@@ -19,10 +19,11 @@ namespace Sketchup2GTA.Exporters.Model.RW
         protected override void WriteStructSection(BinaryWriter bw)
         {
             bw.Write(0);
-            bw.Write(_materialSplit.Material.MaterialColor.r);
-            bw.Write(_materialSplit.Material.MaterialColor.g);
-            bw.Write(_materialSplit.Material.MaterialColor.b);
-            bw.Write(_materialSplit.Material.MaterialColor.a);
+            // bw.Write(_materialSplit.Material.MaterialColor.r);
+            // bw.Write(_materialSplit.Material.MaterialColor.g);
+            // bw.Write(_materialSplit.Material.MaterialColor.b);
+            // bw.Write(_materialSplit.Material.MaterialColor.a);
+            bw.Write(0xFFFFFFFF);
             bw.Write(1521788);
             bw.Write(1); // TODO: Texture count, always 1 for now
             bw.Write(1f);

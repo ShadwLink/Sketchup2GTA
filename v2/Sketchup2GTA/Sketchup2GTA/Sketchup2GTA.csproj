@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="SketchUpNET" Version="1.7.2" />
+      <Reference Include="SketchUpNET, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>SketchUpNET.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

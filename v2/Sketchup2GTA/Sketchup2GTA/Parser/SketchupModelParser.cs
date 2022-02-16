@@ -79,6 +79,11 @@ namespace Sketchup2GTA.Parser
                         );
                     }
 
+                    foreach (var uv in mesh.UVs)
+                    {
+                        split.AddUV(new Vector2((float)uv.U, (float)uv.V));
+                    }
+
                     foreach (var face in mesh.Faces)
                     {
                         split.AddFaceIndex(vertexIndexMapping[face.A]);

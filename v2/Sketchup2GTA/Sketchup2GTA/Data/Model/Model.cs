@@ -12,7 +12,7 @@ namespace Sketchup2GTA.Data.Model
         {
             Name = name;
         }
-        
+
         public void AddMaterialSplit(MaterialSplit split)
         {
             MaterialSplits.Add(split);
@@ -67,7 +67,7 @@ namespace Sketchup2GTA.Data.Model
 
             return indices;
         }
-        
+
         public List<Vector3> GetVertices()
         {
             List<Vector3> vertices = new List<Vector3>();
@@ -77,6 +77,17 @@ namespace Sketchup2GTA.Data.Model
             }
 
             return vertices;
+        }
+
+        public List<Vector2> GetUVs()
+        {
+            List<Vector2> uvs = new List<Vector2>();
+            foreach (var materialSplit in MaterialSplits)
+            {
+                uvs.AddRange(materialSplit.UVs);
+            }
+
+            return uvs;
         }
 
         public Bounds GetBounds()
