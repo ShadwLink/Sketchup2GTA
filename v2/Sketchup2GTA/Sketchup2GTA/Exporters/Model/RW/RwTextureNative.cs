@@ -47,33 +47,10 @@ namespace Sketchup2GTA.Exporters.Model.RW
             byte[] data;
             int fourCC = 0;
             int constantNotSoConstant = 0;
+
             if (compress)
             {
-                byte[] bitmapData;
-                if (bytesPerPixel == 3)
-                {
-                    bitmapData = new byte[_texture.Data.Length + (_texture.Data.Length / 3)];
-                    int byteIndex = 0;
-                    for (var i = 0; i < _texture.Data.Length; i += 3)
-                    {
-                        bitmapData[byteIndex] = _texture.Data[i + 2];
-                        byteIndex++;
-                        bitmapData[byteIndex] = _texture.Data[i + 1];
-                        byteIndex++;
-                        bitmapData[byteIndex] = _texture.Data[i];
-                        byteIndex++;
-
-                        if ((i + 3) % 3 == 0)
-                        {
-                            bitmapData[byteIndex] = 0xff;
-                            byteIndex++;
-                        }
-                    }
-                }
-                else
-                {
-                    bitmapData = _texture.Data;
-                }
+                byte[] bitmapData = bytesPerPixel == 3 ? ToRgba(_texture.Data) : _texture.Data;
 
                 var destSize = Squish.Squish.GetStorageRequirements(_texture.Width, _texture.Height,
                     SquishFlags.kDxt1 | SquishFlags.kColourIterativeClusterFit);
@@ -122,6 +99,29 @@ namespace Sketchup2GTA.Exporters.Model.RW
 
             bw.Write(data.Length);
             bw.Write(data);
+        }
+
+        private byte[] ToRgba(byte[] rgb)
+        {
+            byte[] bitmapData = new byte[rgb.Length + (rgb.Length / 3)];
+            int byteIndex = 0;
+            for (var i = 0; i < rgb.Length; i += 3)
+            {
+                bitmapData[byteIndex] = rgb[i + 2];
+                byteIndex++;
+                bitmapData[byteIndex] = rgb[i + 1];
+                byteIndex++;
+                bitmapData[byteIndex] = rgb[i];
+                byteIndex++;
+
+                if ((i + 3) % 3 == 0)
+                {
+                    bitmapData[byteIndex] = 0xff;
+                    byteIndex++;
+                }
+            }
+
+            return bitmapData;
         }
 
         private void WriteStringWithFixedLength(BinaryWriter bw, string value, int length)
