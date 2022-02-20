@@ -12,7 +12,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
             _model = model;
         }
 
-        protected override void WriteSection(BinaryWriter bw)
+        protected override void WriteSectionData(BinaryWriter bw)
         {
             bw.Write(0); // Is tri-strip
             bw.Write(_model.MaterialSplits.Count);

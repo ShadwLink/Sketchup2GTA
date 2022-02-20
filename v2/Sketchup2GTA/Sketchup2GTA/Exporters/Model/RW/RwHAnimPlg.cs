@@ -8,7 +8,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
         {
         }
 
-        protected override void WriteSection(BinaryWriter bw)
+        protected override void WriteSectionData(BinaryWriter bw)
         {
             bw.Write(256);
             bw.Write(-1);

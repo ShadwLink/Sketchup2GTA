@@ -141,7 +141,6 @@ namespace Sketchup2GTA.Parser
             var bwTxd = new BinaryWriter(new FileStream(txdName + ".txd", FileMode.OpenOrCreate));
 
             new RwTextureDictionary(textures)
-                .PrepareForWrite()
                 .Write(bwTxd);
 
             bwTxd.Flush();

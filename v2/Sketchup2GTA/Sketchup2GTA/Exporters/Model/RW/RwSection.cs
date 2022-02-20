@@ -19,25 +19,29 @@ namespace Sketchup2GTA.Exporters.Model.RW
             _sectionType = sectionType;
         }
 
-        public RwSection PrepareForWrite()
+        private void PrepareForWrite()
         {
             _sectionData = CreateSectionData();
             foreach (var childSection in _childSections)
             {
                 childSection.PrepareForWrite();
             }
-
-            return this;
         }
 
         public void Write(BinaryWriter bw)
+        {
+            PrepareForWrite();
+            WriteSection(bw);
+        }
+
+        private void WriteSection(BinaryWriter bw)
         {
             WriteHeader(bw);
             bw.Write(_sectionData);
             WriteChildSections(bw);
         }
 
-        protected virtual void WriteSection(BinaryWriter bw)
+        protected virtual void WriteSectionData(BinaryWriter bw)
         {
             // By default we do nothing
         }
@@ -53,7 +57,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
         {
             foreach (var childSection in _childSections)
             {
-                childSection.Write(bw);
+                childSection.WriteSection(bw);
             }
         }
 
@@ -99,7 +103,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
         {
             var memoryStream = new MemoryStream();
             var bw = new BinaryWriter(memoryStream);
-            WriteSection(bw);
+            WriteSectionData(bw);
             bw.Flush();
             var data = memoryStream.ToArray();
             bw.Dispose();

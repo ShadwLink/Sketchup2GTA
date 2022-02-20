@@ -12,7 +12,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
             _name = name;
         }
 
-        protected override void WriteSection(BinaryWriter bw)
+        protected override void WriteSectionData(BinaryWriter bw)
         {
             for (int i = 0; i < _name.Length; i++)
             {
