@@ -28,7 +28,7 @@ namespace Sketchup2GTA.Exporters.VC
                     .AddSection(new RwExtension())
                 )
                 .AddSection(new RwExtension())
-                .Write(bw);
+                .Write(bw, RwVersion.ViceCity);
         }
     }
 }
