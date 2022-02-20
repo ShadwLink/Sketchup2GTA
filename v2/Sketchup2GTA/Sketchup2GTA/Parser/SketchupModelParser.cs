@@ -25,7 +25,7 @@ namespace Sketchup2GTA.Parser
                 foreach (var item in meshesByMaterial)
                 {
                     var material = item.Key;
-                    if (material.UsesTexture && IsTextureValidSize(material.MaterialTexture))
+                    if (material.UsesTexture)
                     {
                         textures.Add(material.MaterialTexture);
                     }
@@ -36,18 +36,6 @@ namespace Sketchup2GTA.Parser
             }
 
             return null;
-        }
-
-        private bool IsTextureValidSize(Texture texture)
-        {
-            var height = (float)texture.Height;
-            while (height > 1)
-            {
-                height /= 2;
-            }
-            Console.WriteLine("Texture size " + texture.Height + " end " + height);
-
-            return height == 1f;
         }
 
         private Dictionary<Material, List<Mesh>> GroupMeshDataByMaterial(SketchUp skp)
