@@ -13,4 +13,8 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="LibSquishNet" Version="2.0.0" />
+    </ItemGroup>
+
 </Project>
