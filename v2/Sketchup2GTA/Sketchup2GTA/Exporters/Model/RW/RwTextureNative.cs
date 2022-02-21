@@ -1,4 +1,5 @@
 using System.IO;
+using Sketchup2GTA.IO;
 using SketchUpNET;
 using Squish;
 
@@ -85,9 +86,10 @@ namespace Sketchup2GTA.Exporters.Model.RW
 
             bw.Write(constantNotSoConstant);
             bw.Write(0x1102); // Filter flags
-            WriteStringWithFixedLength(bw, _texture.Name.Replace(".png", "").Replace(".bmp", ""),
+            // TODO: Clean this up
+            bw.WriteStringWithFixedLength(_texture.Name.Replace(".png", "").Replace(".bmp", ""),
                 32); // Diffuse name
-            WriteStringWithFixedLength(bw, "", 32); // Alpha name
+            bw.WriteStringWithFixedLength("", 32); // Alpha name
             bw.Write((int)rasterFormat);
             bw.Write(fourCC); // TODO: FourCC
             bw.Write((short)_texture.Width);
@@ -119,27 +121,6 @@ namespace Sketchup2GTA.Exporters.Model.RW
             }
 
             return bitmapData;
-        }
-
-        private void WriteStringWithFixedLength(BinaryWriter bw, string value, int length)
-        {
-            if (value.Length > length)
-            {
-                throw new InvalidDataException("String is too long. String size " + value.Length + " max " + length);
-            }
-
-            int bytesWritten = 0;
-            for (var i = 0; i < value.Length; i++)
-            {
-                bw.Write(value[i]);
-                bytesWritten++;
-            }
-
-            while (bytesWritten < length)
-            {
-                bw.Write((byte)0);
-                bytesWritten++;
-            }
         }
 
         private enum RasterFormat

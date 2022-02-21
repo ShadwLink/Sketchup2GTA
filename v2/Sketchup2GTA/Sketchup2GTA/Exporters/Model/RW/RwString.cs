@@ -1,4 +1,5 @@
 using System.IO;
+using Sketchup2GTA.IO;
 
 namespace Sketchup2GTA.Exporters.Model.RW
 {
@@ -13,11 +14,8 @@ namespace Sketchup2GTA.Exporters.Model.RW
 
         protected override void WriteSectionData(BinaryWriter bw)
         {
-            foreach (var c in _value)
-            {
-                bw.Write(c);
-            }
-
+            // TODO: This should just be a null terminated String
+            bw.WriteString(_value);
             bw.Write((byte)0);
         }
     }

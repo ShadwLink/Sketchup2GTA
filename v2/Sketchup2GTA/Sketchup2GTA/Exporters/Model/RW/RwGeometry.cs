@@ -1,4 +1,5 @@
 using System.IO;
+using Sketchup2GTA.IO;
 
 namespace Sketchup2GTA.Exporters.Model.RW
 {
@@ -41,8 +42,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
             // Write UV coords
             foreach (var uv in _model.GetUVs())
             {
-                bw.Write(uv.X);
-                bw.Write(uv.Y);
+                bw.Write(uv);
             }
 
             // Write faces
@@ -56,9 +56,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
             }
 
             var bounds = _model.GetBounds();
-            bw.Write(bounds.Center.X);
-            bw.Write(bounds.Center.Y);
-            bw.Write(bounds.Center.Z);
+            bw.Write(bounds.Center);
             bw.Write(bounds.Radius);
 
             bw.Write(1); // Unknown
@@ -68,9 +66,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
             var vertices = _model.GetVertices();
             foreach (var vertex in vertices)
             {
-                bw.Write(vertex.X);
-                bw.Write(vertex.Y);
-                bw.Write(vertex.Z);
+                bw.Write(vertex);
             }
         }
     }
