@@ -24,7 +24,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
 
         protected override void WriteStructSection(BinaryWriter bw)
         {
-            bw.Write(_textures.Count); // Texture count
+            bw.Write(_textures.Count);
         }
     }
 }

@@ -13,9 +13,9 @@ namespace Sketchup2GTA.Exporters.Model.RW
 
         protected override void WriteSectionData(BinaryWriter bw)
         {
-            for (int i = 0; i < _value.Length; i++)
+            foreach (var c in _value)
             {
-                bw.Write(_value[i]);
+                bw.Write(c);
             }
 
             bw.Write((byte)0);

@@ -8,7 +8,7 @@ namespace Sketchup2GTA.Exporters.VC
         public void Export(Group group)
         {
             StreamWriter file = new StreamWriter(group.Name + ".ide");
-            file.WriteLine("# Generated using shadow-link SketchUp plugin");
+            file.WriteLine("# Generated using Shadow-Link SketchUp plugin");
             file.WriteLine("objs");
             foreach (var definition in group.Definitions)
             {
@@ -22,7 +22,7 @@ namespace Sketchup2GTA.Exporters.VC
             file.WriteLine("2dfx");
             file.WriteLine("end");
             file.Flush();
-            file.Dispose();
+            file.Close();
         }
     }
 }

@@ -33,6 +33,8 @@ namespace Sketchup2GTA
                     return DataExportMode.CreateWithArguments(args);
                 case "--model":
                     return ModelExportMode.CreateWithArguments(args);
+                case "--textures":
+                    return TexturesExportMode.CreateWithArguments(args);
                 default:
                     return new InvalidExportMode();
             }

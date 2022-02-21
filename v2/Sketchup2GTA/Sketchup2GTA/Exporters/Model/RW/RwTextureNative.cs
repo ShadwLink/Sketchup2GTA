@@ -107,12 +107,9 @@ namespace Sketchup2GTA.Exporters.Model.RW
             int byteIndex = 0;
             for (var i = 0; i < rgb.Length; i += 3)
             {
-                bitmapData[byteIndex] = rgb[i + 2];
-                byteIndex++;
-                bitmapData[byteIndex] = rgb[i + 1];
-                byteIndex++;
-                bitmapData[byteIndex] = rgb[i];
-                byteIndex++;
+                bitmapData[byteIndex++] = rgb[i + 2];
+                bitmapData[byteIndex++] = rgb[i + 1];
+                bitmapData[byteIndex++] = rgb[i];
 
                 if ((i + 3) % 3 == 0)
                 {

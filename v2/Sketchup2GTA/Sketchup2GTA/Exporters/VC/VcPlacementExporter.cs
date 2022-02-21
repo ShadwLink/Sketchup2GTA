@@ -8,7 +8,7 @@ namespace Sketchup2GTA.Exporters.VC
         public void Export(Group group)
         {
             StreamWriter file = new StreamWriter(group.Name + ".ipl");
-            file.WriteLine("# Generated using shadow-link SketchUp plugin");
+            file.WriteLine("# Generated using Shadow-Link SketchUp plugin");
             file.WriteLine("inst");
             foreach (var instance in group.Instances)
             {
@@ -22,7 +22,7 @@ namespace Sketchup2GTA.Exporters.VC
             file.WriteLine("path");
             file.WriteLine("end");
             file.Flush();
-            file.Dispose();
+            file.Close();
         }
     }
 }

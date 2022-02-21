@@ -4,6 +4,6 @@ namespace Sketchup2GTA.Exporters
 {
     public interface ModelExporter
     {
-        void Export(Data.Model.Model model, String path);
+        void Export(Data.Model.Model model, string path);
     }
 }
