@@ -18,7 +18,7 @@ namespace Sketchup2GTA.ExportModes
         
         public void Perform()
         {
-            new VcCollExporter().Export(new Collision(), _exportPath);
+            new VcCollExporter().Export(new SketchupCollisionParser().Parse(_sketchupPath), _exportPath);
         }
         
         public static CollisionExportMode CreateWithArguments(string[] args)

@@ -19,7 +19,7 @@ namespace Sketchup2GTA.Data.Model
             if (vertices.Count > 0)
             {
                 Min = vertices[0];
-                Max = vertices[1];
+                Max = vertices[0];
                 
                 foreach (var vertex in vertices)
                 {
@@ -31,10 +31,7 @@ namespace Sketchup2GTA.Data.Model
                     Max.Z = Math.Max(vertex.Z, Max.Z);
                 }
 
-                Center = (Min + Max) / 2;
-                Radius = Math.Max(Max.X - Center.X, Radius);
-                Radius = Math.Max(Max.Y - Center.Y, Radius);
-                Radius = Math.Max(Max.Z - Center.Z, Radius);
+                UpdateBoundingSphere();
             }
             else
             {
@@ -43,6 +40,23 @@ namespace Sketchup2GTA.Data.Model
                 Center = Vector3.Zero;
                 Radius = 0f;
             }
+        }
+
+        public void UpdateBoundsWithVertex(Vector3 vertex)
+        {
+            Min.X = Math.Min(vertex.X, Min.X);
+            Min.Y = Math.Min(vertex.Y, Min.Y);
+            Min.Z = Math.Min(vertex.Z, Min.Z);
+            Max.X = Math.Max(vertex.X, Max.X);
+            Max.Y = Math.Max(vertex.Y, Max.Y);
+            Max.Z = Math.Max(vertex.Z, Max.Z);
+            UpdateBoundingSphere();
+        }
+
+        private void UpdateBoundingSphere()
+        {
+            Center = (Min + Max) / 2;
+            Radius = Math.Abs((Max - Center).Length());
         }
     }
 }

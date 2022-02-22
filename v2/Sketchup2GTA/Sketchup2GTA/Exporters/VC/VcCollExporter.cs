@@ -13,7 +13,7 @@ namespace Sketchup2GTA.Exporters.VC
             // FourCC
             bw.WriteStringWithFixedLength("COLL", 4);
             bw.Write(CalculateFileSize(collision));
-            bw.WriteStringWithFixedLength("NO_NAME", 20); // TODO: Name of the collision (fixed size 20)
+            bw.WriteStringWithFixedLength(collision.Name, 20);
             bw.WriteStringWithFixedLength("SLSU", 4); // Unknown
 
             bw.Write(collision.Bounds.Radius);
@@ -41,10 +41,21 @@ namespace Sketchup2GTA.Exporters.VC
                 bw.Write(0);
             }
 
-            // TODO: Write vertices
-            bw.Write(0);
-            // TODO: Write faces
-            bw.Write(0);
+            bw.Write(collision.Vertices.Count);
+            foreach (var vertex in collision.Vertices)
+            {
+                bw.Write(vertex);
+            }
+            
+            bw.Write(collision.Faces.Count);
+            foreach (var face in collision.Faces)
+            {
+                bw.Write(face.A);
+                bw.Write(face.B);
+                bw.Write(face.C);
+                // TODO: Write material
+                bw.Write(0);
+            }
 
             bw.Flush();
             bw.Close();
