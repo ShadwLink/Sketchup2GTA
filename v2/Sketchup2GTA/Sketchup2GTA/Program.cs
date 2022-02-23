@@ -1,7 +1,4 @@
-﻿using System;
-using Sketchup2GTA.Exporters.VC;
-using Sketchup2GTA.ExportModes;
-using Sketchup2GTA.Parser;
+﻿using CommandLine;
 
 namespace Sketchup2GTA
 {
@@ -9,37 +6,13 @@ namespace Sketchup2GTA
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0)
-            {
-                Console.WriteLine("No sketchup file defined");
-                return;
-            }
-
-            var mode = ParseArgs(args);
-            mode?.Perform();
+            CommandLine.Parser.Default.ParseArguments<ExportModelOptions, ExportMapOptions>(args)
+                .WithParsed<ExportModelOptions>(RunExporter)
+                .WithParsed<ExportMapOptions>(RunExporter);
         }
-
-        private static ExportMode ParseArgs(string[] args)
+        static void RunExporter(ExportOptions options)
         {
-            if (args.Length == 0)
-            {
-                Console.WriteLine("Invalid arguments supplied");
-                return new InvalidExportMode();
-            }
-
-            switch (args[0])
-            {
-                case "--data":
-                    return DataExportMode.CreateWithArguments(args);
-                case "--model":
-                    return ModelExportMode.CreateWithArguments(args);
-                case "--textures":
-                    return TexturesExportMode.CreateWithArguments(args);
-                case "--collision":
-                    return CollisionExportMode.CreateWithArguments(args);
-                default:
-                    return new InvalidExportMode();
-            }
+            options.CreateExportMode().Perform();
         }
     }
 }

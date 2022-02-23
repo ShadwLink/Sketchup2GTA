@@ -10,7 +10,6 @@ namespace Sketchup2GTA.Exporters.VC
         {
             var bw = new BinaryWriter(new FileStream(path, FileMode.OpenOrCreate));
 
-            // FourCC
             bw.WriteStringWithFixedLength("COLL", 4);
             bw.Write(CalculateFileSize(collision));
             bw.WriteStringWithFixedLength(collision.Name, 20);

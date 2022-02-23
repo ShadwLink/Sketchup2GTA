@@ -7,35 +7,36 @@ namespace Sketchup2GTA.ExportModes
     public class ModelExportMode: ExportMode
     {
         private string _sketchupPath;
-        private string _exportPath;
+        private bool _exportModel;
+        private bool _exportTextures;
+        private bool _exportCollision;
         
-        private ModelExportMode(string sketchupPath, string exportPath)
+        public ModelExportMode(string sketchupPath, bool exportModel,  bool exportTextures, bool exportCollision)
         {
             _sketchupPath = sketchupPath;
-            _exportPath = exportPath;
+            _exportModel = exportModel;
+            _exportTextures = exportTextures;
+            _exportCollision = exportCollision;
         }
         
         public void Perform()
         {
-            var model = new SketchupModelParser().Parse(_sketchupPath);
-            new VcModelExporter().Export(model, _exportPath);
-        }
-        
-        public static ModelExportMode CreateWithArguments(string[] args)
-        {
-            if (args.Length > 2)
+            if (_exportModel)
             {
-                var input = args[1];
-                return new ModelExportMode(input, GetOutputPath(input, args));
+                var model = new SketchupModelParser().Parse(_sketchupPath);
+                new VcModelExporter().Export(model, _sketchupPath.Replace(".skp", ".dff"));
             }
 
-            Console.WriteLine("Missing sketchup path argument");
-            return null;
-        }
+            if (_exportTextures)
+            {
+                var textureDictionary = new SketchupTexturesParser().Parse(_sketchupPath);
+                new VcTxdExporter().Export(textureDictionary, _sketchupPath.Replace(".skp", ".txd"));
+            }
 
-        private static string GetOutputPath(string input, string[] args)
-        {
-            return args.Length > 2 ? args[2] : input.Replace(".skp", ".dff");
+            if (_exportCollision)
+            {
+                new VcCollExporter().Export(new SketchupCollisionParser().Parse(_sketchupPath), _sketchupPath.Replace(".skp", ".col"));
+            }
         }
     }
 }

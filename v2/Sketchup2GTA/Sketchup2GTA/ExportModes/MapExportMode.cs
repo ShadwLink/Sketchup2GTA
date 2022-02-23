@@ -4,12 +4,12 @@ using Sketchup2GTA.Parser;
 
 namespace Sketchup2GTA.ExportModes
 {
-    public class DataExportMode : ExportMode
+    public class MapExportMode : ExportMode
     {
         private String _sketchupPath;
         private int _startId;
 
-        private DataExportMode(string sketchupPath, int startId)
+        public MapExportMode(string sketchupPath, int startId)
         {
             _sketchupPath = sketchupPath;
             _startId = startId;
@@ -31,28 +31,6 @@ namespace Sketchup2GTA.ExportModes
             }
 
             Console.WriteLine("Export finished");
-        }
-
-        public static DataExportMode CreateWithArguments(string[] args)
-        {
-            string sketchupPath;
-            if (args.Length > 1)
-            {
-                sketchupPath = args[1];
-            }
-            else
-            {
-                Console.WriteLine("Missing sketchup path argument");
-                return null;
-            }
-
-            var startId = 0;
-            if (args.Length > 2)
-            {
-                int.TryParse(args[2], out startId);
-            }
-
-            return new DataExportMode(sketchupPath, startId);
         }
     }
 }

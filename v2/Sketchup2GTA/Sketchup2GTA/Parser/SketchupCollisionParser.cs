@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using Sketchup2GTA.Data.Collision;
-using Sketchup2GTA.Data.Model;
 using SketchUpNET;
 using Material = SketchUpNET.Material;
 
