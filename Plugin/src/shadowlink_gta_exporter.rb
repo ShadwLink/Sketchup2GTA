@@ -5,10 +5,9 @@ module ShadowLink
   module Sketchup2IV
 
     unless file_loaded?(__FILE__)
-      ex = SketchupExtension.new('Sketchup2IV', 'shadowlink_iv_exporter/main')
-      ex.description = 'GTA IV exporter for Sketchup'
-      ex.version     = '0.5.0'
-      ex.copyright   = 'Shadow-Link'
+      ex = SketchupExtension.new('Sketchup2GTA', 'shadowlink_gta_exporter/main')
+      ex.description = 'GTA exporter for Sketchup'
+      ex.version     = '0.6.0'
       ex.creator     = 'Shadow-Link'
       Sketchup.register_extension(ex, true)
       file_loaded(__FILE__)

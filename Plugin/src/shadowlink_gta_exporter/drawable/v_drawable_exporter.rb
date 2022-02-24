@@ -1,4 +1,4 @@
-require 'shadowlink_iv_exporter/utils/sl_utils.rb'
+require 'shadowlink_gta_exporter/utils/sl_utils.rb'
 
 class VDrawableExporter
 

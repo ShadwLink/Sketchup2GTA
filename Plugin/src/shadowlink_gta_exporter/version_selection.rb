@@ -1,10 +1,10 @@
-require "shadowlink_iv_exporter/drawable/iv_drawable_exporter"
-require "shadowlink_iv_exporter/drawable/v_drawable_exporter"
-require "shadowlink_iv_exporter/textures/iv_texture_exporter"
-require "shadowlink_iv_exporter/textures/v_texture_exporter"
-require "shadowlink_iv_exporter/bounds/iv_bounds_exporter"
-require "shadowlink_iv_exporter/bounds/v_bounds_exporter"
-require "shadowlink_iv_exporter/plugin_settings"
+require "shadowlink_gta_exporter/drawable/iv_drawable_exporter"
+require "shadowlink_gta_exporter/drawable/v_drawable_exporter"
+require "shadowlink_gta_exporter/textures/iv_texture_exporter"
+require "shadowlink_gta_exporter/textures/v_texture_exporter"
+require "shadowlink_gta_exporter/bounds/iv_bounds_exporter"
+require "shadowlink_gta_exporter/bounds/v_bounds_exporter"
+require "shadowlink_gta_exporter/plugin_settings"
 
 class VersionSelection
 

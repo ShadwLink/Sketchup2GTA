@@ -1,5 +1,5 @@
 require 'test/unit'
-require './src/shadowlink_iv_exporter/mip_map_level_calculator'
+require './src/shadowlink_gta_exporter/mip_map_level_calculator'
 
 class TextureExporterTest < Test::Unit::TestCase
 

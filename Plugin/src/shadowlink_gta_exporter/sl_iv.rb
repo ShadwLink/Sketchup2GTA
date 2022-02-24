@@ -1,12 +1,12 @@
-require 'shadowlink_iv_exporter/version_selection.rb'
-require 'shadowlink_iv_exporter/plugin_settings.rb'
+require 'shadowlink_gta_exporter/version_selection.rb'
+require 'shadowlink_gta_exporter/plugin_settings.rb'
 
-Sketchup.load('shadowlink_iv_exporter/wpl/wpl_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/scene/scene_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/ide/ide_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/selection/SelectionDialog.rb')
-Sketchup.load('shadowlink_iv_exporter/drawable/drawable_dictionary_exporter.rb')
-Sketchup.load('shadowlink_iv_exporter/bounds/bounds_dictionary_exporter.rb')
+Sketchup.load('shadowlink_gta_exporter/wpl/wpl_exporter.rb')
+Sketchup.load('shadowlink_gta_exporter/scene/scene_exporter.rb')
+Sketchup.load('shadowlink_gta_exporter/ide/ide_exporter.rb')
+Sketchup.load('shadowlink_gta_exporter/selection/SelectionDialog.rb')
+Sketchup.load('shadowlink_gta_exporter/drawable/drawable_dictionary_exporter.rb')
+Sketchup.load('shadowlink_gta_exporter/bounds/bounds_dictionary_exporter.rb')
 
 MAX_DECIMALS = 8
 

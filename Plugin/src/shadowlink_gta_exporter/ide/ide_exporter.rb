@@ -1,4 +1,4 @@
-Sketchup.load 'shadowlink_iv_exporter/bounds.rb'
+Sketchup.load 'shadowlink_gta_exporter/bounds.rb'
 
 def export_ide(entities, export_path, ide_name)
   file_path = "#{export_path}/#{ide_name}.ide"

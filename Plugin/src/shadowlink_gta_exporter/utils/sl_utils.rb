@@ -1,4 +1,4 @@
-require 'shadowlink_iv_exporter/mesh.rb'
+require 'shadowlink_gta_exporter/mesh.rb'
 
 class Float
   def round_to(x)

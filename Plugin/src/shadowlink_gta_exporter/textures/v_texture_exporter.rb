@@ -1,4 +1,4 @@
-require 'shadowlink_iv_exporter/utils/mip_map_level_calculator'
+require 'shadowlink_gta_exporter/utils/mip_map_level_calculator'
 
 class VTextureExporter
 

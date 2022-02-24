@@ -1,6 +1,6 @@
-require 'shadowlink_iv_exporter/bounds/vertex'
-require 'shadowlink_iv_exporter/bounds/polygon'
-require 'shadowlink_iv_exporter/bounds/material_color'
+require 'shadowlink_gta_exporter/bounds/vertex'
+require 'shadowlink_gta_exporter/bounds/polygon'
+require 'shadowlink_gta_exporter/bounds/material_color'
 
 class CollisionModel
 

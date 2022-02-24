@@ -1,4 +1,4 @@
-require 'shadowlink_iv_exporter/bounds/collision_model'
+require 'shadowlink_gta_exporter/bounds/collision_model'
 
 class VBoundsExporter
 
