@@ -2,9 +2,9 @@ namespace Sketchup2GTA.Data.Collision
 {
     public struct Face
     {
-        public int A;
-        public int B;
-        public int C;
+        public readonly int A;
+        public readonly int B;
+        public readonly int C;
 
         public Face(int a, int b, int c)
         {

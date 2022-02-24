@@ -4,7 +4,7 @@ namespace Sketchup2GTA.Data
 {
     public class GtaMap
     {
-        public List<Group> Groups = new List<Group>();
+        public readonly List<Group> Groups = new List<Group>();
 
         public void AddGroup(Group group)
         {

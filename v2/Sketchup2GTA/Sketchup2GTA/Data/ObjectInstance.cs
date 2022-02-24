@@ -1,21 +1,14 @@
-using System;
 using System.Numerics;
 
 namespace Sketchup2GTA.Data
 {
     public class ObjectInstance
     {
-        private ObjectDefinition _objectDefinition;
+        private readonly ObjectDefinition _objectDefinition;
 
-        public int ID
-        {
-            get { return _objectDefinition.ID; }
-        }
-        
-        public String Name
-        {
-            get { return _objectDefinition.Name; }
-        }
+        public int ID => _objectDefinition.ID;
+
+        public string Name => _objectDefinition.Name;
 
         public Vector3 Position;
 

@@ -6,13 +6,13 @@ namespace Sketchup2GTA.Data
 {
     public class Group
     {
-        public String Name { get; private set; }
-        public List<ObjectDefinition> Definitions = new List<ObjectDefinition>();
-        public List<ObjectInstance> Instances = new List<ObjectInstance>();
+        public string Name { get; }
+        public readonly List<ObjectDefinition> Definitions = new List<ObjectDefinition>();
+        public readonly List<ObjectInstance> Instances = new List<ObjectInstance>();
 
-        public Group(String name)
+        public Group(string name)
         {
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
         
         public ObjectDefinition GetOrCreateDefinition(DefinitionIdGenerator idGenerator, String name)

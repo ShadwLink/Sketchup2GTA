@@ -1,13 +1,11 @@
-using System;
-
 namespace Sketchup2GTA.Data
 {
     public class ObjectDefinition
     {
-        public int ID = 0;
-        public String Name;
+        public readonly int ID = 0;
+        public readonly string Name;
         
-        public ObjectDefinition(int id, String name)
+        public ObjectDefinition(int id, string name)
         {
             ID = id;
             Name = name;

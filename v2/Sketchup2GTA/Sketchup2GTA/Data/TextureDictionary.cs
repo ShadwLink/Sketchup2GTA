@@ -5,8 +5,8 @@ namespace Sketchup2GTA.Data
 {
     public class TextureDictionary
     {
-        public string Name;
-        public List<Texture> Textures;
+        public readonly string Name;
+        public readonly List<Texture> Textures;
 
         public TextureDictionary(string name, List<Texture> textures)
         {

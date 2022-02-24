@@ -6,8 +6,8 @@ namespace Sketchup2GTA.ExportModes
 {
     public class MapExportMode : ExportMode
     {
-        private String _sketchupPath;
-        private int _startId;
+        private readonly string _sketchupPath;
+        private readonly int _startId;
 
         public MapExportMode(string sketchupPath, int startId)
         {

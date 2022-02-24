@@ -6,10 +6,10 @@ namespace Sketchup2GTA.Data.Model
 {
     public class MaterialSplit
     {
-        public Material Material;
-        public List<Vector3> Vertices = new List<Vector3>();
-        public List<Vector2> UVs = new List<Vector2>();
-        public List<int> Indices = new List<int>();
+        public readonly Material Material;
+        public readonly List<Vector3> Vertices = new List<Vector3>();
+        public readonly List<Vector2> UVs = new List<Vector2>();
+        public readonly List<int> Indices = new List<int>();
 
         public MaterialSplit(Material material)
         {

@@ -5,6 +5,12 @@
         <TargetFramework>net472</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>disable</Nullable>
+        <PackageVersion>0.6.0-alpha01</PackageVersion>
+        <Title>Sketchup2GTA</Title>
+        <Authors>Shadow-Link</Authors>
+        <Description>Export Sketchup models to various GTA file formats</Description>
+        <PackageProjectUrl>https://shadow-link.nl/projects/sketchup-iv-exporter/</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/ShadwLink/Sketchup2IV</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>

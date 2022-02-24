@@ -5,8 +5,8 @@ namespace Sketchup2GTA.Data.Model
 {
     public class Model
     {
-        public string Name;
-        public List<MaterialSplit> MaterialSplits = new List<MaterialSplit>();
+        public readonly string Name;
+        public readonly List<MaterialSplit> MaterialSplits = new List<MaterialSplit>();
 
         public Model(string name)
         {

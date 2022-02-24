@@ -7,11 +7,11 @@ namespace Sketchup2GTA.Data.Collision
     public class Collision
     {
         public string Name;
-        public Bounds Bounds = new Bounds(new List<Vector3>());
-        public List<BoundingSphere> Spheres = new List<BoundingSphere>();
-        public List<BoundingBox> Boxes = new List<BoundingBox>();
-        public List<Vector3> Vertices = new List<Vector3>();
-        public List<Face> Faces = new List<Face>();
+        public readonly Bounds Bounds = new Bounds(new List<Vector3>());
+        public readonly List<BoundingSphere> Spheres = new List<BoundingSphere>();
+        public readonly List<BoundingBox> Boxes = new List<BoundingBox>();
+        public readonly List<Vector3> Vertices = new List<Vector3>();
+        public readonly List<Face> Faces = new List<Face>();
 
         public Collision(string name)
         {

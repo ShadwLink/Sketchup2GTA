@@ -1,4 +1,3 @@
-using System;
 using Sketchup2GTA.Exporters.VC;
 using Sketchup2GTA.Parser;
 
@@ -6,10 +5,10 @@ namespace Sketchup2GTA.ExportModes
 {
     public class ModelExportMode: ExportMode
     {
-        private string _sketchupPath;
-        private bool _exportModel;
-        private bool _exportTextures;
-        private bool _exportCollision;
+        private readonly string _sketchupPath;
+        private readonly bool _exportModel;
+        private readonly bool _exportTextures;
+        private readonly bool _exportCollision;
         
         public ModelExportMode(string sketchupPath, bool exportModel,  bool exportTextures, bool exportCollision)
         {
