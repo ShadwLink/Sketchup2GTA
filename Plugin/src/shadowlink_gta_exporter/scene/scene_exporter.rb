@@ -44,5 +44,5 @@ def export_scene(export_path)
   end
 
   puts "Exporting wpl"
-  export_wpl(export_path)
+  export_placement(export_path)
 end

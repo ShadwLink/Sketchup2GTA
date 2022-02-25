@@ -43,27 +43,10 @@ def selected_groups
   return groups.length
 end
 
-if (not file_loaded?("sl_iv.rb"))
-  placement_submenu = UI.menu("Plugins").add_submenu("GTA Export")
-  placement_submenu.add_item("Place car") {place_car}
-  placement_submenu.add_item("Export scene") {save_scene}
-  placement_submenu.add_item("Export wpl") {save_wpl}
-  placement_submenu.add_separator
-  placement_submenu.add_item("Help") {show_help}
-
-  version_submenu = UI.menu("Plugins").add_submenu("GTA Version")
-  iv_item = version_submenu.add_item("IV") {@version_selection.set_selected_version(:GTA_IV)}
-  version_submenu.set_validation_proc(iv_item) {
-    if @version_selection.get_selected_version == :GTA_IV
-      MF_CHECKED
-    else
-      MF_UNCHECKED
-    end
-  }
-
-  v_item = version_submenu.add_item("V") {@version_selection.set_selected_version(:GTA_V)}
-  version_submenu.set_validation_proc(v_item) {
-    if @version_selection.get_selected_version == :GTA_V
+def add_version_menu_item(version_submenu, title, game)
+  item = version_submenu.add_item(title) {@version_selection.set_selected_version(game)}
+  version_submenu.set_validation_proc(item) {
+    if @version_selection.get_selected_version == game
       MF_CHECKED
     else
       MF_UNCHECKED
@@ -71,14 +54,29 @@ if (not file_loaded?("sl_iv.rb"))
   }
 end
 
+if (not file_loaded?("sl_exporter.rb"))
+  placement_submenu = UI.menu("Plugins").add_submenu("GTA Export")
+  placement_submenu.add_item("Place car") {place_car}
+  placement_submenu.add_item("Export scene") {export_scene}
+  placement_submenu.add_item("Export placement") {export_placement}
+  placement_submenu.add_item("Export model") {export_model}
+  placement_submenu.add_separator
+  placement_submenu.add_item("Help") {show_help}
+
+  version_submenu = UI.menu("Plugins").add_submenu("GTA Version")
+  add_version_menu_item(version_submenu, "VC", :GTA_VC)
+  add_version_menu_item(version_submenu, "IV", :GTA_IV)
+  add_version_menu_item(version_submenu, "V", :GTA_V)
+end
+
 UI.add_context_menu_handler do |menu|
   if selected_component == 1
     menu.add_separator
     submenu = menu.add_submenu("GTA Export")
 
-    submenu.add_item("Export ODR") {save_model}
-    submenu.add_item("Export OBN") {save_collision}
-    submenu.add_item("Export OTD") {save_textures}
+    submenu.add_item("Export Model") {export_selected_model}
+    submenu.add_item("Export Collision") {export_collision}
+    submenu.add_item("Export Textures") {export_textures}
 
     submenu.add_separator
     if (getFileName(Sketchup.active_model.selection[0]) == "sl_iv_car")
@@ -93,15 +91,31 @@ UI.add_context_menu_handler do |menu|
   elsif selected_component > 1
     menu.add_separator
     submenu = menu.add_submenu("IV Export")
-    submenu.add_item("Export WPL") {save_wpl}
+    submenu.add_item("Export WPL") {export_placement}
     submenu.add_item("Export IDE") {save_ide}
     submenu.add_item("Export ODD") {save_odd}
     submenu.add_item("Export OBD") {save_obd}
-    submenu.add_item("Export OTD") {save_textures}
+    submenu.add_item("Export OTD") {export_textures}
   end
 end
 
-def save_model
+def export_model
+  SKETCHUP_CONSOLE.show
+  if Sketchup.active_model.save("tmp.skp")
+    puts Sketchup.active_model.path
+    value = `echo 'hi'`
+    puts value
+    gta_exporter = Sketchup.find_support_file("Plugins") + "/sl/Sketchup2GTA.exe"
+    puts gta_exporter
+    if File.file?(gta_exporter)
+      puts "File exists"
+    else
+      puts "File does not exist"
+    end
+  end
+end
+
+def export_selected_model
   drawable_export = @version_selection.get_model_exporter
   selection = get_selected_components[0]
   model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
@@ -146,7 +160,7 @@ def save_obd
   end
 end
 
-def save_collision
+def export_collision
   if @version_selection.get_selected_version == :GTA_IV
     selection = get_selected_components[0]
     model_name = selection.definition.get_attribute 'sl_iv_ide', 'modelName'
@@ -163,7 +177,7 @@ def save_collision
   end
 end
 
-def save_wpl
+def export_placement
   if @version_selection.get_selected_version == :GTA_IV
     selection = get_selected_components
     output_path = UI.savepanel("Export location", nil, "#{Sketchup.active_model.title}.wpl")
@@ -171,7 +185,7 @@ def save_wpl
     if output_path
       wpl_name = File.basename(output_path, ".*")
       output_dir = File.dirname(output_path)
-      export_wpl(selection, output_dir, wpl_name)
+      export_placement(selection, output_dir, wpl_name)
     end
   else
     UI::messagebox("WPL export not supported for GTA: V")
@@ -193,13 +207,13 @@ def save_ide
   end
 end
 
-def save_textures
+def export_textures
   texture_exporter = @version_selection.get_texture_exporter
   output_dir = UI.select_directory(title: "Select Output Directory")
   texture_exporter.export(get_selected_components, output_dir)
 end
 
-def save_scene
+def export_scene
   output_dir = UI.select_directory(title: "Select Output Directory")
   export_scene(output_dir)
 end
