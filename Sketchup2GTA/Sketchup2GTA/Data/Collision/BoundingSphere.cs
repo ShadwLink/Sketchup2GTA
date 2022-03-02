@@ -6,5 +6,6 @@ namespace Sketchup2GTA.Data.Collision
     {
         public float Radius;
         public Vector3 Center;
+        public CollMaterial Material;
     }
 }

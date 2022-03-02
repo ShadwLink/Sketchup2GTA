@@ -6,5 +6,6 @@ namespace Sketchup2GTA.Data.Collision
     {
         public Vector3 Min;
         public Vector3 Max;
+        public CollMaterial Material;
     }
 }

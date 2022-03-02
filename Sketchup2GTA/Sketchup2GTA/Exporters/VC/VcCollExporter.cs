@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Sketchup2GTA.Data.Collision;
 using Sketchup2GTA.IO;
@@ -25,10 +26,9 @@ namespace Sketchup2GTA.Exporters.VC
             {
                 bw.Write(sphere.Radius);
                 bw.Write(sphere.Center);
-                // TODO: Write material
-                bw.Write(0);
+                WriteMaterial(bw, sphere.Material);
             }
-            
+
             bw.Write(0); // Line count
 
             bw.Write(collision.Boxes.Count);
@@ -36,8 +36,7 @@ namespace Sketchup2GTA.Exporters.VC
             {
                 bw.Write(box.Min);
                 bw.Write(box.Max);
-                // TODO: Write material
-                bw.Write(0);
+                WriteMaterial(bw, box.Material);
             }
 
             bw.Write(collision.Vertices.Count);
@@ -45,15 +44,14 @@ namespace Sketchup2GTA.Exporters.VC
             {
                 bw.Write(vertex);
             }
-            
+
             bw.Write(collision.Faces.Count);
             foreach (var face in collision.Faces)
             {
                 bw.Write(face.A);
                 bw.Write(face.B);
                 bw.Write(face.C);
-                // TODO: Write material
-                bw.Write(0);
+                WriteMaterial(bw, face.Material);
             }
 
             bw.Flush();
@@ -69,6 +67,33 @@ namespace Sketchup2GTA.Exporters.VC
                    4 + collision.Boxes.Count * 28 +
                    4 + collision.Vertices.Count * 12 +
                    4 + collision.Faces.Count * 16;
+        }
+
+        private void WriteMaterial(BinaryWriter bw, CollMaterial material)
+        {
+            bw.Write(MaterialByMaterialName(material.Material));
+            bw.Write((byte)0);
+            bw.Write((byte)0);
+            bw.Write((byte)0);
+        }
+
+        private byte MaterialByMaterialName(string materialName)
+        {
+            // TODO: Might want to move this to some kind of config file
+            switch (materialName)
+            {
+                case "grass":
+                    return 0x2;
+                case "mud":
+                    return 0x3;
+                case "dirt":
+                    return 0x4;
+                case "glass":
+                    return 0x7;
+                default:
+                    Console.WriteLine("Unknown material: " + materialName);
+                    return 0x0;
+            }
         }
     }
 }

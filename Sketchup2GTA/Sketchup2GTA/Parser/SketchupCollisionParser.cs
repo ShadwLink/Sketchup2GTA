@@ -60,7 +60,14 @@ namespace Sketchup2GTA.Parser
 
                     foreach (var face in mesh.Faces)
                     {
-                        coll.AddFace(new Face(vertexIndexMapping[face.A], vertexIndexMapping[face.B], vertexIndexMapping[face.C]));
+                        coll.AddFace(
+                            new Face(
+                                vertexIndexMapping[face.A],
+                                vertexIndexMapping[face.B],
+                                vertexIndexMapping[face.C],
+                                new CollMaterial(meshByMaterial.Key.Name)
+                            )
+                        );
                     }
                 }
             }
