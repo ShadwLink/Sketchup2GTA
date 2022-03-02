@@ -1,3 +1,5 @@
+require 'shellwords'
+
 require 'shadowlink_gta_exporter/version_selection.rb'
 require 'shadowlink_gta_exporter/plugin_settings.rb'
 
@@ -10,16 +12,17 @@ Sketchup.load('shadowlink_gta_exporter/bounds/bounds_dictionary_exporter.rb')
 
 MAX_DECIMALS = 8
 
-@version_selection = VersionSelection.new(PluginSettings.new())
+@plugin_settings = PluginSettings.new
+@version_selection = VersionSelection.new(@plugin_settings)
 
 def selected_component
   ss = Sketchup.active_model.selection
-  groups = ss.find_all {|group| group.typename == "ComponentInstance"} # Get all group enteties
+  groups = ss.find_all { |group| group.typename == "ComponentInstance" } # Get all group enteties
   return groups.length
 end
 
 def get_selected_components
-  Sketchup.active_model.selection.find_all {|group| group.typename == "ComponentInstance"}
+  Sketchup.active_model.selection.find_all { |group| group.typename == "ComponentInstance" }
 end
 
 def get_selected_unique_components
@@ -39,12 +42,12 @@ end
 
 def selected_groups
   ss = Sketchup.active_model.selection
-  groups = ss.find_all {|group| group.typename == "Group"}
+  groups = ss.find_all { |group| group.typename == "Group" }
   return groups.length
 end
 
 def add_version_menu_item(version_submenu, title, game)
-  item = version_submenu.add_item(title) {@version_selection.set_selected_version(game)}
+  item = version_submenu.add_item(title) { @version_selection.set_selected_version(game) }
   version_submenu.set_validation_proc(item) {
     if @version_selection.get_selected_version == game
       MF_CHECKED
@@ -55,18 +58,34 @@ def add_version_menu_item(version_submenu, title, game)
 end
 
 if (not file_loaded?("sl_exporter.rb"))
-  placement_submenu = UI.menu("Plugins").add_submenu("GTA Export")
-  placement_submenu.add_item("Place car") {place_car}
-  placement_submenu.add_item("Export scene") {export_scene}
-  placement_submenu.add_item("Export placement") {export_placement}
-  placement_submenu.add_item("Export model") {export_model}
+  gta_exporter_submenu = UI.menu("Plugins").add_submenu("GTA Exporter")
+  placement_submenu = gta_exporter_submenu.add_submenu("Export")
+  placement_submenu.add_item("Place car") { place_car }
+  placement_submenu.add_item("Export scene") { export_scene }
+  placement_submenu.add_item("Export placement") { export_placement }
+  placement_submenu.add_item("Export all") { export_all }
   placement_submenu.add_separator
-  placement_submenu.add_item("Help") {show_help}
+  placement_submenu.add_item("Help") { show_help }
 
-  version_submenu = UI.menu("Plugins").add_submenu("GTA Version")
+  settings_submenu = gta_exporter_submenu.add_submenu("Settings")
+  version_submenu = settings_submenu.add_submenu("GTA Version")
   add_version_menu_item(version_submenu, "VC", :GTA_VC)
   add_version_menu_item(version_submenu, "IV", :GTA_IV)
   add_version_menu_item(version_submenu, "V", :GTA_V)
+
+  settings_submenu.add_item("Sketchup2GTA Path") { select_sketchup2gta_path }
+end
+
+def select_sketchup2gta_path
+  prompts = ["Enter path to Sketchup2GTA"]
+  defaults = [@plugin_settings.get_sketchup2gta_path]
+  input = UI.inputbox(prompts, defaults, "Path to Sketchup2GTA")
+  path = input.first
+  if File.file?(path)
+    @plugin_settings.set_sketchup2gta_path(path.gsub('\\', '/'))
+  else
+    UI::messagebox("Invalid path to Sketchup2GTA")
+  end
 end
 
 UI.add_context_menu_handler do |menu|
@@ -74,43 +93,48 @@ UI.add_context_menu_handler do |menu|
     menu.add_separator
     submenu = menu.add_submenu("GTA Export")
 
-    submenu.add_item("Export Model") {export_selected_model}
-    submenu.add_item("Export Collision") {export_collision}
-    submenu.add_item("Export Textures") {export_textures}
+    submenu.add_item("Export Model") { export_selected_model }
+    submenu.add_item("Export Collision") { export_collision }
+    submenu.add_item("Export Textures") { export_textures }
 
     submenu.add_separator
     if (getFileName(Sketchup.active_model.selection[0]) == "sl_iv_car")
-      submenu.add_item("Setup Car") {dialogCar}
+      submenu.add_item("Setup Car") { dialogCar }
     else
-      submenu.add_item("Setup IDE") {SelectionDialog.new()}
+      submenu.add_item("Setup IDE") { SelectionDialog.new() }
     end
 
     submenu.add_separator
-    submenu.add_item("Calculate Hash") {show_hash}
+    submenu.add_item("Calculate Hash") { show_hash }
 
   elsif selected_component > 1
     menu.add_separator
     submenu = menu.add_submenu("IV Export")
-    submenu.add_item("Export WPL") {export_placement}
-    submenu.add_item("Export IDE") {save_ide}
-    submenu.add_item("Export ODD") {save_odd}
-    submenu.add_item("Export OBD") {save_obd}
-    submenu.add_item("Export OTD") {export_textures}
+    submenu.add_item("Export WPL") { export_placement }
+    submenu.add_item("Export IDE") { save_ide }
+    submenu.add_item("Export ODD") { save_odd }
+    submenu.add_item("Export OBD") { save_obd }
+    submenu.add_item("Export OTD") { export_textures }
   end
 end
 
-def export_model
+def export_all
   SKETCHUP_CONSOLE.show
-  if Sketchup.active_model.save("tmp.skp")
-    puts Sketchup.active_model.path
-    value = `echo 'hi'`
-    puts value
-    gta_exporter = Sketchup.find_support_file("Plugins") + "/sl/Sketchup2GTA.exe"
-    puts gta_exporter
-    if File.file?(gta_exporter)
-      puts "File exists"
-    else
-      puts "File does not exist"
+
+  path = @plugin_settings.get_sketchup2gta_path
+  if path.nil? || path.empty?
+    UI::messagebox("Sketchup2GTA path not defined")
+  else
+    if Sketchup.active_model.save(Sketchup.active_model.path)
+      gta_exporter = @plugin_settings.get_sketchup2gta_path
+
+      input_path = Sketchup.active_model.path
+      if File.file?(gta_exporter)
+        gta_command = "'#{gta_exporter}' model -i #{input_path} -mtc"
+        value = `#{gta_command}`
+      else
+        puts "GTA Exporter not configured properly"
+      end
     end
   end
 end
@@ -221,9 +245,9 @@ end
 def show_help
   html_file = File.join(__dir__, 'help', 'help.html') # Use external HTML
   options = {
-      :dialog_title => "Shadow-Link's Sketchup2IV",
-      :preferences_key => "example.htmldialog.materialinspector",
-      :style => UI::HtmlDialog::STYLE_DIALOG
+    :dialog_title => "Shadow-Link's Sketchup2IV",
+    :preferences_key => "example.htmldialog.materialinspector",
+    :style => UI::HtmlDialog::STYLE_DIALOG
   }
   dialog = UI::HtmlDialog.new(options)
   dialog.set_file(html_file) # Can be set here.

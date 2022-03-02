@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System;
+using CommandLine;
 
 namespace Sketchup2GTA
 {
@@ -9,6 +10,8 @@ namespace Sketchup2GTA
             CommandLine.Parser.Default.ParseArguments<ExportModelOptions, ExportMapOptions>(args)
                 .WithParsed<ExportModelOptions>(RunExporter)
                 .WithParsed<ExportMapOptions>(RunExporter);
+            Console.WriteLine("Export completed");
+            Console.ReadLine();
         }
         static void RunExporter(ExportOptions options)
         {
