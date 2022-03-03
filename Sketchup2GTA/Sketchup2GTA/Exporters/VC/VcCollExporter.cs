@@ -82,17 +82,73 @@ namespace Sketchup2GTA.Exporters.VC
             // TODO: Might want to move this to some kind of config file
             switch (materialName)
             {
+                case "":
+                    return 0;
+                case "street":
+                    return 1;
                 case "grass":
-                    return 0x2;
+                    return 2;
                 case "mud":
-                    return 0x3;
+                    return 3;
                 case "dirt":
-                    return 0x4;
+                    return 4;
+                case "concrete":
+                    return 5;
+                case "aluminum":
+                    return 6;
                 case "glass":
-                    return 0x7;
+                    return 7;
+                case "metal_pole":
+                    return 8;
+                case "door":
+                    return 9;
+                case "metal_sheet":
+                    return 10;
+                case "metal":
+                    return 11;
+                case "metal_post_small":
+                    return 12;
+                case "metal_post_large":
+                    return 13;
+                case "metal_post_medium":
+                    return 14;
+                case "steel":
+                    return 15;
+                case "fence":
+                    return 16;
+                case "sand":
+                    return 18;
+                case "water":
+                    return 19;
+                case "wooden_box":
+                    return 20;
+                case "wooden_lathes":
+                    return 21;
+                case "wood":
+                    return 22;
+                case "metal_box":
+                    return 23;
+                case "metal_box_2":
+                    return 24;
+                case "hedge":
+                    return 25;
+                case "rock":
+                    return 26;
+                case "metal_container":
+                    return 27;
+                case "metal_barrel":
+                    return 28;
+                case "metal_card_box":
+                    return 30;
+                case "metal_gate":
+                    return 32;
+                case "sand_2":
+                    return 33;
+                case "grass_2":
+                    return 34;
                 default:
                     Console.WriteLine("Unknown material: " + materialName);
-                    return 0x0;
+                    return 0;
             }
         }
     }
