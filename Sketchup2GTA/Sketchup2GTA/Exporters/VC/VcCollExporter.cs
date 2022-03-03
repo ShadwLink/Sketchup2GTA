@@ -48,9 +48,9 @@ namespace Sketchup2GTA.Exporters.VC
             bw.Write(collision.Faces.Count);
             foreach (var face in collision.Faces)
             {
-                bw.Write(face.A);
-                bw.Write(face.B);
                 bw.Write(face.C);
+                bw.Write(face.B);
+                bw.Write(face.A);
                 WriteMaterial(bw, face.Material);
             }
 
