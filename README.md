@@ -47,47 +47,6 @@ Models can be exported by converting them to components. Simply select the compo
 ## Tutorial
 A step by step guide that exports a tutorial scene to GTA: IV can be found on my [website](https://shadow-link.nl/projects/sketchup-iv-exporter/).
 
-## Version history
-
-##### 0.6.0
-- Initial support for VC formats
-  - DFF
-  - TXD
-  - COL
-  - IPL
-  - IDE
-
-##### 0.5.0
-- Initial support for V formats
-  - ODR
-  - OTD
-
-##### 0.4.2
-- Use relative file path for OTD export
-
-##### 0.4.1
-- Fixed OpenFormats version in mesh files
-- Select export path for WPL files
-- Select export path for IDE files
-- Filter duplicates on IDE export
-- Fix UV coordinates
-
-##### 0.4.0
-- Added OTD support
-
-##### 0.3.0
-- Added ODD and OBN support
-
-##### 0.2.0
-- Sketchup 2017 support
-
-##### 0.1.0
-- Initial release
-- Export ODR
-- Export OBD
-- Export WPL
-- Export IDE
-
 ## Author
 Shadow-Link
 
