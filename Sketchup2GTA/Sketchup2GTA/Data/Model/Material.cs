@@ -11,5 +11,10 @@ namespace Sketchup2GTA.Data.Model
             TextureName = textureName;
             MaterialColor = materialColor;
         }
+
+        public bool HasTexture()
+        {
+            return TextureName != "";
+        }
     }
 }

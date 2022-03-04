@@ -6,11 +6,10 @@ namespace Sketchup2GTA.Exporters.Model.RW
 {
     public class RwTexture : RwSection
     {
-        public RwTexture(MaterialSplit materialSplit) : base(0x06)
+        public RwTexture(string textureName) : base(0x06)
         {
             AddStructSection();
-            AddSection(new RwString(
-                materialSplit.Material.TextureName.Substring(0, materialSplit.Material.TextureName.LastIndexOf(".", StringComparison.Ordinal))));
+            AddSection(new RwString(textureName));
             AddSection(new RwString(""));
             AddSection(new RwExtension());
         }

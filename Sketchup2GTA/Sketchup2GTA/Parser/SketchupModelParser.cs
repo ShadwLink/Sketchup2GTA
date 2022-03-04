@@ -55,7 +55,7 @@ namespace Sketchup2GTA.Parser
                 var material = meshByMaterial.Key;
                 MaterialSplit split = new MaterialSplit(
                     new Data.Model.Material(
-                        material.MaterialTexture.Name,
+                        material.MaterialTexture.GetTextureNameWithoutExtension(),
                         new MaterialColor(
                             material.Colour.R,
                             material.Colour.G,

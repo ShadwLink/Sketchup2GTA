@@ -1,5 +1,6 @@
 using System.IO;
 using Sketchup2GTA.IO;
+using Sketchup2GTA.Parser;
 using SketchUpNET;
 using Squish;
 
@@ -87,8 +88,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
             bw.Write(constantNotSoConstant);
             bw.Write(0x1102); // Filter flags
             // TODO: Clean this up
-            bw.WriteStringWithFixedLength(_texture.Name.Replace(".png", "").Replace(".bmp", ""),
-                32); // Diffuse name
+            bw.WriteStringWithFixedLength(_texture.GetTextureNameWithoutExtension(), 32); // Diffuse name
             bw.WriteStringWithFixedLength("", 32); // Alpha name
             bw.Write((int)rasterFormat);
             bw.Write(fourCC); // TODO: FourCC

@@ -59,14 +59,24 @@ end
 
 if (not file_loaded?("sl_exporter.rb"))
   gta_exporter_submenu = UI.menu("Plugins").add_submenu("GTA Exporter")
-  placement_submenu = gta_exporter_submenu.add_submenu("Export")
-  placement_submenu.add_item("Place car") { place_car }
-  placement_submenu.add_item("Export scene") { export_scene }
-  placement_submenu.add_item("Export placement") { export_placement }
-  placement_submenu.add_item("Export all") { export_all }
-  placement_submenu.add_separator
-  placement_submenu.add_item("Help") { show_help }
 
+  # Export scene
+  export_placement_submenu = gta_exporter_submenu.add_submenu("Export placement")
+  export_placement_submenu.add_item("Place car") { place_car }
+  export_placement_submenu.add_item("Export scene") { export_scene }
+  export_placement_submenu.add_item("Export placement") { export_placement }
+
+  # Model export
+  export_model_submenu = gta_exporter_submenu.add_submenu("Export model")
+  export_model_submenu.add_item("Export model") { export_model(true, false, false) }
+  export_model_submenu.add_item("Export textures") { export_model(false, true, false) }
+  export_model_submenu.add_item("Export collision") { export_model(false, false, true) }
+  export_model_submenu.add_separator
+  export_model_submenu.add_item("Export all") { export_model(true, true, true) }
+
+  # Export model
+
+  # Settings menu
   settings_submenu = gta_exporter_submenu.add_submenu("Settings")
   version_submenu = settings_submenu.add_submenu("GTA Version")
   add_version_menu_item(version_submenu, "VC", :GTA_VC)
@@ -74,6 +84,9 @@ if (not file_loaded?("sl_exporter.rb"))
   add_version_menu_item(version_submenu, "V", :GTA_V)
 
   settings_submenu.add_item("Sketchup2GTA Path") { select_sketchup2gta_path }
+
+  # Help
+  gta_exporter_submenu.add_item("Help") { show_help }
 end
 
 def select_sketchup2gta_path
@@ -118,7 +131,7 @@ UI.add_context_menu_handler do |menu|
   end
 end
 
-def export_all
+def export_model(exportModel, exportTextures, exportCollision)
   SKETCHUP_CONSOLE.show
 
   path = @plugin_settings.get_sketchup2gta_path
@@ -130,7 +143,18 @@ def export_all
 
       input_path = Sketchup.active_model.path
       if File.file?(gta_exporter)
-        gta_command = "'#{gta_exporter}' model -i #{input_path} -mtc"
+        export_command = "-"
+        if exportModel
+          export_command += "m"
+        end
+        if exportTextures
+          export_command += "t"
+        end
+        if exportCollision
+          export_command += "c"
+        end
+
+        gta_command = "'#{gta_exporter}' model -i #{input_path} #{export_command}"
         value = `#{gta_command}`
       else
         puts "GTA Exporter not configured properly"

@@ -12,14 +12,14 @@ namespace Sketchup2GTA.Exporters.Model.RW
             AddStructSection();
             foreach (var materialSplit in _model.MaterialSplits)
             {
-                AddSection(new RwMaterial(materialSplit));
+                AddSection(new RwMaterial(materialSplit.Material));
             }
         }
 
         protected override void WriteStructSection(BinaryWriter bw)
         {
             bw.Write(_model.MaterialSplits.Count);
-            foreach (var split in _model.MaterialSplits)
+            foreach (var unused in _model.MaterialSplits)
             {
                 bw.Write(-1);
             }

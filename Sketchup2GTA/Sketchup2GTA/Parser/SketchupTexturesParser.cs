@@ -1,12 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Numerics;
 using Sketchup2GTA.Data;
-using Sketchup2GTA.Data.Model;
-using Sketchup2GTA.Exporters.Model.RW;
 using SketchUpNET;
-using Material = SketchUpNET.Material;
 
 namespace Sketchup2GTA.Parser
 {
