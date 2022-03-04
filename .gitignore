@@ -24,8 +24,9 @@ doc/
 /log/*.log
 /tmp
 /public/assets
-/.idea
-/.idea *
+*/.idea
+*/.idea *
+*.idea/
 /public/system/*
 .rvmrc
 
