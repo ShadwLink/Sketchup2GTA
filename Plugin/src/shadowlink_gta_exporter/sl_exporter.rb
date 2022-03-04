@@ -102,6 +102,10 @@ def select_sketchup2gta_path
 end
 
 UI.add_context_menu_handler do |menu|
+  if @plugin_settings.get_selected_game_version == :GTA_VC
+    return
+  end
+
   if selected_component == 1
     menu.add_separator
     submenu = menu.add_submenu("GTA Export")
