@@ -3,7 +3,7 @@
 Exports [Sketchup](https://www.sketchup.com/download) models to Grand Theft Auto VC / IV / V.
 
 Supported formats:
-- GTA: VC
+- GTA: VC (WIP)
   - DFF
   - TXD
   - COL
