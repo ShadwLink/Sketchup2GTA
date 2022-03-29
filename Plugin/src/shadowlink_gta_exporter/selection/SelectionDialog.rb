@@ -1,6 +1,6 @@
 require 'erb'
 
-class SelectionDialog < Sketchup::SelectionObserver
+class IDEDialog < Sketchup::SelectionObserver
 
   def initialize
     Sketchup.active_model.selection.add_observer(self)

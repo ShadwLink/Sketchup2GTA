@@ -29,7 +29,7 @@ class PluginSettings
     when :GTA_IV
       "IV"
     else
-      "IV"
+      "VC"
     end
   end
 
@@ -42,7 +42,7 @@ class PluginSettings
     when "IV"
       :GTA_IV
     else
-      :GTA_IV
+      :GTA_VC
     end
   end
 
