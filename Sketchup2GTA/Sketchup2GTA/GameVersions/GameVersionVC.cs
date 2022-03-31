@@ -6,6 +6,11 @@ namespace Sketchup2GTA
 {
     public class GameVersionVC : GameVersion
     {
+        public override string GetGameName()
+        {
+            return "GTA: VC";
+        }
+
         public override DefinitionExporter GetDefinitionExporter()
         {
             return new VcDefinitionExporter();
