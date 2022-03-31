@@ -10,7 +10,7 @@ namespace Sketchup2GTA.Exporters.VC
             StreamWriter file = new StreamWriter(group.Name + ".ide");
             file.WriteLine("# Generated using Shadow-Link SketchUp plugin");
             file.WriteLine("objs");
-            foreach (var definition in group.Definitions)
+            foreach (var definition in group.ObjectDefinitions)
             {
                 file.WriteLine($"{definition.ID}, {definition.Name}, {definition.Name}, 1, 299, 0");
             }

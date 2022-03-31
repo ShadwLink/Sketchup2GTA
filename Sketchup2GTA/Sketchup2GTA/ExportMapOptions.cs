@@ -1,3 +1,4 @@
+using System;
 using CommandLine;
 using Sketchup2GTA.ExportModes;
 
@@ -6,9 +7,8 @@ namespace Sketchup2GTA
     [Verb("map", HelpText = "Export Sketchup scene to GTA Map files.")]
     public class ExportMapOptions: ExportOptions
     {
-        [Option(shortName: 'g', longName: "game",
-            Default = "vc",
-            HelpText = "Game version, currently only VC is supported")]
+        [Option(shortName: 'g', longName: "game", Required = true,
+            HelpText = "Game version. Possible values: vc, iv")]
         public string Game { get; set; }
 
         [Option(shortName: 'i', longName: "input", Required = true,
@@ -20,8 +20,20 @@ namespace Sketchup2GTA
 
         public ExportMode CreateExportMode()
         {
-            
-            return new MapExportMode(Input, ID);
+            return new MapExportMode(Input, GetGameVersion(Game), ID);
+        }
+
+        private GameVersion GetGameVersion(string game)
+        {
+            switch (game)
+            {
+                case "vc":
+                    return new GameVersionVC();
+                case "iv":
+                    return new GameVersionIV();
+                default:
+                    throw new ArgumentException($"'{game}' is not supported. Possible values: vc, iv");
+            }
         }
     }
 }

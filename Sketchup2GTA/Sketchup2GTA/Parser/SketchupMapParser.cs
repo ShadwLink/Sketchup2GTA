@@ -12,35 +12,35 @@ namespace Sketchup2GTA.Parser
         public GtaMap Parse(String path, int startId)
         {
             DefinitionIdGenerator idGenerator = new DefinitionIdGenerator(startId);
-            
+
             SketchUp skp = new SketchUp();
             if (skp.LoadModel(path, false))
             {
                 GtaMap map = new GtaMap();
                 foreach (var placementInstance in skp.Instances)
                 {
-                    if (placementInstance.Parent is Component component)
+                    if (placementInstance.Parent is Component component && component.Instances.Count > 0)
                     {
-                        if (component.Instances.Count > 0)
+                        Console.WriteLine("Parsing " + GetName(placementInstance) + " instances: " +
+                                          component.Instances.Count);
+                        Group group = new Group(GetName(placementInstance));
+                        foreach (var instance in component.Instances)
                         {
-                            Console.WriteLine("Parsing " + GetName(placementInstance) + " instances: " + component.Instances.Count);
-                            Group group = new Group(GetName(placementInstance));
-                            foreach (var instance in component.Instances)
-                            {
-                                var definition = group.GetOrCreateDefinition(idGenerator, GetName(instance));
-                                var gtaInstance = new ObjectInstance(
-                                    definition,
-                                    new Vector3(
-                                        (float)instance.Transformation.X,
-                                        (float)instance.Transformation.Y,
-                                        (float)instance.Transformation.Z
-                                    )
-                                );
-                                group.AddInstance(gtaInstance);
-                            }
+                            var componentBounds = ((Component)instance.Parent).GetBounds();
 
-                            map.AddGroup(group);
+                            var definition = group.GetOrCreateDefinition(idGenerator, GetName(instance), componentBounds);
+                            var gtaInstance = new ObjectInstance(
+                                definition,
+                                new Vector3(
+                                    (float)instance.Transformation.X,
+                                    (float)instance.Transformation.Y,
+                                    (float)instance.Transformation.Z
+                                )
+                            );
+                            group.AddInstance(gtaInstance);
                         }
+
+                        map.AddGroup(group);
                     }
                 }
 

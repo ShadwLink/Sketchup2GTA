@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sketchup2GTA.Data.Model;
 using Sketchup2GTA.Parser;
 
 namespace Sketchup2GTA.Data
@@ -7,7 +8,7 @@ namespace Sketchup2GTA.Data
     public class Group
     {
         public string Name { get; }
-        public readonly List<ObjectDefinition> Definitions = new List<ObjectDefinition>();
+        public readonly List<ObjectDefinition> ObjectDefinitions = new List<ObjectDefinition>();
         public readonly List<ObjectInstance> Instances = new List<ObjectInstance>();
 
         public Group(string name)
@@ -15,26 +16,26 @@ namespace Sketchup2GTA.Data
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
         
-        public ObjectDefinition GetOrCreateDefinition(DefinitionIdGenerator idGenerator, String name)
+        public ObjectDefinition GetOrCreateDefinition(DefinitionIdGenerator idGenerator, String name, Bounds bounds)
         {
             var defIndex = FindIndexOfDefinition(name);
             if (defIndex != -1)
             {
-                return Definitions[defIndex];
+                return ObjectDefinitions[defIndex];
             }
             else
             {
-                var def = new ObjectDefinition(idGenerator.GetNextId(), name);
-                Definitions.Add(def);
+                var def = new ObjectDefinition(idGenerator.GetNextId(), name, bounds);
+                ObjectDefinitions.Add(def);
                 return def;
             }
         }
 
         private int FindIndexOfDefinition(String name)
         {
-            for (int i = 0; i < Definitions.Count; i++)
+            for (int i = 0; i < ObjectDefinitions.Count; i++)
             {
-                if (Definitions[i].Name == name)
+                if (ObjectDefinitions[i].Name == name)
                 {
                     return i;
                 }
@@ -45,7 +46,7 @@ namespace Sketchup2GTA.Data
         
         public void AddDefinition(ObjectDefinition definition)
         {
-            Definitions.Add(definition);
+            ObjectDefinitions.Add(definition);
         }
         
         public void AddInstance(ObjectInstance objectInstance)
