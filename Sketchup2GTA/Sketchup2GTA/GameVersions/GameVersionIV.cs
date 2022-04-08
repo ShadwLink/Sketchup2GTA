@@ -17,7 +17,7 @@ namespace Sketchup2GTA
 
         public override PlacementExporter GetPlacementExporter()
         {
-            return new IVPlacementExporter();
+            return new IVPlacementExporter(new JenkinsHasher());
         }
     }
 }
