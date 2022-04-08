@@ -28,7 +28,7 @@ namespace Sketchup2GTA.Exporters.VC
 
         private void WriteEmptySection(StreamWriter file, Group group)
         {
-            file.WriteAsync("# Unsupported");
+            file.WriteLine("# Unsupported");
         }
 
         private void WriteSection(StreamWriter file, string sectionName, Group group,
