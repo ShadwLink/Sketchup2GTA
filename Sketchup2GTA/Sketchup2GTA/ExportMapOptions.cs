@@ -8,7 +8,7 @@ namespace Sketchup2GTA
     public class ExportMapOptions: ExportOptions
     {
         [Option(shortName: 'g', longName: "game", Required = true,
-            HelpText = "Game version. Possible values: vc, iv")]
+            HelpText = "Game version. Possible values: iii, vc, iv")]
         public string Game { get; set; }
 
         [Option(shortName: 'i', longName: "input", Required = true,
@@ -27,6 +27,8 @@ namespace Sketchup2GTA
         {
             switch (game)
             {
+                case "iii":
+                    return new GameVersionIII();
                 case "vc":
                     return new GameVersionVC();
                 case "iv":
