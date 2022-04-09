@@ -2,7 +2,7 @@ require 'sketchup.rb'
 require 'extensions.rb'
 
 module ShadowLink
-  module Sketchup2IV
+  module Sketchup2GTA
 
     unless file_loaded?(__FILE__)
       ex = SketchupExtension.new('Sketchup2GTA', 'shadowlink_gta_exporter/main')
@@ -13,5 +13,5 @@ module ShadowLink
       file_loaded(__FILE__)
     end
 
-  end # module Sketchup2IV
-end # module ShadowLink
+  end
+end
