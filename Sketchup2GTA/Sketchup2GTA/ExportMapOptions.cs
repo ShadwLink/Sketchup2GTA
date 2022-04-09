@@ -31,6 +31,8 @@ namespace Sketchup2GTA
                     return new GameVersionIII();
                 case "vc":
                     return new GameVersionVC();
+                case "sa":
+                    return new GameVersionSA();
                 case "iv":
                     return new GameVersionIV();
                 default:
