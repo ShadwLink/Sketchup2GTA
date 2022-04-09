@@ -1,5 +1,6 @@
 using System;
 using Sketchup2GTA.Exporters;
+using Sketchup2GTA.Exporters.III;
 using Sketchup2GTA.Exporters.VC;
 
 namespace Sketchup2GTA
@@ -14,6 +15,11 @@ namespace Sketchup2GTA
         public override DefinitionExporter GetDefinitionExporter()
         {
             return new VcDefinitionExporter();
+        }
+
+        public override PlacementExporter GetPlacementExporter()
+        {
+            return new IIIPlacementExporter();
         }
     }
 }
