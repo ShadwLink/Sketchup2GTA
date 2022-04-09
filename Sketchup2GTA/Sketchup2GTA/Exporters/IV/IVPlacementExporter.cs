@@ -52,11 +52,11 @@ namespace Sketchup2GTA.Exporters.IV
                 bw.Write(instance.Position.X);
                 bw.Write(instance.Position.Y);
                 bw.Write(instance.Position.Z);
-                bw.Write(1f); // TODO: RotX
-                bw.Write(1f); // TODO: RotY
-                bw.Write(1f); // TODO: RotZ
-                bw.Write(0f); // TODO: RotW
-                bw.Write(_hasher.Hash(instance.Name)); // TODO: Calculate hash
+                bw.Write(instance.Rotation.X);
+                bw.Write(instance.Rotation.Y);
+                bw.Write(instance.Rotation.Z);
+                bw.Write(instance.Rotation.W);
+                bw.Write(_hasher.Hash(instance.Name));
                 bw.Write(0); // Unknown1
                 bw.Write(-1); // TODO: Lod index
                 bw.Write(0); // Unknown2

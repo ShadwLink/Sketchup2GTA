@@ -28,7 +28,20 @@ namespace Sketchup2GTA.Exporters.VC
             foreach (var instance in group.Instances)
             {
                 file.WriteLine(
-                    $"{instance.ID}, {instance.Name}, 0, {instance.Position.X}, {instance.Position.Y}, {instance.Position.Z}, 1, 1, 1, 0, 0, 0, 1");
+                    $"{instance.ID}, " +
+                    $"{instance.Name}, " +
+                    $"0, " + // Interior
+                    $"{instance.Position.X}, " +
+                    $"{instance.Position.Y}, " +
+                    $"{instance.Position.Z}, " +
+                    $"1, " + // Scale X
+                    $"1, " + // Scale Y
+                    $"1, " + // Scale Z
+                    $"{instance.Rotation.X}, " +
+                    $"{instance.Rotation.Y}, " +
+                    $"{instance.Rotation.Z}, " +
+                    $"{instance.Rotation.W}"
+                );
             }
         }
 

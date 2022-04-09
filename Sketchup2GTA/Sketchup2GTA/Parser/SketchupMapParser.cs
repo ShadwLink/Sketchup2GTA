@@ -31,11 +31,8 @@ namespace Sketchup2GTA.Parser
                             var definition = group.GetOrCreateDefinition(idGenerator, GetName(instance), componentBounds);
                             var gtaInstance = new ObjectInstance(
                                 definition,
-                                new Vector3(
-                                    (float)instance.Transformation.X,
-                                    (float)instance.Transformation.Y,
-                                    (float)instance.Transformation.Z
-                                )
+                                instance.Transformation.GetPosition(),
+                                instance.Transformation.GetRotation()
                             );
                             group.AddInstance(gtaInstance);
                         }

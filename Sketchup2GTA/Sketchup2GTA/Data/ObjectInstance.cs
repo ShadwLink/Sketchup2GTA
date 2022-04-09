@@ -10,12 +10,14 @@ namespace Sketchup2GTA.Data
 
         public string Name => _objectDefinition.Name;
 
-        public Vector3 Position;
+        public readonly Vector3 Position;
+        public readonly Quaternion Rotation;
 
-        public ObjectInstance(ObjectDefinition objectDefinition, Vector3 position)
+        public ObjectInstance(ObjectDefinition objectDefinition, Vector3 position, Quaternion rotation)
         {
             _objectDefinition = objectDefinition;
             Position = position;
+            Rotation = rotation;
         }
     }
 }
