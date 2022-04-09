@@ -22,12 +22,16 @@ class PluginSettings
 
   def version_to_string(version)
     case version
+    when :GTA_III
+      "III"
     when :GTA_VC
       "VC"
-    when :GTA_V
-      "V"
+    when :GTA_SA
+      "SA"
     when :GTA_IV
       "IV"
+    when :GTA_V
+      "V"
     else
       "VC"
     end
@@ -35,12 +39,16 @@ class PluginSettings
 
   def string_to_version(version_string)
     case version_string
+    when "III"
+      :GTA_III
     when "VC"
       :GTA_VC
-    when "V"
-      :GTA_V
+    when "SA"
+      :GTA_SA
     when "IV"
       :GTA_IV
+    when "V"
+      :GTA_V
     else
       :GTA_VC
     end

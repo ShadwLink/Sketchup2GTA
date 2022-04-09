@@ -10,7 +10,7 @@ def add_version_menu_item(version_submenu, title, game, is_enabled)
   item = version_submenu.add_item(title) { @plugin_settings.set_selected_game_version(game) }
   version_submenu.set_validation_proc(item) {
     if is_enabled
-      if @plugin_settings.get_selected_version == game
+      if @plugin_settings.get_selected_game_version == game
         MF_CHECKED
       else
         MF_UNCHECKED
@@ -42,8 +42,10 @@ unless file_loaded?("sl_exporter.rb")
   # Settings menu
   settings_submenu = gta_exporter_submenu.add_submenu("Settings")
   version_submenu = settings_submenu.add_submenu("GTA Version")
+  add_version_menu_item(version_submenu, "III", :GTA_III, true)
   add_version_menu_item(version_submenu, "VC", :GTA_VC, true)
-  add_version_menu_item(version_submenu, "IV", :GTA_IV, false)
+  add_version_menu_item(version_submenu, "SA", :GTA_SA, true)
+  add_version_menu_item(version_submenu, "IV", :GTA_IV, true)
   add_version_menu_item(version_submenu, "V", :GTA_V, false)
 
   settings_submenu.add_item("Sketchup2GTA Path") { select_sketchup2gta_path }
@@ -61,24 +63,6 @@ def select_sketchup2gta_path
     @plugin_settings.set_sketchup2gta_path(path.gsub('\\', '/'))
   else
     UI::messagebox("Invalid path to Sketchup2GTA")
-  end
-end
-
-UI.add_context_menu_handler do |menu|
-  if @plugin_settings.get_selected_game_version == :GTA_VC
-    return
-  end
-
-  if selected_component == 1
-    menu.add_separator
-    submenu = menu.add_submenu("GTA Export")
-
-    submenu.add_separator
-    if getFileName(Sketchup.active_model.selection[0]) == "sl_car"
-      submenu.add_item("Setup Car") { dialogCar }
-    else
-      submenu.add_item("Setup IDE") { IDEDialog.new }
-    end
   end
 end
 
@@ -126,12 +110,29 @@ def export_scene()
 
       input_path = Sketchup.active_model.path
       if File.file?(gta_exporter)
-        gta_command = "'#{gta_exporter}' map -i #{input_path} --id 641"
+        gta_command = "'#{gta_exporter}' map -i #{input_path} --id 641 -g #{get_game_arg}"
         value = `#{gta_command}`
       else
         puts "GTA Exporter not configured properly"
       end
     end
+  end
+end
+
+def get_game_arg
+  case @plugin_settings.get_selected_game_version
+  when :GTA_III
+    "iii"
+  when :GTA_VC
+    "vc"
+  when :GTA_SA
+    "sa"
+  when :GTA_IV
+    "iv"
+  when :GTA_V
+    "v"
+  else
+    "vc"
   end
 end
 
