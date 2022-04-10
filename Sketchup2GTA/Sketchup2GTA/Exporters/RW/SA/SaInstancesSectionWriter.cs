@@ -24,7 +24,8 @@ namespace Sketchup2GTA.Exporters.RW.SA
                     $"{instance.Rotation.X}, " +
                     $"{instance.Rotation.Y}, " +
                     $"{instance.Rotation.Z}, " +
-                    $"{instance.Rotation.W}"
+                    $"{instance.Rotation.W}, " + 
+                    $"-1" // LOD Index
                 );
             }
         }
