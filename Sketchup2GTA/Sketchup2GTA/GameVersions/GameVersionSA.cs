@@ -1,8 +1,8 @@
-using System;
+using System.Collections.Generic;
 using Sketchup2GTA.Exporters;
-using Sketchup2GTA.Exporters.III;
-using Sketchup2GTA.Exporters.SA;
-using Sketchup2GTA.Exporters.VC;
+using Sketchup2GTA.Exporters.RW;
+using Sketchup2GTA.Exporters.RW.SA;
+using Sketchup2GTA.Exporters.RW.VC;
 
 namespace Sketchup2GTA
 {
@@ -20,7 +20,10 @@ namespace Sketchup2GTA
 
         public override PlacementExporter GetPlacementExporter()
         {
-            return new SAPlacementExporter();
+            var sectionWriters = new List<SectionWriter>();
+            sectionWriters.Add(new SaInstancesSectionWriter());
+            
+            return new RwPlacementExporter(sectionWriters);
         }
     }
 }

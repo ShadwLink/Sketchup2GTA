@@ -1,4 +1,4 @@
-using Sketchup2GTA.Exporters.VC;
+using Sketchup2GTA.Exporters.RW.VC;
 using Sketchup2GTA.Parser;
 
 namespace Sketchup2GTA.ExportModes

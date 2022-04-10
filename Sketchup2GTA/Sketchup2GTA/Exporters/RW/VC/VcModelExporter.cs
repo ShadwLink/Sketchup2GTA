@@ -1,7 +1,7 @@
 using System.IO;
 using Sketchup2GTA.Exporters.Model.RW;
 
-namespace Sketchup2GTA.Exporters.VC
+namespace Sketchup2GTA.Exporters.RW.VC
 {
     public class VcModelExporter : ModelExporter
     {

@@ -3,7 +3,7 @@ using System.IO;
 using Sketchup2GTA.Data.Collision;
 using Sketchup2GTA.IO;
 
-namespace Sketchup2GTA.Exporters.VC
+namespace Sketchup2GTA.Exporters.RW.VC
 {
     public class VcCollExporter : CollisionExporter
     {
