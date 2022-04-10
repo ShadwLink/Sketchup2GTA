@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Sketchup2GTA.Parser;
 
 namespace Sketchup2GTA.ExportModes
@@ -7,12 +8,14 @@ namespace Sketchup2GTA.ExportModes
     {
         private readonly string _sketchupPath;
         private readonly GameVersion _gameVersion;
+        private readonly string _outputPath;
         private readonly int _startId;
 
-        public MapExportMode(string sketchupPath, GameVersion gameVersion, int startId)
+        public MapExportMode(string sketchupPath, GameVersion gameVersion, string outputPath, int startId)
         {
             _sketchupPath = sketchupPath;
             _gameVersion = gameVersion;
+            _outputPath = outputPath;
             _startId = startId;
         }
 
@@ -22,13 +25,19 @@ namespace Sketchup2GTA.ExportModes
 
             var map = new SketchupMapParser().Parse(_sketchupPath, _startId);
 
-            Console.WriteLine("Exporting data files");
+            string exportPath = Path.GetDirectoryName(_sketchupPath) + "\\";
+            if (_outputPath != null)
+            {
+                exportPath = _outputPath;
+            }
+
+            Console.WriteLine("Exporting data files to " + exportPath);
             var definitionExporter = _gameVersion.GetDefinitionExporter();
             var placementExporter = _gameVersion.GetPlacementExporter();
             foreach (var group in map.Groups)
             {
-                definitionExporter.Export(group);
-                placementExporter.Export(group);
+                definitionExporter.Export(group, exportPath);
+                placementExporter.Export(group, exportPath);
             }
 
             Console.WriteLine("Export finished");

@@ -13,9 +13,9 @@ namespace Sketchup2GTA.Exporters.RW
             _sectionWriters = sectionWriters;
         }
         
-        public void Export(Group group)
+        public void Export(Group group, string path)
         {
-            StreamWriter file = new StreamWriter(group.Name + ".ipl");
+            StreamWriter file = new StreamWriter(path + group.Name + ".ipl");
             file.WriteLine("# Generated using Shadow-Link SketchUp plugin");
             foreach (var sectionWriter in _sectionWriters)
             {

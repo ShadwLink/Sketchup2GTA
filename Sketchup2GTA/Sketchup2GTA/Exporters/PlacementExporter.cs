@@ -4,6 +4,6 @@ namespace Sketchup2GTA.Exporters
 {
     public interface PlacementExporter
     {
-        void Export(Group group);
+        void Export(Group group, string path);
     }
 }

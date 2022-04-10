@@ -17,9 +17,9 @@ namespace Sketchup2GTA.Exporters.RW
             _sectionWriters.Add(new EmptySectionWriter("2dfx"));
         }
 
-        public void Export(Group group)
+        public void Export(Group group, string path)
         {
-            StreamWriter file = new StreamWriter(group.Name + ".ide");
+            StreamWriter file = new StreamWriter(path + group.Name + ".ide");
             file.WriteLine("# Generated using Shadow-Link SketchUp plugin");
             foreach (var sectionWriter in _sectionWriters)
             {

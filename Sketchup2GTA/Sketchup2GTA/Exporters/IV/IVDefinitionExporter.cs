@@ -7,9 +7,9 @@ namespace Sketchup2GTA.Exporters.IV
 {
     public class IVDefinitionExporter : DefinitionExporter
     {
-        public void Export(Group group)
+        public void Export(Group group, string path)
         {
-            StreamWriter file = new StreamWriter(group.Name + ".ide");
+            StreamWriter file = new StreamWriter(path + group.Name + ".ide");
             file.WriteLine("# Generated using Shadow-Link SketchUp plugin");
             WriteSection(file, "objs", group, WriteObjects);
             WriteSection(file, "tobj", group, WriteEmptySection);

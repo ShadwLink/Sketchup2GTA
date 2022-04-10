@@ -33,14 +33,22 @@ doc/
 # OSX
 .DS_Store
 
-# Sketchup temp files
+# Sketchup files
 AutoSave_*.skp
 *~.skp
 export_test
 *.skb
-
-# Sketchup extension package
 *.rbz
 
+# Ruby
 Gemfile.lock
+
+# GTA Exported files
+*.ipl
+*.ide
+*.wpl
+*.dff
+*.col
+*.txd
+*.wtd
 

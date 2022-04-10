@@ -13,9 +13,9 @@ namespace Sketchup2GTA.Exporters.IV
             _hasher = hasher;
         }
         
-        public void Export(Group group)
+        public void Export(Group group, string path)
         {
-            var wplSteam = new FileStream(group.Name + ".wpl", FileMode.OpenOrCreate);
+            var wplSteam = new FileStream(path + group.Name + ".wpl", FileMode.OpenOrCreate);
             BinaryWriter bw = new BinaryWriter(wplSteam);
             Console.WriteLine("Exported WPL " + wplSteam.Name);
             WriteHeader(bw, group);

@@ -17,10 +17,14 @@ namespace Sketchup2GTA
         
         [Option(Default = 0, HelpText = "Starting ID to generate IDE files.")]
         public int ID { get; set; }
+        
+        [Option(shortName: 'o', longName: "output", Required = false,
+            HelpText = "Path to Export files to")]
+        public string OutputPath { get; set; }
 
         public ExportMode CreateExportMode()
         {
-            return new MapExportMode(Input, GetGameVersion(Game), ID);
+            return new MapExportMode(Input, GetGameVersion(Game), OutputPath, ID);
         }
 
         private GameVersion GetGameVersion(string game)
