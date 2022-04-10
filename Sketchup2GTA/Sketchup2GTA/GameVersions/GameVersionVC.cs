@@ -14,7 +14,7 @@ namespace Sketchup2GTA
 
         public override DefinitionExporter GetDefinitionExporter()
         {
-            return new VcDefinitionExporter();
+            return new RwDefinitionExporter();
         }
 
         public override PlacementExporter GetPlacementExporter()
