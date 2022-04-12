@@ -4,7 +4,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
 {
     public class RwHAnimPlg: RwSection
     {
-        public RwHAnimPlg() : base(0x11E)
+        public RwHAnimPlg(RwVersion rwVersion) : base(0x11E, rwVersion)
         {
         }
 

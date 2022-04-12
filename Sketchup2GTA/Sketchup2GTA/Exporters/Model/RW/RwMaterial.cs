@@ -7,17 +7,17 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         private Material _material;
 
-        public RwMaterial(Material material) : base(0x07)
+        public RwMaterial(Material material, RwVersion rwVersion) : base(0x07, rwVersion)
         {
             _material = material;
 
             AddStructSection();
             if (material.HasTexture())
             {
-                AddSection(new RwTexture(material.TextureName));
+                AddSection(new RwTexture(material.TextureName, rwVersion));
             }
 
-            AddSection(new RwExtension());
+            AddSection(new RwExtension(rwVersion));
         }
 
         protected override void WriteStructSection(BinaryWriter bw)

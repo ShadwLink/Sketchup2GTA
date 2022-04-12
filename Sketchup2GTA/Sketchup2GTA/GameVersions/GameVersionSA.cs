@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Sketchup2GTA.Exporters;
+using Sketchup2GTA.Exporters.Model.RW;
 using Sketchup2GTA.Exporters.RW;
 using Sketchup2GTA.Exporters.RW.SA;
-using Sketchup2GTA.Exporters.RW.VC;
 
 namespace Sketchup2GTA
 {
@@ -22,8 +22,18 @@ namespace Sketchup2GTA
         {
             var sectionWriters = new List<SectionWriter>();
             sectionWriters.Add(new SaInstancesSectionWriter());
-            
+
             return new RwPlacementExporter(sectionWriters);
+        }
+
+        public override ModelExporter GetModelExporter()
+        {
+            return new RwModelExporter(RwVersion.SanAndreas);
+        }
+
+        public override TextureDictionaryExporter GetTextureDictionaryExporter()
+        {
+            return new RwTxdExporter(RwVersion.SanAndreas);
         }
     }
 }

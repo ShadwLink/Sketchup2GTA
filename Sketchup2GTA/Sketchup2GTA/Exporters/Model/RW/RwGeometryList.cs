@@ -4,7 +4,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
 {
     public class RwGeometryList: RwSection
     {
-        public RwGeometryList() : base(0x1A)
+        public RwGeometryList(RwVersion rwVersion) : base(0x1A, rwVersion)
         {
             AddStructSection();
         }

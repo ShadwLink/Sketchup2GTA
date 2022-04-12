@@ -7,6 +7,23 @@ namespace Sketchup2GTA
     {
         public abstract string GetGameName();
 
+        public static GameVersion FromGameArgument(string gameArgument)
+        {
+            switch (gameArgument)
+            {
+                case "iii":
+                    return new GameVersionIII();
+                case "vc":
+                    return new GameVersionVC();
+                case "sa":
+                    return new GameVersionSA();
+                case "iv":
+                    return new GameVersionIV();
+                default:
+                    throw new ArgumentException($"'{gameArgument}' is not supported. Possible values: vc, sa, iv");
+            }
+        }
+
         public virtual DefinitionExporter GetDefinitionExporter()
         {
             throw new NotImplementedException($"Definition exporter not available for {GetGameName()}.");

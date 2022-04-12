@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Sketchup2GTA.Exporters;
+using Sketchup2GTA.Exporters.Model.RW;
 using Sketchup2GTA.Exporters.RW;
 using Sketchup2GTA.Exporters.RW.VC;
 
@@ -30,12 +31,12 @@ namespace Sketchup2GTA
 
         public override ModelExporter GetModelExporter()
         {
-            return new VcModelExporter();
+            return new RwModelExporter(RwVersion.ViceCity);
         }
 
         public override TextureDictionaryExporter GetTextureDictionaryExporter()
         {
-            return new VcTxdExporter();
+            return new RwTxdExporter(RwVersion.ViceCity);
         }
 
         public override CollisionExporter GetCollisionExporter()

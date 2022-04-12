@@ -10,7 +10,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         private Texture _texture;
 
-        public RwTextureNative(Texture texture) : base(0x15)
+        public RwTextureNative(Texture texture, RwVersion rwVersion) : base(0x15, rwVersion)
         {
             _texture = texture;
             AddStructSection();
@@ -63,9 +63,20 @@ namespace Sketchup2GTA.Exporters.Model.RW
 
                 rasterFormat = RasterFormat.RASTER_565;
                 bitsPerPixel = 16;
-                compressionType = 1;
-                fourCC = 0; //0x31545844; // 'DXT1'
-                constantNotSoConstant = 8; // Sometimes 9 sometimes 8?
+
+                switch (RwVersion)
+                {
+                    case RwVersion.ViceCity:
+                        compressionType = 1;
+                        fourCC = 0;
+                        constantNotSoConstant = 8;
+                        break;
+                    case RwVersion.SanAndreas:
+                        compressionType = 8;
+                        fourCC = 0x31545844;
+                        constantNotSoConstant = 9;
+                        break;
+                }
             }
             else
             {

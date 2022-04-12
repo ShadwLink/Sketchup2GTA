@@ -6,13 +6,13 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         private Data.Model.Model _model;
         
-        public RwMaterialList(Data.Model.Model model) : base(0x08)
+        public RwMaterialList(Data.Model.Model model, RwVersion rwVersion) : base(0x08, rwVersion)
         {
             _model = model;
             AddStructSection();
             foreach (var materialSplit in _model.MaterialSplits)
             {
-                AddSection(new RwMaterial(materialSplit.Material));
+                AddSection(new RwMaterial(materialSplit.Material, rwVersion));
             }
         }
 

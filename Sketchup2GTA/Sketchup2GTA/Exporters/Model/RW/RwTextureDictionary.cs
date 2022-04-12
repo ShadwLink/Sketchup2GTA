@@ -8,18 +8,18 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         private List<Texture> _textures;
 
-        public RwTextureDictionary(List<Texture> textures) : base(0x16)
+        public RwTextureDictionary(List<Texture> textures, RwVersion rwVersion) : base(0x16, rwVersion)
         {
             _textures = textures;
             AddStructSection();
 
             foreach (var texture in textures)
             {
-                AddSection(new RwTextureNative(texture)
-                    .AddSection(new RwExtension()));
+                AddSection(new RwTextureNative(texture, rwVersion)
+                    .AddSection(new RwExtension(rwVersion)));
             }
 
-            AddSection(new RwExtension());
+            AddSection(new RwExtension(rwVersion));
         }
 
         protected override void WriteStructSection(BinaryWriter bw)

@@ -4,7 +4,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
 {
     public class RwClump : RwSection
     {
-        public RwClump() : base(0x10)
+        public RwClump(RwVersion rwVersion) : base(0x10, rwVersion)
         {
             AddStructSection();
         }

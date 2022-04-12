@@ -11,7 +11,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
         
         private Data.Model.Model _model;
 
-        public RwGeometry(Data.Model.Model model) : base(0x0F)
+        public RwGeometry(Data.Model.Model model, RwVersion rwVersion) : base(0x0F, rwVersion)
         {
             _model = model;
             AddStructSection();

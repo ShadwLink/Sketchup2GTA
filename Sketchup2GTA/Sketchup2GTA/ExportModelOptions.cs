@@ -7,7 +7,6 @@ namespace Sketchup2GTA
     public class ExportModelOptions: ExportOptions
     {
         [Option(shortName: 'g', longName: "game", 
-            Default = "vc",
             HelpText = "Game version, currently only VC is supported")]
         public string Game { get; set; }
         
@@ -26,7 +25,7 @@ namespace Sketchup2GTA
         
         public ExportMode CreateExportMode()
         {
-            return new ModelExportMode(Input, Model, Textures, Collision);
+            return new ModelExportMode(Input, GameVersion.FromGameArgument(Game), Model, Textures, Collision);
         }
     }
 }

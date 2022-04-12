@@ -89,7 +89,7 @@ def export_model(exportModel, exportTextures, exportCollision)
           export_command += "c"
         end
 
-        gta_command = "'#{gta_exporter}' model -i #{input_path} #{export_command}"
+        gta_command = "'#{gta_exporter}' model -i #{input_path} #{export_command} -g #{get_game_arg}"
         value = `#{gta_command}`
       else
         puts "GTA Exporter not configured properly"

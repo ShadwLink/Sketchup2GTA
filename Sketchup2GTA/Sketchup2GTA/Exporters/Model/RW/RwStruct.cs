@@ -6,7 +6,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         private byte[] _data;
 
-        public RwStruct(byte[] data) : base(0x01)
+        public RwStruct(byte[] data, RwVersion rwVersion) : base(0x01, rwVersion)
         {
             _data = data;
         }

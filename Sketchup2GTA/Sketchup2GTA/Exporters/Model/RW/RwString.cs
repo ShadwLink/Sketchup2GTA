@@ -7,7 +7,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         private string _value;
 
-        public RwString(string value) : base(0x02)
+        public RwString(string value, RwVersion rwVersion) : base(0x02, rwVersion)
         {
             _value = value;
         }

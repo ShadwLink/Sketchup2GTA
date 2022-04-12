@@ -4,7 +4,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
 {
     public class RwAtomic : RwSection
     {
-        public RwAtomic() : base(0x14)
+        public RwAtomic(RwVersion rwVersion) : base(0x14, rwVersion)
         {
             AddStructSection();
         }

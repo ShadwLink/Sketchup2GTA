@@ -7,7 +7,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         private Data.Model.Model _model;
 
-        public RwBinMeshPLG(Data.Model.Model model) : base(0x50E)
+        public RwBinMeshPLG(RwVersion rwVersion, Data.Model.Model model) : base(0x50E, rwVersion)
         {
             _model = model;
         }

@@ -6,12 +6,12 @@ namespace Sketchup2GTA.Exporters.Model.RW
 {
     public class RwTexture : RwSection
     {
-        public RwTexture(string textureName) : base(0x06)
+        public RwTexture(string textureName, RwVersion rwVersion) : base(0x06, rwVersion)
         {
             AddStructSection();
-            AddSection(new RwString(textureName));
-            AddSection(new RwString(""));
-            AddSection(new RwExtension());
+            AddSection(new RwString(textureName, rwVersion));
+            AddSection(new RwString("", rwVersion));
+            AddSection(new RwExtension(rwVersion));
         }
 
         protected override void WriteStructSection(BinaryWriter bw)

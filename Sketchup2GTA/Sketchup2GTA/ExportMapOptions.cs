@@ -24,24 +24,7 @@ namespace Sketchup2GTA
 
         public ExportMode CreateExportMode()
         {
-            return new MapExportMode(Input, GetGameVersion(Game), OutputPath, ID);
-        }
-
-        private GameVersion GetGameVersion(string game)
-        {
-            switch (game)
-            {
-                case "iii":
-                    return new GameVersionIII();
-                case "vc":
-                    return new GameVersionVC();
-                case "sa":
-                    return new GameVersionSA();
-                case "iv":
-                    return new GameVersionIV();
-                default:
-                    throw new ArgumentException($"'{game}' is not supported. Possible values: vc, iv");
-            }
+            return new MapExportMode(Input, GameVersion.FromGameArgument(Game), OutputPath, ID);
         }
     }
 }

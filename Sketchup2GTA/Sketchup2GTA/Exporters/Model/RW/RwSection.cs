@@ -9,14 +9,16 @@ namespace Sketchup2GTA.Exporters.Model.RW
         private const int HEADER_SIZE = 12;
         
         private uint _sectionType;
+        protected RwVersion RwVersion;
 
         private byte[] _sectionData;
 
         protected List<RwSection> _childSections = new List<RwSection>();
         
-        public RwSection(uint sectionType)
+        public RwSection(uint sectionType, RwVersion rwVersion)
         {
             _sectionType = sectionType;
+            RwVersion = rwVersion;
         }
 
         private void PrepareForWrite()
@@ -28,17 +30,17 @@ namespace Sketchup2GTA.Exporters.Model.RW
             }
         }
 
-        public void Write(BinaryWriter bw, RwVersion rwVersion)
+        public void Write(BinaryWriter bw)
         {
             PrepareForWrite();
-            WriteSection(bw, rwVersion);
+            WriteSection(bw);
         }
 
-        private void WriteSection(BinaryWriter bw, RwVersion rwVersion)
+        private void WriteSection(BinaryWriter bw)
         {
-            WriteHeader(bw, rwVersion);
+            WriteHeader(bw);
             bw.Write(_sectionData);
-            WriteChildSections(bw, rwVersion);
+            WriteChildSections(bw);
         }
 
         protected virtual void WriteSectionData(BinaryWriter bw)
@@ -46,18 +48,18 @@ namespace Sketchup2GTA.Exporters.Model.RW
             // By default we do nothing
         }
 
-        private void WriteHeader(BinaryWriter bw, RwVersion rwVersion)
+        private void WriteHeader(BinaryWriter bw)
         {
             bw.Write(_sectionType);
             bw.Write(GetTotalSectionSize());
-            bw.Write((int)rwVersion); // TODO: Should be version depending on the export
+            bw.Write((int)RwVersion);
         }
 
-        private void WriteChildSections(BinaryWriter bw, RwVersion rwVersion)
+        private void WriteChildSections(BinaryWriter bw)
         {
             foreach (var childSection in _childSections)
             {
-                childSection.WriteSection(bw, rwVersion);
+                childSection.WriteSection(bw);
             }
         }
 
@@ -85,7 +87,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
         
         protected void AddStructSection()
         {
-            AddSection(new RwStruct(CreateStructData()));
+            AddSection(new RwStruct(CreateStructData(), RwVersion));
         }
 
         private byte[] CreateStructData()

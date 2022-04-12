@@ -8,7 +8,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
     {
         private string _name;
 
-        public RwFrame(string name) : base(0x253F2FE)
+        public RwFrame(string name, RwVersion rwVersion) : base(0x253F2FE, rwVersion)
         {
             _name = name;
         }
