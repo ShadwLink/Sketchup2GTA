@@ -1,7 +1,7 @@
 using Sketchup2GTA.Exporters;
 using Sketchup2GTA.Exporters.IV;
 
-namespace Sketchup2GTA
+namespace Sketchup2GTA.GameVersions
 {
     public class GameVersionIV : GameVersion
     {

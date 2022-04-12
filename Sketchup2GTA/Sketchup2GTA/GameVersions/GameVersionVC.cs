@@ -4,7 +4,7 @@ using Sketchup2GTA.Exporters.Model.RW;
 using Sketchup2GTA.Exporters.RW;
 using Sketchup2GTA.Exporters.RW.VC;
 
-namespace Sketchup2GTA
+namespace Sketchup2GTA.GameVersions
 {
     public class GameVersionVC : GameVersion
     {

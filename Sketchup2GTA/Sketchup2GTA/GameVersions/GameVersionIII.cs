@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using Sketchup2GTA.Exporters;
 using Sketchup2GTA.Exporters.RW;
 using Sketchup2GTA.Exporters.RW.III;
-using Sketchup2GTA.Exporters.RW.VC;
 
-namespace Sketchup2GTA
+namespace Sketchup2GTA.GameVersions
 {
     public class GameVersionIII : GameVersion
     {
