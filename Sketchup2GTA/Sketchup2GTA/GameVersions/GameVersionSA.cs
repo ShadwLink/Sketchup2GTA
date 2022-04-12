@@ -3,6 +3,7 @@ using Sketchup2GTA.Exporters;
 using Sketchup2GTA.Exporters.Model.RW;
 using Sketchup2GTA.Exporters.RW;
 using Sketchup2GTA.Exporters.RW.SA;
+using Sketchup2GTA.Exporters.RW.VC;
 
 namespace Sketchup2GTA.GameVersions
 {
@@ -34,6 +35,11 @@ namespace Sketchup2GTA.GameVersions
         public override TextureDictionaryExporter GetTextureDictionaryExporter()
         {
             return new RwTxdExporter(RwVersion.SanAndreas);
+        }
+        
+        public override CollisionExporter GetCollisionExporter()
+        {
+            return new VcCollExporter();
         }
     }
 }
