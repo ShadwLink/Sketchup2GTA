@@ -30,9 +30,13 @@ namespace Sketchup2GTA.Exporters.Model.RW
             bw.Write(1); // Always 1
             
             // TODO: Vertex color data, only set when HAS_VERTEX_COLORS is set
-            //bw.Write(1); // Ambient
-            //bw.Write(1); // Diffuse
-            //bw.Write(1); // Specular
+            if (RwVersion == RwVersion.III)
+            {
+                bw.Write(1f); // Ambient
+                bw.Write(1f); // Diffuse
+                bw.Write(1f); // Specular
+            }
+            
             // Vertex colors
             foreach (var vertex in _model.GetVertices())
             {

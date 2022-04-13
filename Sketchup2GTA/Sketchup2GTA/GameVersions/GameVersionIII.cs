@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Sketchup2GTA.Exporters;
+using Sketchup2GTA.Exporters.Model.RW;
 using Sketchup2GTA.Exporters.RW;
 using Sketchup2GTA.Exporters.RW.III;
+using Sketchup2GTA.Exporters.RW.VC;
 
 namespace Sketchup2GTA.GameVersions
 {
@@ -23,6 +25,21 @@ namespace Sketchup2GTA.GameVersions
             sectionWriters.Add(new IIIInstancesSectionWriter());
             
             return new RwPlacementExporter(sectionWriters);
+        }
+        
+        public override ModelExporter GetModelExporter()
+        {
+            return new RwModelExporter(RwVersion.III);
+        }
+
+        public override TextureDictionaryExporter GetTextureDictionaryExporter()
+        {
+            return new RwTxdExporter(RwVersion.III);
+        }
+
+        public override CollisionExporter GetCollisionExporter()
+        {
+            return new VcCollExporter();
         }
     }
 }
