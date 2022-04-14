@@ -41,7 +41,7 @@ namespace Sketchup2GTA.GameVersions
 
         public override CollisionExporter GetCollisionExporter()
         {
-            return new VcCollExporter();
+            return new CollExporter();
         }
     }
 }

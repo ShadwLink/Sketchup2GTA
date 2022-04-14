@@ -3,9 +3,9 @@ using System.IO;
 using Sketchup2GTA.Data.Collision;
 using Sketchup2GTA.IO;
 
-namespace Sketchup2GTA.Exporters.RW.VC
+namespace Sketchup2GTA.Exporters.RW
 {
-    public class VcCollExporter : CollisionExporter
+    public class CollExporter : CollisionExporter
     {
         public void Export(Collision collision, string path)
         {
