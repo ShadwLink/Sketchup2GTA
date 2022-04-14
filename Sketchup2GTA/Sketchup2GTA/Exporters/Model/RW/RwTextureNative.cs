@@ -66,6 +66,7 @@ namespace Sketchup2GTA.Exporters.Model.RW
 
                 switch (RwVersion)
                 {
+                    case RwVersion.III:
                     case RwVersion.ViceCity:
                         compressionType = 1;
                         fourCC = 0;
