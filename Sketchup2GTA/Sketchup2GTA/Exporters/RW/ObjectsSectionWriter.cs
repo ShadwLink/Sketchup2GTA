@@ -14,7 +14,7 @@ namespace Sketchup2GTA.Exporters.RW
         {
             foreach (var definition in group.ObjectDefinitions)
             {
-                file.WriteLine($"{definition.ID}, {definition.Name}, {definition.Name}, 1, 299, 0");
+                file.WriteLine($"{definition.ID}, {definition.Name}, {definition.Name}, 1, {definition.DrawDistance}, 0");
             }
         }
     }
