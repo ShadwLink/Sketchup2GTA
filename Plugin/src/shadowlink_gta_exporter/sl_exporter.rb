@@ -67,31 +67,27 @@ end
 def export_model(exportModel, exportTextures, exportCollision)
   SKETCHUP_CONSOLE.show
 
-  path = @plugin_settings.get_sketchup2gta_path
-  if path.nil? || path.empty?
+  gta_exporter_path = @plugin_settings.get_sketchup2gta_path
+  if gta_exporter_path.nil? || gta_exporter_path.empty? || !File.file?(gta_exporter_path)
     UI::messagebox("Sketchup2GTA path not defined")
   else
     if Sketchup.active_model.save(Sketchup.active_model.path)
-      gta_exporter = @plugin_settings.get_sketchup2gta_path
 
       input_path = Sketchup.active_model.path
-      if File.file?(gta_exporter)
-        export_command = "-"
-        if exportModel
-          export_command += "m"
-        end
-        if exportTextures
-          export_command += "t"
-        end
-        if exportCollision
-          export_command += "c"
-        end
 
-        gta_command = "'#{gta_exporter}' model -i #{input_path} #{export_command} -g #{get_game_arg}"
-        value = `#{gta_command}`
-      else
-        puts "GTA Exporter not configured properly"
+      export_command = "-"
+      if exportModel
+        export_command += "m"
       end
+      if exportTextures
+        export_command += "t"
+      end
+      if exportCollision
+        export_command += "c"
+      end
+
+      gta_command = "'#{gta_exporter_path}' model -i #{input_path} #{export_command} -g #{get_game_arg}"
+      value = `#{gta_command}`
     end
   end
 end
@@ -99,20 +95,21 @@ end
 def export_scene()
   SKETCHUP_CONSOLE.show
 
-  path = @plugin_settings.get_sketchup2gta_path
-  if path.nil? || path.empty?
+  gta_exporter_path = @plugin_settings.get_sketchup2gta_path
+  if gta_exporter_path.nil? || gta_exporter_path.empty? || !File.file?(gta_exporter_path)
     UI::messagebox("Sketchup2GTA path not defined")
   else
     if Sketchup.active_model.save(Sketchup.active_model.path)
-      gta_exporter = @plugin_settings.get_sketchup2gta_path
-
       input_path = Sketchup.active_model.path
-      if File.file?(gta_exporter)
-        gta_command = "'#{gta_exporter}' map -i #{input_path} --id 641 -g #{get_game_arg}"
-        value = `#{gta_command}`
-      else
-        puts "GTA Exporter not configured properly"
-      end
+
+      output_path = UI.select_directory(
+        title: "Select output directory",
+        directory: input_path,
+        select_multiple: false
+      )
+
+      gta_command = "'#{gta_exporter_path}' map -i #{input_path} --id 641 -g #{get_game_arg} -o #{output_path}"
+      value = `#{gta_command}`
     end
   end
 end
