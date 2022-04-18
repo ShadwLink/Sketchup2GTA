@@ -55,10 +55,8 @@ unless file_loaded?("sl_exporter.rb")
 end
 
 def select_sketchup2gta_path
-  prompts = ["Enter path to Sketchup2GTA"]
-  defaults = [@plugin_settings.get_sketchup2gta_path]
-  input = UI.inputbox(prompts, defaults, "Path to Sketchup2GTA")
-  path = input.first
+  saved_path = @plugin_settings.get_sketchup2gta_path
+  path = UI.openpanel("Select sketchup2gta.exe", saved_path, "Sketchup2GTA.exe|Sketchup2GTA.exe||")
   if File.file?(path)
     @plugin_settings.set_sketchup2gta_path(path.gsub('\\', '/'))
   else
