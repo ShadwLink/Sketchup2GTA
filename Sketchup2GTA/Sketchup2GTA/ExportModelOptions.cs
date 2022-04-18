@@ -23,9 +23,13 @@ namespace Sketchup2GTA
         [Option(shortName: 'c', longName: "coll", Required = false, HelpText = "Export collision file")]
         public bool Collision { get; set; }
         
+        [Option(shortName: 'o', longName: "output", Required = false,
+            HelpText = "Path to Export files to")]
+        public string OutputPath { get; set; }
+        
         public ExportMode CreateExportMode()
         {
-            return new ModelExportMode(Input, GameVersion.FromGameArgument(Game), Model, Textures, Collision);
+            return new ModelExportMode(Input, GameVersion.FromGameArgument(Game), Model, Textures, Collision, OutputPath);
         }
     }
 }

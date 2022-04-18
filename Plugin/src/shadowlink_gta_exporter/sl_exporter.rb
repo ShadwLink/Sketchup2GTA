@@ -75,6 +75,12 @@ def export_model(exportModel, exportTextures, exportCollision)
 
       input_path = Sketchup.active_model.path
 
+      output_path = UI.select_directory(
+        title: "Select output directory",
+        directory: input_path,
+        select_multiple: false
+      )
+
       export_command = "-"
       if exportModel
         export_command += "m"
@@ -86,7 +92,7 @@ def export_model(exportModel, exportTextures, exportCollision)
         export_command += "c"
       end
 
-      gta_command = "'#{gta_exporter_path}' model -i #{input_path} #{export_command} -g #{get_game_arg}"
+      gta_command = "'#{gta_exporter_path}' model -i #{input_path} #{export_command} -g #{get_game_arg} -o #{output_path}"
       value = `#{gta_command}`
     end
   end

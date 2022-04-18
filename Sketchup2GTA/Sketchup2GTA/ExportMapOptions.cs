@@ -1,4 +1,3 @@
-using System;
 using CommandLine;
 using Sketchup2GTA.ExportModes;
 
