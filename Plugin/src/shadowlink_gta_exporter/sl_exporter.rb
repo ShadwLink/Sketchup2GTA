@@ -57,10 +57,8 @@ end
 def select_sketchup2gta_path
   saved_path = @plugin_settings.get_sketchup2gta_path
   path = UI.openpanel("Select sketchup2gta.exe", saved_path, "Sketchup2GTA.exe|Sketchup2GTA.exe||")
-  if File.file?(path)
+  if !path.nil? && File.file?(path)
     @plugin_settings.set_sketchup2gta_path(path.gsub('\\', '/'))
-  else
-    UI::messagebox("Invalid path to Sketchup2GTA")
   end
 end
 
