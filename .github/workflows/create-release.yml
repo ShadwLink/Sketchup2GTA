@@ -1,0 +1,53 @@
+name: Create Release
+
+on: 
+  push
+
+env:
+  OUTPUT_PATH: build/
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v1
+
+      - name: Restore NuGet Packages
+        working-directory: Sketchup2GTA
+        run: nuget restore Sketchup2GTA.sln
+
+      - name: Build Sketchup2GTA
+        working-directory: Sketchup2GTA
+        run: msbuild Sketchup2GTA.sln /p:Configuration=Release
+
+      - name: Copy Sketchup2GTA build output
+        run: |
+          mkdir $env:OUTPUT_PATH/Sketchup2GTA/; `
+          cp Sketchup2GTA/Sketchup2GTA/bin/Release/net472/*.dll $env:OUTPUT_PATH/Sketchup2GTA/; `
+          cp Sketchup2GTA/Sketchup2GTA/bin/Release/net472/Sketchup2GTA.exe $env:OUTPUT_PATH/Sketchup2GTA/
+
+      - name: Zip SketchUp plugin
+        uses: papeloto/action-zip@v1
+        with:
+          files: Plugin/src/
+          dest: ${{ env.OUTPUT_PATH }}/shadowlink_gta_exporter.rbz
+
+      - name: Copy SketchUp materials
+        run: |
+          mkdir $env:OUTPUT_PATH/Materials/; `
+          cp Plugin/materials/ $env:OUTPUT_PATH/Materials/
+
+      - name: Copy Readme
+        run: |
+          cp README.md $env:OUTPUT_PATH/README.txt
+
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}/$env:OUTPUT_PATH; `
+          ls ${{ github.workspace }}/$env:OUTPUT_PATH/Sketchup2GTA
