@@ -1,7 +1,9 @@
 name: Create Release
 
-on: 
-  push
+on:
+  push:
+    tags:
+      - v*
 
 env:
   OUTPUT_PATH: build/
@@ -51,7 +53,7 @@ jobs:
         uses: papeloto/action-zip@v1
         with:
           files: ${{ env.OUTPUT_PATH }}
-          dest: ${{ env.OUTPUT_PATH }}/Sketchup2GTA_0.10.0.zip
+          dest: ${{ env.OUTPUT_PATH }}/Sketchup2GTA_${{github.ref_name}}.zip
 
       - name: List files in the repository
         run: |
