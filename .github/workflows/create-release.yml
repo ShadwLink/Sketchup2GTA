@@ -21,29 +21,29 @@ jobs:
         uses: nuget/setup-nuget@v1
 
       - name: Restore NuGet Packages
-        working-directory: Sketchup2GTA
+        working-directory: Source/Sketchup2GTA
         run: nuget restore Sketchup2GTA.sln
 
       - name: Build Sketchup2GTA
-        working-directory: Sketchup2GTA
+        working-directory: Source/Sketchup2GTA
         run: msbuild Sketchup2GTA.sln /p:Configuration=Release
 
       - name: Copy Sketchup2GTA build output
         run: |
           mkdir $env:OUTPUT_PATH/Sketchup2GTA/; `
-          cp Sketchup2GTA/Sketchup2GTA/bin/Release/net472/*.dll $env:OUTPUT_PATH/Sketchup2GTA/; `
-          cp Sketchup2GTA/Sketchup2GTA/bin/Release/net472/Sketchup2GTA.exe $env:OUTPUT_PATH/Sketchup2GTA/
+          cp Source/Sketchup2GTA/Sketchup2GTA/bin/Release/net472/*.dll $env:OUTPUT_PATH/Sketchup2GTA/; `
+          cp Source/Sketchup2GTA/Sketchup2GTA/bin/Release/net472/Sketchup2GTA.exe $env:OUTPUT_PATH/Sketchup2GTA/
 
       - name: Zip SketchUp plugin
         uses: papeloto/action-zip@v1
         with:
-          files: Plugin/src/
+          files: Source/Plugin/src/
           dest: ${{ env.OUTPUT_PATH }}/shadowlink_gta_exporter.rbz
 
       - name: Copy SketchUp materials
         run: |
           mkdir $env:OUTPUT_PATH/Materials/; `
-          cp Plugin/materials/ $env:OUTPUT_PATH/Materials/
+          cp Source/Plugin/materials/ $env:OUTPUT_PATH/Materials/
 
       - name: Copy Readme
         run: |
@@ -53,9 +53,24 @@ jobs:
         uses: papeloto/action-zip@v1
         with:
           files: ${{ env.OUTPUT_PATH }}
-          dest: ${{ env.OUTPUT_PATH }}/Sketchup2GTA_${{github.ref_name}}.zip
+          dest: ${{ env.OUTPUT_PATH }}Sketchup2GTA_${{github.ref_name}}.zip
 
-      - name: List files in the repository
+      - name: Prep changelog
         run: |
-          ls ${{ github.workspace }}/$env:OUTPUT_PATH; `
-          ls ${{ github.workspace }}/$env:OUTPUT_PATH/Sketchup2GTA
+          touch changelog/${{github.ref_name}}.md
+
+      - name: Check prerelease
+        id: check-prerelease
+        run: |
+          if ('${{github.ref_name}}' -match '^v(\d+)\.(\d+)\.(\d+)-.+$') {
+            echo ::set-output name=is-prerelease::true
+          } else {
+            echo ::set-output name=is-prerelease::false
+          }
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: changelog/${{github.ref_name}}.md
+          files: ${{ env.OUTPUT_PATH }}/Sketchup2GTA_${{github.ref_name}}.zip
+          prerelease: ${{ steps.check-prerelease.outputs.is-prerelease }}
